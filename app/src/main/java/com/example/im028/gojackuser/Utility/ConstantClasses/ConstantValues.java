@@ -1,0 +1,34 @@
+package com.example.im028.gojackuser.Utility.ConstantClasses;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
+/**
+ * Created by IM028 on 8/2/16.
+ */
+public class ConstantValues {
+    public static String SERVER_URL = "http://imaginetventures.net/sample/gojack/webservice/";
+
+    //Intent Constants Starts
+    public static String driverStatus = "driverStatus";
+    public static String phoneNumber = "phoneNumber";
+    public static String paymentType = "paymentType";
+    public static String customerId = "customerId";
+    public static String couponType = "couponType";
+    public static String rideId = "rideId";
+
+    public static String rideType = "rideType";
+    public static String rideTypeRide = "ride";
+    public static String rideTypeCourier = "courier";
+    public static final String locationPickerType = "locationPickerType";
+    public static final String locationPickerLatitude = "locationPickerLatitude";
+    public static final String locationPickerLongitude = "locationPickerLongitude";
+    public static final String locationPickerAddress = "locationPickerAddress";
+    public static final String locationPickerTitle = "locationPickerTitle";
+
+    //Intent Constants Ends
+
+
+    public static SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy");
+    public static SimpleDateFormat serverFormat = new SimpleDateFormat("yyyy-MM-dd");
+}

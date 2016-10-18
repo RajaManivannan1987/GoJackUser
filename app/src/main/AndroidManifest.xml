@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.im028.gojackuser">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!--
+         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+         Google Maps Android API v2, but you must specify either coarse or fine
+         location permissions for the 'MyLocation' functionality. 
+    -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <application
+        android:name=".ApplicationClass.MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".ActivityClasses.SplashActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBarAppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ActivityClasses.LoginActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityClasses.DashboardActivity"
+            android:screenOrientation="portrait" />
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/. 
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
+                <category android:name="com.example.im028.streetwalla" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".GCMClass.GCMListener"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".GCMClass.MyInstanceIDListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".GCMClass.RegistrationIntentService"
+            android:exported="false" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".MapsActivity"
+            android:label="@string/title_activity_maps"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityClasses.CheckLocationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBarAppTheme" />
+        <activity
+            android:name=".ActivityClasses.LocationCheckActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityClasses.ChooseTypeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBarAppTheme" />
+        <activity
+            android:name=".ActivityClasses.RideActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityClasses.PaymentMethodActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBarAppTheme" />
+        <activity
+            android:name=".ActivityClasses.RegistrationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBarAppTheme" />
+        <activity
+            android:name=".DialogFragment.PilotHereDialogActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DialogActivity" />
+        <activity
+            android:name=".ActivityClasses.TripDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityClasses.OtpActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityClasses.HistoryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityClasses.HistoryDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityClasses.CourierActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityClasses.PickLocationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityClasses.ListCourierActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityClasses.CourierDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityClasses.ProofOfDeliveryActivity"
+            android:screenOrientation="portrait"></activity>
+    </application>
+
+</manifest>

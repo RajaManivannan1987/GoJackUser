@@ -1,0 +1,6 @@
+<resources>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
+        AIzaSyDV6Jl9A7jnAtVn9ijz_Iq_vnKLNMap1rU
+    </string>
+    <string name="google_app_id">490936590175</string>
+</resources>

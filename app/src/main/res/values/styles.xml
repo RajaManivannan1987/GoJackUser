@@ -1,0 +1,49 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowNoTitle">true</item>
+        <!--<item name="android:typeface">monospace</item>-->
+    </style>
+
+    <style name="NoActionBarAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <!--<item name="android:typeface">monospace</item>-->
+        <!--<item name="android:fontFamily">monospace</item>-->
+    </style>
+
+    <style name="AppTheme.Button" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">@color/button_background</item>
+        <item name="android:textColor">@color/button_text</item>
+
+        <item name="android:padding">0dp</item>
+    </style>
+
+    <style name="AppTheme.Button.Disable" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">@color/line_color</item>
+        <item name="android:textColor">@color/button_text</item>
+
+        <item name="android:padding">0dp</item>
+    </style>
+
+    <style name="DialogActivity" parent="Theme.AppCompat.Light.Dialog">
+        <item name="windowNoTitle">true</item>
+        <!--<item name="android:typeface">monospace</item>-->
+        <!--<item name="android:fontFamily">monospace</item>-->
+        <item name="android:backgroundDimAmount">0.6</item>
+    </style>
+
+    <style name="DialogActivityTitle" parent="Theme.AppCompat.Light.Dialog">
+        <item name="windowNoTitle">false</item>
+        <!--<item name="android:typeface">monospace</item>-->
+        <!--<item name="android:fontFamily">monospace</item>-->
+        <item name="android:backgroundDimAmount">0.6</item>
+    </style>
+</resources>
