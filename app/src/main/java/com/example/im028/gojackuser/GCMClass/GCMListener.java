@@ -13,9 +13,11 @@ import android.util.Log;
 import com.example.im028.gojackuser.ActivityClasses.LocationCheckActivity;
 import com.example.im028.gojackuser.ActivityClasses.SplashActivity;
 
+import com.example.im028.gojackuser.DialogFragment.GenderRequestDialogActivity;
 import com.example.im028.gojackuser.DialogFragment.PilotHereDialogActivity;
 import com.example.im028.gojackuser.R;
 import com.example.im028.gojackuser.Utility.ConstantClasses.ConstantFunctions;
+import com.example.im028.gojackuser.Utility.ConstantClasses.ConstantValues;
 import com.google.android.gms.gcm.GcmListenerService;
 
 
@@ -31,12 +33,15 @@ public class GCMListener extends GcmListenerService {
 
     @Override
     public void onMessageReceived(String from, Bundle data) {
-
         String type = data.getString("type", "");
         String message = data.getString("message", "");
+        String gender = data.getString("gender", "");
+        String requestid = data.getString("requestid", "");
         Log.d(TAG, "From: " + from);
         Log.d(TAG, "Message: " + message);
         Log.d(TAG, "type: " + type);
+        Log.d(TAG, "gender: " + gender);
+        Log.d(TAG, "requestid: " + requestid);
         if (from.startsWith("/topics/")) {
             // message received from some topic.
         } else {
@@ -56,7 +61,7 @@ public class GCMListener extends GcmListenerService {
          * that a message was received.
          */
 
-        sendNotification(message, type);
+        sendNotification(message, type, gender, requestid);
 
     }
     // [END receive_message]
@@ -66,7 +71,7 @@ public class GCMListener extends GcmListenerService {
      *
      * @param message GCM message received.
      */
-    private void sendNotification(String message, String type) {
+    private void sendNotification(String message, String type, String gender, String requestid) {
         Intent intent = null;
         switch (type) {
             case "driveraccepted":
@@ -89,6 +94,11 @@ public class GCMListener extends GcmListenerService {
             case "tripcompleted":
                 intent = new Intent(this, LocationCheckActivity.class);
                 ConstantFunctions.updateRide(this);
+                break;
+            case "gendernotification":
+                intent = new Intent(this, LocationCheckActivity.class);
+                ConstantFunctions.updateRide(this);
+                startActivity(new Intent(this, GenderRequestDialogActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK).putExtra(ConstantValues.genderType, gender).putExtra(ConstantValues.requestid, requestid).putExtra(ConstantValues.message, message));
                 break;
             default:
                 intent = new Intent(this, SplashActivity.class);

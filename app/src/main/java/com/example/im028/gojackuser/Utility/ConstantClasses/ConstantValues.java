@@ -7,8 +7,8 @@ import java.text.SimpleDateFormat;
  * Created by IM028 on 8/2/16.
  */
 public class ConstantValues {
-    public static String SERVER_URL = "http://imaginetventures.net/sample/gojack/webservice/";
-
+    //    public static String SERVER_URL = "http://imaginetventures.net/sample/gojack/webservice/";
+    public static String SERVER_URL = "http://www.shoutjack.com/manage/webservice/";
     //Intent Constants Starts
     public static String driverStatus = "driverStatus";
     public static String phoneNumber = "phoneNumber";
@@ -31,4 +31,7 @@ public class ConstantValues {
 
     public static SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy");
     public static SimpleDateFormat serverFormat = new SimpleDateFormat("yyyy-MM-dd");
+    public static String genderType = "gender";
+    public static String requestid = "requestid";
+    public static String message = "message";
 }

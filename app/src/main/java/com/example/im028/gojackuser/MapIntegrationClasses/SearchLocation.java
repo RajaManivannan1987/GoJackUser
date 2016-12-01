@@ -29,7 +29,6 @@ public class SearchLocation {
     }
 
     public void requestLocation() {
-
         try {
             LatLngBounds.Builder latLngBounds = LatLngBounds.builder();
             latLngBounds.include(MyApplication.locationInstance().getLocation());

@@ -533,6 +533,33 @@ public class WebServices {
         });
     }
 
+    public void genderRequest(String status, String gender, String requestid, final VolleyResponseListerner listerner) {
+        String url = ConstantValues.SERVER_URL + "genderrequest";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("token", session.getToken());
+            jsonObject.put("customerid", session.getCustomerId());
+            jsonObject.put("status", status);
+            jsonObject.put("gender", gender);
+            jsonObject.put("requestid", requestid);
+        } catch (JSONException e) {
+            Log.d(TAG, e.getMessage());
+        }
+        volleyClass.volleyPostData(url, jsonObject, new VolleyResponseListerner() {
+            @Override
+            public void onResponse(JSONObject response) throws JSONException {
+                if (isTokenValid(response)) {
+                    listerner.onResponse(response);
+                }
+            }
+
+            @Override
+            public void onError(String message, String title) {
+                listerner.onError(message, title);
+            }
+        });
+    }
+
     public void requestCourier(LatLng pick, LatLng to, String pickAddress, String toAddress, String paymentType, String sendername, String senderphone, String senderlandmark, String receivername,
                                String receiverphone, String receiverlandmark, String itemscouriered, String instructions, String payment, final VolleyResponseListerner listener) {
         String url = ConstantValues.SERVER_URL + "requestcourier";
