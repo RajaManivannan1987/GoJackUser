@@ -66,15 +66,16 @@ public class DashboardActivity extends MenuCommonActivity {
 
     private boolean flagTouchPressed = false, isMoved = false;
 
-    private LinearLayout disableLinearLayout, enableLinearLayout, couponLinearLayout;
+    private LinearLayout disableLinearLayout, enableLinearLayout, couponLinearLayout, sheduleLinearLayout;
     public TextView couponTextView;
     public String couponId = "0";
     private TextView fareTextView;
     private FloatingActionButton locationFloatingActionButton, location1FloatingActionButton;
     private View.OnClickListener currentLocation;
-    private TextView paymentModeTextView;
+    private TextView paymentModeTextView, scheduleDateTimeTextView;
     private Button disabledRequestRideButton, enabledRequestRideButton;
     private final int paymentTypeRequestCode = 1;
+    private final int scheduleRequestCode = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,7 +131,6 @@ public class DashboardActivity extends MenuCommonActivity {
                 flagTouchPressed = false;
                 getPilotLocation(googleMap.getCameraPosition().target);
                 updateAddress();
-
             }
 
             @Override
@@ -147,6 +147,7 @@ public class DashboardActivity extends MenuCommonActivity {
         pickLinearLayout = (LinearLayout) findViewById(R.id.dashboardActivityPickLocationLinearLayout);
         toLinearLayout = (LinearLayout) findViewById(R.id.dashboardActivityToLocationLinearLayout);
         toLocationTextView = (TextView) findViewById(R.id.dashboardActivityToLocationTextView);
+        sheduleLinearLayout = (LinearLayout) findViewById(R.id.dashboardActivitysheduleLinearLayout);
         pickLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -185,6 +186,7 @@ public class DashboardActivity extends MenuCommonActivity {
         disabledRequestRideButton = (Button) findViewById(R.id.dashboardActivityDisableRequestRideButton);
         enabledRequestRideButton = (Button) findViewById(R.id.dashboardActivityEnabledRequestRideButton);
         paymentModeTextView = (TextView) findViewById(R.id.dashboardActivityPaymentModeTextView);
+        scheduleDateTimeTextView = (TextView) findViewById(R.id.dashboardActivityscheduleTextView);
         couponLinearLayout = (LinearLayout) findViewById(R.id.dashboardActivityCouponLinearLayout);
         couponTextView = (TextView) findViewById(R.id.dashboardActivityCouponCodeTextView);
         couponLinearLayout.setOnClickListener(new View.OnClickListener() {
@@ -211,7 +213,7 @@ public class DashboardActivity extends MenuCommonActivity {
                     public void onResponse(JSONObject response) throws JSONException {
                         ConstantFunctions.toast(DashboardActivity.this, response.getString("message"));
                         if (!response.getString("status").equalsIgnoreCase("0")) {
-                            startActivity(new Intent(DashboardActivity.this, RideActivity.class).putExtra(ConstantValues.rideId,response.getString("rideid")));
+                            startActivity(new Intent(DashboardActivity.this, RideActivity.class).putExtra(ConstantValues.rideId, response.getString("rideid")));
                             finish();
                         }
                     }
@@ -229,6 +231,13 @@ public class DashboardActivity extends MenuCommonActivity {
                 Intent intent = new Intent(DashboardActivity.this, PaymentMethodActivity.class);
                 intent.putExtra(ConstantValues.paymentType, paymentModeTextView.getText().toString());
                 startActivityForResult(intent, paymentTypeRequestCode);
+            }
+        });
+        sheduleLinearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(DashboardActivity.this, ScheduleActivity.class);
+                startActivityForResult(intent, scheduleRequestCode);
             }
         });
 
@@ -385,6 +394,11 @@ public class DashboardActivity extends MenuCommonActivity {
             case paymentTypeRequestCode:
                 if (resultCode == RESULT_OK) {
                     paymentModeTextView.setText(data.getExtras().getString(ConstantValues.paymentType, "cash"));
+                }
+                break;
+            case scheduleRequestCode:
+                if (resultCode == RESULT_OK) {
+                    scheduleDateTimeTextView.setText(data.getExtras().getString(ConstantValues.scheduleDateTime, "Now"));
                 }
                 break;
             default:

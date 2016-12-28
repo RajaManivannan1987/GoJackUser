@@ -1,5 +1,6 @@
 package com.example.im028.gojackuser.ActivityClasses;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -74,11 +75,11 @@ public class TripDetailsActivity extends BackCommonActivity {
                     ConstantFunctions.toast(TripDetailsActivity.this, "Rate Ride");
                     return;
                 }
-                if(!(petrolYesRadioButton.isChecked()||petrolNoRadioButton.isChecked() )){
+                if (!(petrolYesRadioButton.isChecked() || petrolNoRadioButton.isChecked())) {
                     ConstantFunctions.toast(TripDetailsActivity.this, "Select petrol station or not");
                     return;
                 }
-                if(!(rudeYesRadioButton.isChecked()||rudeNoRadioButton.isChecked() )){
+                if (!(rudeYesRadioButton.isChecked() || rudeNoRadioButton.isChecked())) {
                     ConstantFunctions.toast(TripDetailsActivity.this, "Select rude or not");
                     return;
                 }
@@ -96,6 +97,7 @@ public class TripDetailsActivity extends BackCommonActivity {
                                 @Override
                                 public void onResponse(JSONObject response) throws JSONException {
                                     ConstantFunctions.toast(TripDetailsActivity.this, response.getString("message"));
+                                    startActivity(new Intent(TripDetailsActivity.this, ChooseTypeActivity.class));
                                     finish();
                                 }
 

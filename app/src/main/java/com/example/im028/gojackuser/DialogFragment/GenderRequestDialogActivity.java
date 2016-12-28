@@ -3,10 +3,12 @@ package com.example.im028.gojackuser.DialogFragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.im028.gojackuser.ActivityClasses.ChooseTypeActivity;
 import com.example.im028.gojackuser.ActivityClasses.LocationCheckActivity;
 import com.example.im028.gojackuser.R;
 import com.example.im028.gojackuser.Utility.ConstantClasses.ConstantFunctions;
@@ -61,6 +63,11 @@ public class GenderRequestDialogActivity extends AppCompatActivity {
             public void onResponse(JSONObject response) throws JSONException {
                 if (response.getString("status").equalsIgnoreCase("1")) {
                     ConstantFunctions.toast(GenderRequestDialogActivity.this, response.getString("message"));
+                    startActivity(LocationCheckActivity.getLocationCheck(GenderRequestDialogActivity.this, ConstantValues.rideTypeRide));
+                    finish();
+                } else if (response.getString("status").equalsIgnoreCase("0")) {
+                    Log.d("volleyPostData", "volleyPostData");
+                    startActivity(LocationCheckActivity.getLocationCheck(GenderRequestDialogActivity.this, ConstantValues.rideTypeRide));
                     finish();
                 }
             }

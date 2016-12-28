@@ -144,6 +144,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
         android:orientation="vertical"
         android:visibility="gone">
 
@@ -240,6 +241,35 @@
                         android:background="@color/line" />
 
                     <LinearLayout
+                        android:id="@+id/dashboardActivitysheduleLinearLayout"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="2dp"
+                            android:src="@android:drawable/ic_menu_my_calendar" />
+
+                        <TextView
+                            android:id="@+id/dashboardActivityscheduleTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:text="schedule"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/line" />
+
+                    <LinearLayout
                         android:id="@+id/dashboardActivityCouponLinearLayout"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -251,6 +281,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="2dp"
+                            android:layout_marginLeft="5dp"
                             android:src="@drawable/coupon_code_icon" />
 
                         <TextView
@@ -260,7 +291,6 @@
                             android:maxLines="1"
                             android:text="Have a Coupon Code?"
                             android:textSize="12sp" />
-
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>

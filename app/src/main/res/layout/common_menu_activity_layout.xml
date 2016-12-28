@@ -14,11 +14,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-
             <FrameLayout
                 android:id="@+id/commonMenuActivityFrameLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
+
             <android.support.v7.widget.Toolbar
                 android:id="@+id/commonMenuActivityToolbar"
                 android:layout_width="match_parent"

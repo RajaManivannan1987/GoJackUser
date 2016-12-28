@@ -11,6 +11,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.example.im028.gojackuser.ActivityClasses.LocationCheckActivity;
+import com.example.im028.gojackuser.ActivityClasses.RideActivity;
 import com.example.im028.gojackuser.ActivityClasses.SplashActivity;
 
 import com.example.im028.gojackuser.DialogFragment.GenderRequestDialogActivity;

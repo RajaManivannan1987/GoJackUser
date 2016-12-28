@@ -55,17 +55,7 @@ public class WebServices {
         } catch (JSONException e) {
             Log.e(TAG, e.getMessage());
         }
-        volleyClass.volleyPostDataNoProgression(url, jsonObject, new VolleyResponseListerner() {
-            @Override
-            public void onResponse(JSONObject response) throws JSONException {
-                listener.onResponse(response);
-            }
-
-            @Override
-            public void onError(String message, String title) {
-                listener.onError(message, title);
-            }
-        });
+        setListernerWithoutProgressbar(listener, url, jsonObject);
     }
 
     public void login(String username, String password, final VolleyResponseListerner listener) {
@@ -77,17 +67,7 @@ public class WebServices {
         } catch (JSONException e) {
             Log.e(TAG, e.getMessage());
         }
-        volleyClass.volleyPostData(url, jsonObject, new VolleyResponseListerner() {
-            @Override
-            public void onResponse(JSONObject response) throws JSONException {
-                listener.onResponse(response);
-            }
-
-            @Override
-            public void onError(String message, String title) {
-                listener.onError(message, title);
-            }
-        });
+        setListerner(listener, url, jsonObject);
     }
 
     public void getPilotLocation(String latitude, String longitude, final VolleyResponseListerner listener) {
@@ -101,18 +81,7 @@ public class WebServices {
         } catch (JSONException e) {
             Log.e(TAG, e.getMessage());
         }
-        volleyClass.volleyPostData(url, jsonObject, new VolleyResponseListerner() {
-            @Override
-            public void onResponse(JSONObject response) throws JSONException {
-                if (isTokenValid(response))
-                    listener.onResponse(response);
-            }
-
-            @Override
-            public void onError(String message, String title) {
-                listener.onError(message, title);
-            }
-        });
+        setListerner1(listener, url, jsonObject);
     }
 
     public void requestRide(LatLng pick, LatLng to, String pickAddress, String toAddress, String paymentType, String couponId, final VolleyResponseListerner listener) {
@@ -133,18 +102,7 @@ public class WebServices {
         } catch (JSONException e) {
             Log.e(TAG, e.getMessage());
         }
-        volleyClass.volleyPostData(url, jsonObject, new VolleyResponseListerner() {
-            @Override
-            public void onResponse(JSONObject response) throws JSONException {
-                if (isTokenValid(response))
-                    listener.onResponse(response);
-            }
-
-            @Override
-            public void onError(String message, String title) {
-                listener.onError(message, title);
-            }
-        });
+        setListerner1(listener, url, jsonObject);
     }
 
     public void getFareEstimation(LatLng pick, LatLng to, final VolleyResponseListerner listener) {
@@ -158,17 +116,7 @@ public class WebServices {
         } catch (JSONException e) {
             Log.e(TAG, e.getMessage());
         }
-        volleyClass.volleyPostData(url, jsonObject, new VolleyResponseListerner() {
-            @Override
-            public void onResponse(JSONObject response) throws JSONException {
-                listener.onResponse(response);
-            }
-
-            @Override
-            public void onError(String message, String title) {
-                listener.onError(message, title);
-            }
-        });
+        setListerner(listener, url, jsonObject);
     }
 
     public void checkStatus(final VolleyResponseListerner listener) {
@@ -180,18 +128,7 @@ public class WebServices {
         } catch (JSONException e) {
             Log.e(TAG, e.getMessage());
         }
-        volleyClass.volleyPostData(url, jsonObject, new VolleyResponseListerner() {
-            @Override
-            public void onResponse(JSONObject response) throws JSONException {
-                if (isTokenValid(response))
-                    listener.onResponse(response);
-            }
-
-            @Override
-            public void onError(String message, String title) {
-                listener.onError(message, title);
-            }
-        });
+        setListerner1(listener, url, jsonObject);
     }
 
     public void checkStatusNew(String rideId, final VolleyResponseListerner listener) {
@@ -204,18 +141,7 @@ public class WebServices {
         } catch (JSONException e) {
             Log.e(TAG, e.getMessage());
         }
-        volleyClass.volleyPostData(url, jsonObject, new VolleyResponseListerner() {
-            @Override
-            public void onResponse(JSONObject response) throws JSONException {
-                if (isTokenValid(response))
-                    listener.onResponse(response);
-            }
-
-            @Override
-            public void onError(String message, String title) {
-                listener.onError(message, title);
-            }
-        });
+        setListerner1(listener, url, jsonObject);
     }
 
     public void cancelTrip(String reason, final VolleyResponseListerner listener) {
@@ -228,18 +154,7 @@ public class WebServices {
         } catch (JSONException e) {
             Log.e(TAG, e.getMessage());
         }
-        volleyClass.volleyPostData(url, jsonObject, new VolleyResponseListerner() {
-            @Override
-            public void onResponse(JSONObject response) throws JSONException {
-                if (isTokenValid(response))
-                    listener.onResponse(response);
-            }
-
-            @Override
-            public void onError(String message, String title) {
-                listener.onError(message, title);
-            }
-        });
+        setListerner1(listener, url, jsonObject);
     }
 
     public void cancelReason(final VolleyResponseArrayListerner listerner) {
@@ -267,17 +182,7 @@ public class WebServices {
         } catch (JSONException e) {
             Log.e(TAG, e.toString());
         }
-        volleyClass.volleyPostDataNoProgression(url, jsonObject, new VolleyResponseListerner() {
-            @Override
-            public void onResponse(JSONObject response) throws JSONException {
-                listerner.onResponse(response);
-            }
-
-            @Override
-            public void onError(String message, String title) {
-                listerner.onError(message, title);
-            }
-        });
+        setListernerWithoutProgressbar(listerner, url, jsonObject);
     }
 
     public void registration(String firstname, String lastname, String email, String password, String gender, String dob, String mobilenumber, String referralcode, final VolleyResponseListerner listerner) {
@@ -295,17 +200,7 @@ public class WebServices {
         } catch (JSONException e) {
             Log.e(TAG, e.toString());
         }
-        volleyClass.volleyPostData(url, jsonObject, new VolleyResponseListerner() {
-            @Override
-            public void onResponse(JSONObject response) throws JSONException {
-                listerner.onResponse(response);
-            }
-
-            @Override
-            public void onError(String message, String title) {
-                listerner.onError(message, title);
-            }
-        });
+        setListerner(listerner, url, jsonObject);
     }
 
     public void verifyPIN(String customerId, String pin, final VolleyResponseListerner listerner) {
@@ -317,17 +212,7 @@ public class WebServices {
         } catch (JSONException e) {
             Log.e(TAG, e.toString());
         }
-        volleyClass.volleyPostData(url, jsonObject, new VolleyResponseListerner() {
-            @Override
-            public void onResponse(JSONObject response) throws JSONException {
-                listerner.onResponse(response);
-            }
-
-            @Override
-            public void onError(String message, String title) {
-                listerner.onError(message, title);
-            }
-        });
+        setListerner(listerner, url, jsonObject);
     }
 
     public void saveTripDetails(String rideId, String driverId, String helmetrating, String facemaskrating, String petrolrating, String ruderating, String riderating, final VolleyResponseListerner listerner) {
@@ -347,17 +232,7 @@ public class WebServices {
         } catch (JSONException e) {
             Log.e(TAG, e.toString());
         }
-        volleyClass.volleyPostData(url, jsonObject, new VolleyResponseListerner() {
-            @Override
-            public void onResponse(JSONObject response) throws JSONException {
-                listerner.onResponse(response);
-            }
-
-            @Override
-            public void onError(String message, String title) {
-                listerner.onError(message, title);
-            }
-        });
+        setListerner(listerner, url, jsonObject);
     }
 
     public void getCouponList(String type, final VolleyResponseListerner listerner) {
@@ -371,18 +246,7 @@ public class WebServices {
         } catch (JSONException e) {
             Log.e(TAG, e.toString());
         }
-        volleyClass.volleyPostData(url, jsonObject, new VolleyResponseListerner() {
-            @Override
-            public void onResponse(JSONObject response) throws JSONException {
-                if (isTokenValid(response))
-                    listerner.onResponse(response);
-            }
-
-            @Override
-            public void onError(String message, String title) {
-                listerner.onError(message, title);
-            }
-        });
+        setListerner1(listerner, url, jsonObject);
     }
 
     public void getCouponValidation(String type, String couponCode, final VolleyResponseListerner listerner) {
@@ -397,18 +261,7 @@ public class WebServices {
         } catch (JSONException e) {
             Log.e(TAG, e.toString());
         }
-        volleyClass.volleyPostData(url, jsonObject, new VolleyResponseListerner() {
-            @Override
-            public void onResponse(JSONObject response) throws JSONException {
-                if (isTokenValid(response))
-                    listerner.onResponse(response);
-            }
-
-            @Override
-            public void onError(String message, String title) {
-                listerner.onError(message, title);
-            }
-        });
+        setListerner1(listerner, url, jsonObject);
     }
 
     public void getHistoryList(final VolleyResponseListerner listerner) {
@@ -420,18 +273,7 @@ public class WebServices {
         } catch (JSONException e) {
             Log.e(TAG, e.toString());
         }
-        volleyClass.volleyPostData(url, jsonObject, new VolleyResponseListerner() {
-            @Override
-            public void onResponse(JSONObject response) throws JSONException {
-                if (isTokenValid(response))
-                    listerner.onResponse(response);
-            }
-
-            @Override
-            public void onError(String message, String title) {
-                listerner.onError(message, title);
-            }
-        });
+        setListerner1(listerner, url, jsonObject);
     }
 
     public void getHistoryRide(String rideId, final VolleyResponseListerner listerner) {
@@ -445,18 +287,7 @@ public class WebServices {
         } catch (JSONException e) {
             Log.e(TAG, e.toString());
         }
-        volleyClass.volleyPostData(url, jsonObject, new VolleyResponseListerner() {
-            @Override
-            public void onResponse(JSONObject response) throws JSONException {
-                if (isTokenValid(response))
-                    listerner.onResponse(response);
-            }
-
-            @Override
-            public void onError(String message, String title) {
-                listerner.onError(message, title);
-            }
-        });
+        setListerner1(listerner, url, jsonObject);
     }
 
     public void getActiveRide(String rideType, final VolleyResponseListerner listerner) {
@@ -469,18 +300,7 @@ public class WebServices {
         } catch (JSONException e) {
             Log.e(TAG, e.toString());
         }
-        volleyClass.volleyPostData(url, jsonObject, new VolleyResponseListerner() {
-            @Override
-            public void onResponse(JSONObject response) throws JSONException {
-                if (isTokenValid(response))
-                    listerner.onResponse(response);
-            }
-
-            @Override
-            public void onError(String message, String title) {
-                listerner.onError(message, title);
-            }
-        });
+        setListerner1(listerner, url, jsonObject);
     }
 
     public void cancelTripNew(String rideId, String reason, final VolleyResponseListerner listener) {
@@ -494,18 +314,7 @@ public class WebServices {
         } catch (JSONException e) {
             Log.e(TAG, e.getMessage());
         }
-        volleyClass.volleyPostData(url, jsonObject, new VolleyResponseListerner() {
-            @Override
-            public void onResponse(JSONObject response) throws JSONException {
-                if (isTokenValid(response))
-                    listener.onResponse(response);
-            }
-
-            @Override
-            public void onError(String message, String title) {
-                listener.onError(message, title);
-            }
-        });
+        setListerner1(listener, url, jsonObject);
     }
 
     public void getPODDetails(String rideId, final VolleyResponseListerner listener) {
@@ -519,18 +328,7 @@ public class WebServices {
         } catch (JSONException e) {
             Log.e(TAG, e.getMessage());
         }
-        volleyClass.volleyPostData(url, jsonObject, new VolleyResponseListerner() {
-            @Override
-            public void onResponse(JSONObject response) throws JSONException {
-                if (isTokenValid(response))
-                    listener.onResponse(response);
-            }
-
-            @Override
-            public void onError(String message, String title) {
-                listener.onError(message, title);
-            }
-        });
+        setListerner1(listener, url, jsonObject);
     }
 
     public void genderRequest(String status, String gender, String requestid, final VolleyResponseListerner listerner) {
@@ -545,7 +343,7 @@ public class WebServices {
         } catch (JSONException e) {
             Log.d(TAG, e.getMessage());
         }
-        volleyClass.volleyPostData(url, jsonObject, new VolleyResponseListerner() {
+        volleyClass.volleyPostDataNoProgression(url, jsonObject, new VolleyResponseListerner() {
             @Override
             public void onResponse(JSONObject response) throws JSONException {
                 if (isTokenValid(response)) {
@@ -589,19 +387,50 @@ public class WebServices {
         } catch (JSONException e) {
             Log.e(TAG, e.getMessage());
         }
+        setListerner1(listener, url, jsonObject);
+    }
+
+    private void setListerner(final VolleyResponseListerner listerner, String url, JSONObject jsonObject) {
         volleyClass.volleyPostData(url, jsonObject, new VolleyResponseListerner() {
             @Override
             public void onResponse(JSONObject response) throws JSONException {
-                if (isTokenValid(response))
-                    listener.onResponse(response);
+                listerner.onResponse(response);
             }
 
             @Override
             public void onError(String message, String title) {
-                listener.onError(message, title);
+                listerner.onError(message, title);
             }
         });
     }
 
+    private void setListerner1(final VolleyResponseListerner listerner, String url, JSONObject jsonObject) {
+        volleyClass.volleyPostData(url, jsonObject, new VolleyResponseListerner() {
+            @Override
+            public void onResponse(JSONObject response) throws JSONException {
+                if (isTokenValid(response))
+                    listerner.onResponse(response);
+            }
+
+            @Override
+            public void onError(String message, String title) {
+                listerner.onError(message, title);
+            }
+        });
+    }
+
+    private void setListernerWithoutProgressbar(final VolleyResponseListerner listerner, String url, JSONObject jsonObject) {
+        volleyClass.volleyPostDataNoProgression(url, jsonObject, new VolleyResponseListerner() {
+            @Override
+            public void onResponse(JSONObject response) throws JSONException {
+                listerner.onResponse(response);
+            }
+
+            @Override
+            public void onError(String message, String title) {
+                listerner.onError(message, title);
+            }
+        });
+    }
 
 }
