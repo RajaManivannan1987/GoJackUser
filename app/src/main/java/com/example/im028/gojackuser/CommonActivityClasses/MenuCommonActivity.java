@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.example.im028.gojackuser.ActivityClasses.ChooseTypeActivity;
 import com.example.im028.gojackuser.ActivityClasses.HistoryActivity;
+import com.example.im028.gojackuser.ActivityClasses.ScheduleTripListActivity;
 import com.example.im028.gojackuser.AdapterClasses.CommonActionBarListAdapter;
 import com.example.im028.gojackuser.R;
 import com.example.im028.gojackuser.Utility.ConstantClasses.ConstantFunctions;
@@ -78,6 +79,9 @@ public class MenuCommonActivity extends AppCompatActivity {
                             break;
                         case "history":
                             startActivity(new Intent(MenuCommonActivity.this, HistoryActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+                            break;
+                        case "schedule trips":
+                            startActivity(new Intent(MenuCommonActivity.this, ScheduleTripListActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
                             break;
                         case "book your ride":
                             startActivity(new Intent(MenuCommonActivity.this, ChooseTypeActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));

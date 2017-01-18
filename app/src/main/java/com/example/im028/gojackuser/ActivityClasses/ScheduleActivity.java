@@ -33,8 +33,10 @@ public class ScheduleActivity extends BackCommonActivity {
             @Override
             public void onClick(View view) {
                 String strdateTime = datePicker.getDayOfMonth() + "-" + (datePicker.getMonth() + 1) + "-" + datePicker.getYear() + " " + timePicker.getCurrentHour() + ":" + timePicker.getCurrentMinute();
-                Toast.makeText(getApplicationContext(), strdateTime, Toast.LENGTH_SHORT).show();
+                String strdateTime1 = datePicker.getYear() + "-" + (datePicker.getMonth() + 1) + "-" + datePicker.getDayOfMonth() + " " + timePicker.getCurrentHour() + ":" + timePicker.getCurrentMinute();
+//                Toast.makeText(getApplicationContext(), strdateTime, Toast.LENGTH_SHORT).show();
                 setResult(RESULT_OK, getIntent().putExtra(ConstantValues.scheduleDateTime, strdateTime));
+                setResult(RESULT_OK, getIntent().putExtra(ConstantValues.scheduleDateTime1, strdateTime1));
                 finish();
             }
         });

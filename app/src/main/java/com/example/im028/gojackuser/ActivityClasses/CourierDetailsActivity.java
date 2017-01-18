@@ -41,7 +41,6 @@ public class CourierDetailsActivity extends BackCommonActivity {
         totalAmountTextView = (TextView) findViewById(R.id.courierDetailsActivityPaymentAmountTextView);
         paymentByTextView = (TextView) findViewById(R.id.courierDetailsActivityPaymentByTextView);
 
-
     }
 
     private void getData() {

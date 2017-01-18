@@ -98,7 +98,6 @@ public class PickLocationActivity extends BackCommonActivity {
             @Override
             public void onReleased() {
                 isTouch = false;
-
                 placeAutocompleteFragment.setText(getMarkerMovedAddress(googleMap.getCameraPosition().target));
             }
 
@@ -138,7 +137,6 @@ public class PickLocationActivity extends BackCommonActivity {
                 intent.putExtra(ConstantValues.locationPickerLongitude, googleMap.getCameraPosition().target.longitude);
                 setResult(RESULT_OK, intent);
                 finish();
-
             }
         });
     }
@@ -175,6 +173,4 @@ public class PickLocationActivity extends BackCommonActivity {
         }
         return false;
     }
-
-
 }

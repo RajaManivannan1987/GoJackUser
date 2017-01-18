@@ -121,8 +121,8 @@ public class GCMListener extends GcmListenerService {
         notificationManager.notify((int) Calendar.getInstance().getTimeInMillis(), notificationBuilder.build());
     }
 
-    private Intent updateRide(Intent intent) {
+  /*  private Intent updateRide(Intent intent) {
 
         return intent;
-    }
+    }*/
 }

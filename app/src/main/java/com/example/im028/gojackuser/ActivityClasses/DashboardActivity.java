@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -42,7 +43,9 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class DashboardActivity extends MenuCommonActivity {
@@ -60,7 +63,7 @@ public class DashboardActivity extends MenuCommonActivity {
     private TextView pickUpLocationTextView, toLocationTextView;
     private LinearLayout pickLinearLayout, toLinearLayout;
     private LatLng pickLatLng, toLatLng;
-    private String pickAddressString = "", toAddressString = "";
+    private String pickAddressString = "", toAddressString = "", dateTimeValue = "", fare = "", scheduleType = "";
     private int locationType = PICKLOCATION;
     private SearchLocation searchLocation;
 
@@ -208,13 +211,21 @@ public class DashboardActivity extends MenuCommonActivity {
         enabledRequestRideButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                webServices.requestRide(pickLatLng, toLatLng, pickAddressString, toAddressString, paymentModeTextView.getText().toString(), couponId, new VolleyResponseListerner() {
+                webServices.requestRide(pickLatLng, toLatLng, pickAddressString, toAddressString, paymentModeTextView.getText().toString(), couponId, dateTimeValue, fare, new VolleyResponseListerner() {
                     @Override
                     public void onResponse(JSONObject response) throws JSONException {
-                        ConstantFunctions.toast(DashboardActivity.this, response.getString("message"));
+
                         if (!response.getString("status").equalsIgnoreCase("0")) {
-                            startActivity(new Intent(DashboardActivity.this, RideActivity.class).putExtra(ConstantValues.rideId, response.getString("rideid")));
-                            finish();
+                            ConstantFunctions.toast(DashboardActivity.this, response.getString("message"));
+                            Log.d(TAG, scheduleType);
+                            if (scheduleType.equalsIgnoreCase("schedule")) {
+                                startActivity(new Intent(DashboardActivity.this, ScheduleTripListActivity.class));
+                                finish();
+                            } else {
+                                startActivity(new Intent(DashboardActivity.this, RideActivity.class).putExtra(ConstantValues.rideId, response.getString("rideid")));
+                                finish();
+                            }
+
                         }
                     }
 
@@ -330,10 +341,17 @@ public class DashboardActivity extends MenuCommonActivity {
             webServices.getPilotLocation(latLng.latitude + "", latLng.longitude + "", new VolleyResponseListerner() {
                 @Override
                 public void onResponse(JSONObject response) throws JSONException {
+                    googleMap.clear();
                     pilotList.clear();
                     if (response.getString("status").equalsIgnoreCase("1")) {
-                        for (int i = 0; i < response.getJSONArray("data").length(); i++)
-                            pilotList.add(gson.fromJson(response.getJSONArray("data").getJSONObject(i).toString(), Pilot.class));
+                        if (response.getJSONArray("data").length() != 0) {
+                            for (int i = 0; i < response.getJSONArray("data").length(); i++) {
+                                pilotList.add(gson.fromJson(response.getJSONArray("data").getJSONObject(i).toString(), Pilot.class));
+                            }
+                        } else {
+                            googleMap.clear();
+                            markerManagement.clearMarker();
+                        }
                     }
                     markerManagement.addMarkers(pilotList);
                 }
@@ -358,12 +376,12 @@ public class DashboardActivity extends MenuCommonActivity {
     }
 
     private void getFare() {
-
         webServices.getFareEstimation(pickLatLng, toLatLng, new VolleyResponseListerner() {
             @Override
             public void onResponse(JSONObject response) throws JSONException {
                 if (response.getString("status").equalsIgnoreCase("1")) {
                     fareTextView.setText(response.getString("data"));
+                    fare = response.getString("data");
                 }
             }
 
@@ -399,6 +417,8 @@ public class DashboardActivity extends MenuCommonActivity {
             case scheduleRequestCode:
                 if (resultCode == RESULT_OK) {
                     scheduleDateTimeTextView.setText(data.getExtras().getString(ConstantValues.scheduleDateTime, "Now"));
+                    dateTimeValue = data.getExtras().getString(ConstantValues.scheduleDateTime1, "");
+                    scheduleType = "schedule";
                 }
                 break;
             default:

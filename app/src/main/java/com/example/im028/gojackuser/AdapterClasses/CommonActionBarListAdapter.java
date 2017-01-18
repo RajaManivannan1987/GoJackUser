@@ -18,21 +18,21 @@ public class CommonActionBarListAdapter extends BaseAdapter {
     private Context context;
     private String[] listName = {"BOOK YOUR RIDE",
             "HISTORY",
+            "SCHEDULE TRIPS",
             "PAYMENT METHOD",
             "RATE CARD",
             "OFFERS AND FREE RIDES",
             "HELP/SUPPORT",
-//            "SETTINGS",
             "ABOUT",
             "LOGOUT"};
     private int[] listImage = {
             R.drawable.book_your_ride_menu_icon,
             R.drawable.history_menu_icon,
+            R.drawable.settings_menu_icon,
             R.drawable.payment_method_menu_icon,
             R.drawable.rate_card_menu_icon,
             R.drawable.offers_menu_icon,
             R.drawable.help_menu_icon,
-//            R.drawable.settings_menu_icon,
             R.drawable.about_menu_icon,
             R.drawable.about_menu_icon
     };

@@ -84,7 +84,7 @@ public class WebServices {
         setListerner1(listener, url, jsonObject);
     }
 
-    public void requestRide(LatLng pick, LatLng to, String pickAddress, String toAddress, String paymentType, String couponId, final VolleyResponseListerner listener) {
+    public void requestRide(LatLng pick, LatLng to, String pickAddress, String toAddress, String paymentType, String couponId, String dateTime, String fare, final VolleyResponseListerner listener) {
         String url = ConstantValues.SERVER_URL + "requestride";
         JSONObject jsonObject = new JSONObject();
 
@@ -99,6 +99,8 @@ public class WebServices {
             jsonObject.put("endingaddress", toAddress);
             jsonObject.put("paymentmode", paymentType);
             jsonObject.put("couponid", couponId);
+            jsonObject.put("date_time", dateTime);
+            jsonObject.put("fare", fare);
         } catch (JSONException e) {
             Log.e(TAG, e.getMessage());
         }
@@ -331,6 +333,32 @@ public class WebServices {
         setListerner1(listener, url, jsonObject);
     }
 
+    public void getScheduleList(final VolleyResponseListerner listener) {
+        String url = ConstantValues.SERVER_URL + "getschedulerides";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("token", session.getToken());
+            jsonObject.put("customerid", session.getCustomerId());
+
+        } catch (JSONException e) {
+            Log.e(TAG, e.getMessage());
+        }
+        setListerner1(listener, url, jsonObject);
+    }
+
+    public void cancelSchedule(String scheduleId, final VolleyResponseListerner listener) {
+        String url = ConstantValues.SERVER_URL + "getschedulerides";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("token", session.getToken());
+            jsonObject.put("customerid", session.getCustomerId());
+            jsonObject.put("scheduleid", scheduleId);
+        } catch (JSONException e) {
+            Log.e(TAG, e.getMessage());
+        }
+        setListerner1(listener, url, jsonObject);
+    }
+
     public void genderRequest(String status, String gender, String requestid, final VolleyResponseListerner listerner) {
         String url = ConstantValues.SERVER_URL + "genderrequest";
         JSONObject jsonObject = new JSONObject();
@@ -389,6 +417,7 @@ public class WebServices {
         }
         setListerner1(listener, url, jsonObject);
     }
+
 
     private void setListerner(final VolleyResponseListerner listerner, String url, JSONObject jsonObject) {
         volleyClass.volleyPostData(url, jsonObject, new VolleyResponseListerner() {

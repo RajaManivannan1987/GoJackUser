@@ -1,6 +1,7 @@
 package com.example.im028.gojackuser.MapIntegrationClasses;
 
 import android.app.Activity;
+import android.util.Log;
 
 import com.example.im028.gojackuser.ModelClasses.Pilot;
 import com.example.im028.gojackuser.R;
@@ -18,6 +19,8 @@ import java.util.List;
 public class MarkerManagement {
     private Activity activity;
     private GoogleMap googleMap;
+    Marker marker;
+
 
     public MarkerManagement(Activity activity, GoogleMap googleMap) {
         this.googleMap = googleMap;
@@ -26,16 +29,27 @@ public class MarkerManagement {
 
     public void addMarkers(List<Pilot> list) {
         googleMap.clear();
+        /*if (marker != null) {
+            list.clear();
+            marker.remove();
+        }*/
         for (Pilot pilot : list) {
+//            Log.d("WebService", list.toString());
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(new LatLng(Double.parseDouble(pilot.getLatitude()), Double.parseDouble(pilot.getLongitude())));
             markerOptions.draggable(false);
-            if (pilot.getGender().equalsIgnoreCase("male"))
+            if (pilot.getGender().equalsIgnoreCase("male")) {
                 markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.male_pilot_icon));
-            else
+            } else {
                 markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.female_pilot_icon));
+            }
             googleMap.addMarker(markerOptions);
         }
     }
 
+    public void clearMarker() {
+        if (marker != null) {
+            marker.remove();
+        }
+    }
 }
