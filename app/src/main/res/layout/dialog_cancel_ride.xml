@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="250dp"
+    android:orientation="vertical"
+    android:padding="10dp">
 
     <TextView
         android:layout_width="250dp"
@@ -13,16 +14,25 @@
         android:textSize="20sp"
         android:textStyle="bold" />
 
-    <android.support.v7.widget.AppCompatSpinner
-        android:id="@+id/cancelRideDialogAppCompactSpinner"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_margin="10dp"
-        android:gravity="center"
-        android:paddingEnd="5dp"
-        android:paddingStart="5dp" />
+        android:background="#d3d3d3">
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/cancelRideDialogAppCompactSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingEnd="5dp"
+            android:paddingStart="5dp"
+            android:popupBackground="#ffffff" />
+    </LinearLayout>
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -31,13 +41,14 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="15dp">
 
         <Button
             android:id="@+id/cancelRideDialogCancelButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="Cancel"
             android:textAllCaps="false"
@@ -47,13 +58,11 @@
         <Button
             android:id="@+id/cancelRideDialogCloseButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="Go back"
             android:textAllCaps="false"
             android:textStyle="normal"
             android:theme="@style/AppTheme.Button" />
-
-
     </LinearLayout>
 </LinearLayout>

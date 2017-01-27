@@ -52,6 +52,16 @@
                     android:textAppearance="?android:textAppearanceLarge"
                     android:textColor="@color/colorPrimary" />
 
+                <ImageView
+                    android:id="@+id/sosMenu"
+                    android:layout_width="45dp"
+                    android:visibility="gone"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end|right"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:src="@drawable/sos" />
+
             </android.support.v7.widget.Toolbar>
 
 

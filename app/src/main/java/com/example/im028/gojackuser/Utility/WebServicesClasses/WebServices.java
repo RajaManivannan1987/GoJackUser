@@ -358,7 +358,19 @@ public class WebServices {
         }
         setListerner1(listener, url, jsonObject);
     }
-
+    public void editSchedule(String scheduleId,String dateTime, final VolleyResponseListerner listener) {
+        String url = ConstantValues.SERVER_URL + "editschedulerides";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("token", session.getToken());
+            jsonObject.put("customerid", session.getCustomerId());
+            jsonObject.put("scheduleid", scheduleId);
+            jsonObject.put("date_time",dateTime);
+        } catch (JSONException e) {
+            Log.e(TAG, e.getMessage());
+        }
+        setListerner1(listener, url, jsonObject);
+    }
     public void genderRequest(String status, String gender, String requestid, final VolleyResponseListerner listerner) {
         String url = ConstantValues.SERVER_URL + "genderrequest";
         JSONObject jsonObject = new JSONObject();

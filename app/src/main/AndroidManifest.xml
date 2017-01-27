@@ -109,6 +109,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBarAppTheme" />
         <activity
+            android:name=".ActivityClasses.EditScheduleActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBarAppTheme" />
+        <activity
             android:name=".ActivityClasses.RegistrationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBarAppTheme" />

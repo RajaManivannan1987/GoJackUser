@@ -32,7 +32,8 @@ public class MenuCommonActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private FrameLayout frameLayout;
     private DrawerLayout drawerLayout;
-    private ImageView menuImageView, menuHeaderImageView;
+    private ImageView menuImageView, menuHeaderImageView ;
+    public ImageView sosImg;
     private TextView menuHeaderTextView, titleTextView;
     private ListView menuListView;
 
@@ -48,8 +49,16 @@ public class MenuCommonActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         drawerLayout = (DrawerLayout) findViewById(R.id.commonMenuActivityDrawerLayout);
         menuImageView = (ImageView) findViewById(R.id.menu);
+        sosImg= (ImageView) findViewById(R.id.sosMenu);
         menuListView = (ListView) findViewById(R.id.commonMenuActivityDrawerListView);
         titleTextView = (TextView) findViewById(R.id.commonMenuActivityTitleTextView);
+
+        sosImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ConstantFunctions.call(MenuCommonActivity.this,"+91 1111111111");
+            }
+        });
         menuImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

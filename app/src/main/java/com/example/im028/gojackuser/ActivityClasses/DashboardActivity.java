@@ -110,6 +110,7 @@ public class DashboardActivity extends MenuCommonActivity {
                         if (!flagTouchPressed) {
                             getPilotLocation(DashboardActivity.this.googleMap.getCameraPosition().target);
                             updateAddress();
+                            Log.d(TAG,"111111");
                         }
                     }
                 });
@@ -134,6 +135,8 @@ public class DashboardActivity extends MenuCommonActivity {
                 flagTouchPressed = false;
                 getPilotLocation(googleMap.getCameraPosition().target);
                 updateAddress();
+                Log.d(TAG,"22222222");
+
             }
 
             @Override
@@ -169,12 +172,12 @@ public class DashboardActivity extends MenuCommonActivity {
         enableLinearLayout = (LinearLayout) findViewById(R.id.dashboardActivityEnabledLinearLayout);
         disableLinearLayout = (LinearLayout) findViewById(R.id.dashboardActivityDisabledLinearLayout);
         fareTextView = (TextView) findViewById(R.id.dashboardActivityFareTextView);
-        enableLinearLayout.setOnClickListener(new View.OnClickListener() {
+        /*enableLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
             }
-        });
+        });*/
 
         locationFloatingActionButton = (FloatingActionButton) findViewById(R.id.dashboardActivityCurrentLocationFloatingActionButton);
         location1FloatingActionButton = (FloatingActionButton) findViewById(R.id.dashboardActivityCurrentLocation1FloatingActionButton);
@@ -312,6 +315,7 @@ public class DashboardActivity extends MenuCommonActivity {
             @Override
             public void onFinish() {
                 updateAddress();
+                Log.d(TAG,"333333333");
             }
 
             @Override
@@ -365,7 +369,7 @@ public class DashboardActivity extends MenuCommonActivity {
 
     private void updateAddress() {
         getAddress();
-        if (pickLatLng != null && toLatLng != null) {
+        if (pickLatLng != null && toLatLng != null && !pilotList.isEmpty()) {
             enableLinearLayout.setVisibility(View.VISIBLE);
             disableLinearLayout.setVisibility(View.GONE);
             getFare();

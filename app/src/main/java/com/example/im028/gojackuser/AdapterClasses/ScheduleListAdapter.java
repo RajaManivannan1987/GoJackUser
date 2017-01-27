@@ -14,6 +14,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.im028.gojackuser.ActivityClasses.DashboardActivity;
+import com.example.im028.gojackuser.ActivityClasses.EditScheduleActivity;
+import com.example.im028.gojackuser.ActivityClasses.ScheduleActivity;
 import com.example.im028.gojackuser.ActivityClasses.ScheduleTripListActivity;
 import com.example.im028.gojackuser.ModelClasses.ScheduleList;
 import com.example.im028.gojackuser.R;
@@ -35,6 +38,7 @@ public class ScheduleListAdapter extends RecyclerView.Adapter<ScheduleListAdapte
     ArrayList<ScheduleList> list;
     Activity context;
     private LayoutInflater inflater;
+    private final int scheduleRequestCode = 2;
 
     public ScheduleListAdapter(Activity scheduleTripListActivity, ArrayList<ScheduleList> list) {
         this.list = list;
@@ -71,6 +75,7 @@ public class ScheduleListAdapter extends RecyclerView.Adapter<ScheduleListAdapte
                                 list.remove(position);
                                 notifyDataSetChanged();
                             }
+
                             @Override
                             public void onError(String message, String title) {
 
@@ -88,6 +93,15 @@ public class ScheduleListAdapter extends RecyclerView.Adapter<ScheduleListAdapte
 
             }
         });
+        holder.editSchedule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, EditScheduleActivity.class);
+                intent.putExtra("scheduleId", list.get(position).getScheduleid());
+                intent.putExtra("date", list.get(position).getDatetime());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -97,14 +111,15 @@ public class ScheduleListAdapter extends RecyclerView.Adapter<ScheduleListAdapte
 
     public class Customholder extends RecyclerView.ViewHolder {
         TextView dateTimeTextView, fromTextView, toTextView;
-        ImageView cancelSchedule;
+        Button cancelSchedule, editSchedule;
 
         public Customholder(View itemView) {
             super(itemView);
             dateTimeTextView = (TextView) itemView.findViewById(R.id.itemListScheduleRecyclerViewDateTimeTextView);
             fromTextView = (TextView) itemView.findViewById(R.id.itemListScheduleRecyclerViewFromTextView);
             toTextView = (TextView) itemView.findViewById(R.id.itemListScheduleRecyclerViewToTextView);
-            cancelSchedule = (ImageView) itemView.findViewById(R.id.cancel_schedule);
+            cancelSchedule = (Button) itemView.findViewById(R.id.cancel_schedule);
+            editSchedule = (Button) itemView.findViewById(R.id.edit_schedule);
         }
     }
 }

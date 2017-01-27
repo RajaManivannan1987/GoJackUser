@@ -76,28 +76,28 @@ public class GCMListener extends GcmListenerService {
         Intent intent = null;
         switch (type) {
             case "driveraccepted":
-                intent = new Intent(this, LocationCheckActivity.class);
+                intent = new Intent(this, LocationCheckActivity.class).putExtra(ConstantValues.rideType, type);
                 ConstantFunctions.updateRide(this);
                 break;
             case "drivercancelled":
-                intent = new Intent(this, LocationCheckActivity.class);
+                intent = new Intent(this, LocationCheckActivity.class).putExtra(ConstantValues.rideType, type);
                 ConstantFunctions.updateRide(this);
                 break;
             case "pilotreached":
-                intent = new Intent(this, LocationCheckActivity.class);
+                intent = new Intent(this, LocationCheckActivity.class).putExtra(ConstantValues.rideType, type);
                 ConstantFunctions.updateRide(this);
                 startActivity(new Intent(this, PilotHereDialogActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                 break;
             case "tripstarted":
-                intent = new Intent(this, LocationCheckActivity.class);
+                intent = new Intent(this, LocationCheckActivity.class).putExtra(ConstantValues.rideType, type);
                 ConstantFunctions.updateRide(this);
                 break;
             case "tripcompleted":
-                intent = new Intent(this, LocationCheckActivity.class);
+                intent = new Intent(this, LocationCheckActivity.class).putExtra(ConstantValues.rideType, type);
                 ConstantFunctions.updateRide(this);
                 break;
             case "gendernotification":
-                intent = new Intent(this, LocationCheckActivity.class);
+                intent = new Intent(this, LocationCheckActivity.class).putExtra(ConstantValues.rideType, type);
                 ConstantFunctions.updateRide(this);
                 startActivity(new Intent(this, GenderRequestDialogActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK).putExtra(ConstantValues.genderType, gender).putExtra(ConstantValues.requestid, requestid).putExtra(ConstantValues.message, message));
                 break;

@@ -8,6 +8,8 @@ import com.example.im028.gojackuser.AdapterClasses.ScheduleListAdapter;
 import com.example.im028.gojackuser.CommonActivityClasses.BackCommonActivity;
 import com.example.im028.gojackuser.ModelClasses.ScheduleList;
 import com.example.im028.gojackuser.R;
+import com.example.im028.gojackuser.Singleton.ActionCompletedSingleton;
+import com.example.im028.gojackuser.Utility.InterfaceClasses.CompletedInterface;
 import com.example.im028.gojackuser.Utility.InterfaceClasses.VolleyResponseListerner;
 import com.example.im028.gojackuser.Utility.WebServicesClasses.WebServices;
 import com.google.gson.Gson;
@@ -39,6 +41,18 @@ public class ScheduleTripListActivity extends BackCommonActivity {
         scheduleListRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         adapter = new ScheduleListAdapter(this, list);
         scheduleListRecyclerView.setAdapter(adapter);
+        ActionCompletedSingleton.actionCompletedSingleton().setListener(new CompletedInterface() {
+            @Override
+            public void completed() {
+                getScheduleList();
+            }
+        });
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         getScheduleList();
     }
 

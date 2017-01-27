@@ -250,6 +250,7 @@ public class RideActivity extends MenuCommonActivity {
                                     public void run() {
                                         riderDetailsLinearLayout.setVisibility(View.VISIBLE);
                                         rideProcessLinearLayout.setVisibility(View.GONE);
+
                                     }
                                 });
                             }
@@ -276,6 +277,7 @@ public class RideActivity extends MenuCommonActivity {
                     case "3":
                         updateDriverData();
                         scheduleThread.stop();
+                        sosImg.setVisibility(View.VISIBLE);
                         riderDetailsLinearLayout.setVisibility(View.VISIBLE);
                         rideProcessLinearLayout.setVisibility(View.GONE);
                         riderDistanceTextView.setText(response.getString("message"));
