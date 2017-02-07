@@ -1,13 +1,16 @@
 package com.example.im028.gojackuser.Utility.ConstantClasses;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -92,5 +95,11 @@ public class ConstantFunctions {
         Intent intent = new Intent(ConstantValues.driverStatus);
         context.sendBroadcast(intent);
     }
-
+    public static boolean checkmarshmallowPermission(Activity activity, String permision, int requestCode) {
+        if (ActivityCompat.checkSelfPermission(activity, permision) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(activity, new String[]{permision}, requestCode);
+            return true;
+        }
+        return false;
+    }
 }

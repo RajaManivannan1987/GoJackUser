@@ -117,6 +117,19 @@
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBarAppTheme" />
         <activity
+            android:name=".ActivityClasses.ForgotPassword"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBarAppTheme" />
+        <activity
+            android:name=".ActivityClasses.CodeConfirmation"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|keyboard"/>
+        <activity
+            android:name=".ActivityClasses.ChangePassword"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBarAppTheme" />
+
+        <activity
             android:name=".DialogFragment.PilotHereDialogActivity"
             android:screenOrientation="portrait"
             android:theme="@style/DialogActivity" />

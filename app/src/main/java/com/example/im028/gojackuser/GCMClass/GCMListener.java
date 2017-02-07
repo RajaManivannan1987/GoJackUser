@@ -116,6 +116,8 @@ public class GCMListener extends GcmListenerService {
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
 
+        notificationBuilder.setAutoCancel(true);
+
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         notificationManager.notify((int) Calendar.getInstance().getTimeInMillis(), notificationBuilder.build());

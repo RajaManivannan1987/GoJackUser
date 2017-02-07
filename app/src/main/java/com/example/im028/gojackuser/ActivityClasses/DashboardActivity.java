@@ -208,7 +208,7 @@ public class DashboardActivity extends MenuCommonActivity {
         disabledRequestRideButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ConstantFunctions.toast(DashboardActivity.this, "Select to address");
+                ConstantFunctions.toast(DashboardActivity.this, "Select To Address");
             }
         });
         enabledRequestRideButton.setOnClickListener(new View.OnClickListener() {

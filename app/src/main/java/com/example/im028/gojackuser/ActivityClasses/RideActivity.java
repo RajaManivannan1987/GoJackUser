@@ -221,6 +221,7 @@ public class RideActivity extends MenuCommonActivity {
                         scheduleThread.stop();
                         riderDetailsLinearLayout.setVisibility(View.GONE);
                         rideProcessLinearLayout.setVisibility(View.VISIBLE);
+                        cancelLinearLayout.setVisibility(View.VISIBLE);
                         messageTextView.setText(response.getString("message"));
                         pickAddressString = jsonObject.getString("startinglocality");
                         toAddressString = jsonObject.getString("endinglocality");
@@ -258,6 +259,7 @@ public class RideActivity extends MenuCommonActivity {
                         messageTextView.setText(response.getString("message"));
                         updateDriverData();
                         updateData();
+                        cancelLinearLayout.setVisibility(View.VISIBLE);
                         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(pickLatLng, 15));
                         cancelLinearLayout.setOnClickListener(cancel);
                         cancelRideLinearLayout.setOnClickListener(cancel);
@@ -278,6 +280,7 @@ public class RideActivity extends MenuCommonActivity {
                         updateDriverData();
                         scheduleThread.stop();
                         sosImg.setVisibility(View.VISIBLE);
+                        cancelLinearLayout.setVisibility(View.GONE);
                         riderDetailsLinearLayout.setVisibility(View.VISIBLE);
                         rideProcessLinearLayout.setVisibility(View.GONE);
                         riderDistanceTextView.setText(response.getString("message"));

@@ -82,6 +82,9 @@ public class RegistrationActivity extends BackCommonActivity {
                                     if (maleRadioButton.isChecked() || femaleRadioButton.isChecked()) {
                                         if (checkBox.isChecked()) {
                                             submit();
+                                        } else {
+                                            ConstantFunctions.toast(RegistrationActivity.this,"Please agree gojack terms");
+//                                            checkBox.setError("Please agree gojack terms");
                                         }
                                     } else {
                                         ConstantFunctions.toast(RegistrationActivity.this, "Select gender");

@@ -153,6 +153,7 @@
                     android:layout_height="wrap_content"
                     android:digits="0123456789"
                     android:hint="Phone"
+                    android:maxLength="10"
                     android:inputType="phone"
                     android:text="" />
             </android.support.design.widget.TextInputLayout>
@@ -206,6 +207,7 @@
                 android:id="@+id/courierActivityDeliverToCurrentLocationImageView"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
+                android:visibility="invisible"
                 android:src="@drawable/current_location_blue" />
         </LinearLayout>
 
@@ -301,6 +303,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:digits="0123456789"
+                    android:maxLength="10"
                     android:hint="Phone"
                     android:inputType="phone"
                     android:text="" />

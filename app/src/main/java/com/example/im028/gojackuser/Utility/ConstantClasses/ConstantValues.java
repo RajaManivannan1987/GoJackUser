@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
  * Created by IM028 on 8/2/16.
  */
 public class ConstantValues {
+    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 1;
     //    public static String SERVER_URL = "http://imaginetventures.net/sample/gojack/webservice/";
 //    public static String SERVER_URL = "http://www.shoutjack.com/manage/webservice/";
     public static String SERVER_URL = "http://www.calljacktech.com/manage/webservice/";

@@ -2,8 +2,10 @@ package com.example.im028.gojackuser.ActivityClasses;
 
 
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -51,6 +53,7 @@ public class CourierActivity extends MenuCommonActivity {
     private boolean isFareCalculated = false;
     private CourierRestrictionDialog courierRestrictionDialog;
     private Handler handler = new Handler();
+    double earthRadius = 6371000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,19 +176,35 @@ public class CourierActivity extends MenuCommonActivity {
                     ConstantFunctions.toast(CourierActivity.this, "Select Deliver To Location");
                     return;
                 }
-                new WebServices(CourierActivity.this, TAG).getFareEstimation(pickUpLatLng, deliverLatLng, new VolleyResponseListerner() {
-                    @Override
-                    public void onResponse(JSONObject response) throws JSONException {
-                        if (response.getString("status").equalsIgnoreCase("1")) {
-                            updateFare(response.getString("data").replace("Rs", ""));
-                        }
-                    }
+//                distFrom(pickUpLatLng.latitude, pickUpLatLng.longitude, deliverLatLng.latitude, deliverLatLng.longitude);
 
-                    @Override
-                    public void onError(String message, String title) {
-                        AlertDialogManager.showAlertDialog(CourierActivity.this, title, message, false);
-                    }
-                });
+                Location locationA = new Location("LocationA");
+                locationA.setLatitude(pickUpLatLng.latitude);
+                locationA.setLongitude(pickUpLatLng.longitude);
+                Location locationB = new Location("LocationB");
+                locationB.setLatitude(deliverLatLng.latitude);
+                locationB.setLongitude(deliverLatLng.longitude);
+                float distance = locationA.distanceTo(locationB);
+                Log.d(TAG, distance + "");
+                if (distance >= 100) {
+                    new WebServices(CourierActivity.this, TAG).getFareEstimation(pickUpLatLng, deliverLatLng, new VolleyResponseListerner() {
+                        @Override
+                        public void onResponse(JSONObject response) throws JSONException {
+                            if (response.getString("status").equalsIgnoreCase("1")) {
+                                updateFare(response.getString("data").replace("Rs", ""));
+                            }
+                        }
+
+                        @Override
+                        public void onError(String message, String title) {
+                            AlertDialogManager.showAlertDialog(CourierActivity.this, title, message, false);
+                        }
+                    });
+                } else {
+                    ConstantFunctions.toast(CourierActivity.this, "From and To location can't be same");
+                }
+
+
             }
         });
         enablePickUpNowButton.setOnClickListener(new View.OnClickListener() {
@@ -205,21 +224,27 @@ public class CourierActivity extends MenuCommonActivity {
                                             deliverToNameEditText.setError(null);
                                             if (!deliverToPhoneEditText.getText().toString().equalsIgnoreCase("")) {
                                                 deliverToPhoneEditText.setError(null);
-                                                if (!photoCopyEditText.getText().toString().equalsIgnoreCase("")) {
-                                                    photoCopyEditText.setError(null);
-                                                    if (iAgreeCheckBox.isChecked()) {
-                                                        if (isFareCalculated) {
-                                                            courierRestrictionDialog = new CourierRestrictionDialog();
-                                                            courierRestrictionDialog.show(getFragmentManager(), "Courier Restrictions");
+                                                if (!pickUpFromPhoneEditText.getText().toString().startsWith(deliverToPhoneEditText.getText().toString())) {
+                                                    pickUpFromPhoneEditText.setError(null);
+                                                    if (!photoCopyEditText.getText().toString().equalsIgnoreCase("")) {
+                                                        photoCopyEditText.setError(null);
+                                                        if (iAgreeCheckBox.isChecked()) {
+                                                            if (isFareCalculated) {
+                                                                courierRestrictionDialog = new CourierRestrictionDialog();
+                                                                courierRestrictionDialog.show(getFragmentManager(), "Courier Restrictions");
+                                                            } else {
+                                                                ConstantFunctions.toast(CourierActivity.this, "Calculate the fare");
+                                                            }
                                                         } else {
-                                                            ConstantFunctions.toast(CourierActivity.this, "Calculate the fare");
+                                                            ConstantFunctions.toast(CourierActivity.this, "Select agree GoJack's terms");
                                                         }
+
                                                     } else {
-                                                        ConstantFunctions.toast(CourierActivity.this, "Select agree GoJack's terms");
+                                                        photoCopyEditText.setError("Enter items couriered");
+                                                        photoCopyEditText.requestFocus();
                                                     }
                                                 } else {
-                                                    photoCopyEditText.setError("Enter items couriered");
-                                                    photoCopyEditText.requestFocus();
+                                                    deliverToPhoneEditText.setError("Should be different from pickup mobile no");
                                                 }
                                             } else {
                                                 deliverToPhoneEditText.setError("Enter phone");
@@ -234,7 +259,7 @@ public class CourierActivity extends MenuCommonActivity {
                                         deliverToAddressEditText.requestFocus();
                                     }
                                 } else {
-                                    ConstantFunctions.toast(CourierActivity.this, "Select Deliver To Location");
+                                    ConstantFunctions.toast(CourierActivity.this, "Select Pickup From and Deliver To Location");
                                 }
                             } else {
                                 pickUpFromPhoneEditText.setError("Enter phone");
@@ -330,6 +355,17 @@ public class CourierActivity extends MenuCommonActivity {
         if (paymentBySpinner.getSelectedItemPosition() == 0)
             return "sender";
         return "receiver";
+    }
+
+    public static float distFrom(double lat1, double lng1, double lat2, double lng2) {
+        double earthRadius = 6371000;
+        double dLat = Math.toRadians(lat2 - lat1);
+        double dLng = Math.toRadians(lng2 - lng1);
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(Math.toRadians(lat1) * Math.cos(Math.toRadians(lat2)) * Math.sin(dLng / 2) * Math.sin(dLng / 2));
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        float dist = (float) (earthRadius * c);
+        Log.d(TAG, "" + dist);
+        return dist;
     }
 
 }
