@@ -431,4 +431,10 @@ public class DashboardActivity extends MenuCommonActivity {
 
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
 }

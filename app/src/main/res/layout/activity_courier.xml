@@ -481,13 +481,14 @@
                 android:id="@+id/courierActivityTermsCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="I agree to GoJack's" />
+                android:text="I agree to GoJack's Terms" />
 
             <TextView
                 android:id="@+id/courierActivityTermsTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=" Terms"
+                android:visibility="invisible"
                 android:textColor="@color/colorPrimary" />
 
         </LinearLayout>

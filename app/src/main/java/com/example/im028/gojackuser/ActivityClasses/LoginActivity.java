@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginValidate() {
-        if (Validation.isUserNameValid(userNameEditText.getText().toString())) {
+        if (Validation.isUserNameValid1(userNameEditText.getText().toString())) {
             userNameEditText.setError(null);
             if (Validation.isPasswordValid(passwordEditText.getText().toString())) {
                 passwordEditText.setError(null);

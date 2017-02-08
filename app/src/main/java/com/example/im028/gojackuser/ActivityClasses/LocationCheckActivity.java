@@ -3,6 +3,7 @@ package com.example.im028.gojackuser.ActivityClasses;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -171,5 +172,7 @@ public class LocationCheckActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         enableLocation();
+//        NotificationManager notifManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//        notifManager.cancelAll();
     }
 }

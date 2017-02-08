@@ -201,7 +201,7 @@ public class CourierActivity extends MenuCommonActivity {
                         }
                     });
                 } else {
-                    ConstantFunctions.toast(CourierActivity.this, "From and To location can't be same");
+                    ConstantFunctions.toast(CourierActivity.this, "Pickup and delivering location cannot be same");
                 }
 
 
@@ -260,6 +260,7 @@ public class CourierActivity extends MenuCommonActivity {
                                     }
                                 } else {
                                     ConstantFunctions.toast(CourierActivity.this, "Select Pickup From and Deliver To Location");
+
                                 }
                             } else {
                                 pickUpFromPhoneEditText.setError("Enter phone");

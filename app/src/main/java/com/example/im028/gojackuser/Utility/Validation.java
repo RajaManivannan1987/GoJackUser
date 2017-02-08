@@ -19,6 +19,9 @@ public class Validation {
     public static boolean isUserNameValid(String text) {
         return !TextUtils.isEmpty(text) && Patterns.EMAIL_ADDRESS.matcher(text).matches();
     }
+    public static boolean isUserNameValid1(String text) {
+        return !TextUtils.isEmpty(text);
+    }
 
     public static boolean isMobileNumberValid(String text) {
         return !TextUtils.isEmpty(text) && Patterns.PHONE.matcher(text).matches();
