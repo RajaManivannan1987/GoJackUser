@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.im028.gojackuser.ActivityClasses.AboutActivity;
 import com.example.im028.gojackuser.ActivityClasses.ChooseTypeActivity;
 import com.example.im028.gojackuser.ActivityClasses.HistoryActivity;
 import com.example.im028.gojackuser.ActivityClasses.ScheduleTripListActivity;
@@ -32,7 +33,7 @@ public class MenuCommonActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private FrameLayout frameLayout;
     private DrawerLayout drawerLayout;
-    private ImageView menuImageView, menuHeaderImageView ;
+    private ImageView menuImageView, menuHeaderImageView;
     public ImageView sosImg;
     private TextView menuHeaderTextView, titleTextView;
     private ListView menuListView;
@@ -49,14 +50,14 @@ public class MenuCommonActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         drawerLayout = (DrawerLayout) findViewById(R.id.commonMenuActivityDrawerLayout);
         menuImageView = (ImageView) findViewById(R.id.menu);
-        sosImg= (ImageView) findViewById(R.id.sosMenu);
+        sosImg = (ImageView) findViewById(R.id.sosMenu);
         menuListView = (ListView) findViewById(R.id.commonMenuActivityDrawerListView);
         titleTextView = (TextView) findViewById(R.id.commonMenuActivityTitleTextView);
 
         sosImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ConstantFunctions.call(MenuCommonActivity.this,"+91 1111111111");
+                ConstantFunctions.call(MenuCommonActivity.this, "+91 1111111111");
             }
         });
         menuImageView.setOnClickListener(new View.OnClickListener() {
@@ -94,6 +95,9 @@ public class MenuCommonActivity extends AppCompatActivity {
                             break;
                         case "book your ride":
                             startActivity(new Intent(MenuCommonActivity.this, ChooseTypeActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+                            break;
+                        case "about":
+                            startActivity(new Intent(MenuCommonActivity.this, AboutActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
                             break;
                         default:
                             break;

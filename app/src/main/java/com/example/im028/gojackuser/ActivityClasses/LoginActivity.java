@@ -73,7 +73,23 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginValidate() {
-        if (Validation.isUserNameValid1(userNameEditText.getText().toString())) {
+        if (Validation.emailPhoneValidation(userNameEditText.getText().toString()).equalsIgnoreCase("email") || Validation.emailPhoneValidation(userNameEditText.getText().toString()).equalsIgnoreCase("phone")) {
+            userNameEditText.setError(null);
+            if (Validation.isPasswordValid(passwordEditText.getText().toString())) {
+                passwordEditText.setError(null);
+                login();
+            } else {
+                passwordEditText.setError(Validation.passwordError);
+                passwordEditText.requestFocus();
+            }
+        } else {
+            userNameEditText.setError(Validation.emailPhoneValidation(userNameEditText.getText().toString()));
+            userNameEditText.requestFocus();
+        }
+
+        // developed by karthik
+
+        /*if (Validation.isUserNameValid1(userNameEditText.getText().toString())) {
             userNameEditText.setError(null);
             if (Validation.isPasswordValid(passwordEditText.getText().toString())) {
                 passwordEditText.setError(null);
@@ -85,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             userNameEditText.setError(Validation.userNameError);
             userNameEditText.requestFocus();
-        }
+        }*/
     }
 
     private void login() {

@@ -358,7 +358,7 @@ public class RideActivity extends MenuCommonActivity {
 
             @Override
             public void onError(String message, String title) {
-
+                AlertDialogManager.showAlertDialog(RideActivity.this, title, message, false);
             }
         });
     }

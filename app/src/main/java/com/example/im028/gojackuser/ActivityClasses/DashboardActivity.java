@@ -110,7 +110,6 @@ public class DashboardActivity extends MenuCommonActivity {
                         if (!flagTouchPressed) {
                             getPilotLocation(DashboardActivity.this.googleMap.getCameraPosition().target);
                             updateAddress();
-                            Log.d(TAG,"111111");
                         }
                     }
                 });
@@ -135,8 +134,6 @@ public class DashboardActivity extends MenuCommonActivity {
                 flagTouchPressed = false;
                 getPilotLocation(googleMap.getCameraPosition().target);
                 updateAddress();
-                Log.d(TAG,"22222222");
-
             }
 
             @Override
@@ -315,7 +312,6 @@ public class DashboardActivity extends MenuCommonActivity {
             @Override
             public void onFinish() {
                 updateAddress();
-                Log.d(TAG,"333333333");
             }
 
             @Override
@@ -348,14 +344,24 @@ public class DashboardActivity extends MenuCommonActivity {
                     googleMap.clear();
                     pilotList.clear();
                     if (response.getString("status").equalsIgnoreCase("1")) {
-                        if (response.getJSONArray("data").length() != 0) {
+                        if (!response.getString("message").startsWith("No Driver Found")) {
                             for (int i = 0; i < response.getJSONArray("data").length(); i++) {
                                 pilotList.add(gson.fromJson(response.getJSONArray("data").getJSONObject(i).toString(), Pilot.class));
                             }
                         } else {
+                            ConstantFunctions.toast(DashboardActivity.this, "No pilot is available");
                             googleMap.clear();
                             markerManagement.clearMarker();
                         }
+//                        if (response.getJSONArray("data").length() != 0) {
+//                            for (int i = 0; i < response.getJSONArray("data").length(); i++) {
+//                                pilotList.add(gson.fromJson(response.getJSONArray("data").getJSONObject(i).toString(), Pilot.class));
+//                            }
+//                        } else {
+//                            ConstantFunctions.toast(DashboardActivity.this,"No pilot available in pickup location");
+//                            googleMap.clear();
+//                            markerManagement.clearMarker();
+//                        }
                     }
                     markerManagement.addMarkers(pilotList);
                 }

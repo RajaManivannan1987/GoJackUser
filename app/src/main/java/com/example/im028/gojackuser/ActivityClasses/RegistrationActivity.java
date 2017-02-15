@@ -27,11 +27,11 @@ import java.util.Calendar;
 
 public class RegistrationActivity extends BackCommonActivity {
     private static String TAG = "RegistrationActivity";
-    private TextInputEditText nameTextInputEditText, emailTextInputEditText, mobileTextInputEditText, passwordTextInputEditText, dobTextInputEditText, referralTextInputEditText;
+    private TextInputEditText nameTextInputEditText, emailTextInputEditText, mobileTextInputEditText, passwordTextInputEditText, referralTextInputEditText;
     private RadioButton femaleRadioButton, maleRadioButton;
     private CheckBox checkBox;
     private Button submitButton;
-    private DatePickerDialog dobDatePickerDialog;
+   // private DatePickerDialog dobDatePickerDialog;
     private Calendar calendar;
     private WebServices webServices;
 
@@ -46,13 +46,13 @@ public class RegistrationActivity extends BackCommonActivity {
         emailTextInputEditText = (TextInputEditText) findViewById(R.id.registrationActivityEmailAddressEditText);
         mobileTextInputEditText = (TextInputEditText) findViewById(R.id.registrationActivityMobileNumberEditText);
         passwordTextInputEditText = (TextInputEditText) findViewById(R.id.registrationActivityPasswordEditText);
-        dobTextInputEditText = (TextInputEditText) findViewById(R.id.registrationActivityDOBEditText);
+//        dobTextInputEditText = (TextInputEditText) findViewById(R.id.registrationActivityDOBEditText);
         referralTextInputEditText = (TextInputEditText) findViewById(R.id.registrationActivityReferralEditText);
         femaleRadioButton = (RadioButton) findViewById(R.id.registrationActivityFemaleRadioButton);
         maleRadioButton = (RadioButton) findViewById(R.id.registrationActivityMaleRadioButton);
         checkBox = (CheckBox) findViewById(R.id.registrationActivityAgreeCheckbox);
         submitButton = (Button) findViewById(R.id.registrationActivitySubmitButton);
-        dobDatePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+       /* dobDatePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
@@ -60,14 +60,14 @@ public class RegistrationActivity extends BackCommonActivity {
                 dobTextInputEditText.setText(ConstantValues.dateFormat.format(calendar.getTime()));
             }
         }, calendar.get(Calendar.YEAR)-13, calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-
-        dobTextInputEditText.setOnClickListener(new View.OnClickListener() {
+*/
+      /*  dobTextInputEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dobDatePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
                 dobDatePickerDialog.show();
             }
-        });
+        });*/
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,8 +79,8 @@ public class RegistrationActivity extends BackCommonActivity {
                             mobileTextInputEditText.setError(null);
                             if (Validation.isPasswordValid(passwordTextInputEditText.getText().toString())) {
                                 passwordTextInputEditText.setError(null);
-                                if (dobTextInputEditText.getText().toString().length() > 0) {
-                                    dobTextInputEditText.setError(null);
+//                                if (dobTextInputEditText.getText().toString().length() > 0) {
+//                                    dobTextInputEditText.setError(null);
                                     if (maleRadioButton.isChecked() || femaleRadioButton.isChecked()) {
                                         if (checkBox.isChecked()) {
                                             submit();
@@ -91,9 +91,9 @@ public class RegistrationActivity extends BackCommonActivity {
                                     } else {
                                         ConstantFunctions.toast(RegistrationActivity.this, "Select gender");
                                     }
-                                } else {
-                                    dobTextInputEditText.setError("Select date of birth");
-                                }
+//                                } else {
+//                                    dobTextInputEditText.setError("Select date of birth");
+//                                }
                             } else {
                                 passwordTextInputEditText.setError("Password must be greater than or equal to 6");
                                 passwordTextInputEditText.requestFocus();
@@ -121,7 +121,7 @@ public class RegistrationActivity extends BackCommonActivity {
                 emailTextInputEditText.getText().toString().trim(),
                 passwordTextInputEditText.getText().toString(),
                 (maleRadioButton.isChecked()) ? "male" : "female",
-                ConstantValues.serverFormat.format(calendar.getTime()),
+//                ConstantValues.serverFormat.format(calendar.getTime()),
                 mobileTextInputEditText.getText().toString().trim(),
                 referralTextInputEditText.getText().toString().trim(),
                 new VolleyResponseListerner() {

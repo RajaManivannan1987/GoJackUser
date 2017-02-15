@@ -12,6 +12,7 @@ import android.widget.EditText;
 
 import com.example.im028.gojackuser.CommonActivityClasses.BackCommonActivity;
 import com.example.im028.gojackuser.R;
+import com.example.im028.gojackuser.Utility.AlertDialogManager;
 import com.example.im028.gojackuser.Utility.ConstantClasses.ConstantFunctions;
 import com.example.im028.gojackuser.Utility.ConstantClasses.ConstantValues;
 import com.example.im028.gojackuser.Utility.ImcomeSmsReceiver;
@@ -119,7 +120,7 @@ public class CodeConfirmation extends BackCommonActivity implements View.OnClick
 
                 @Override
                 public void onError(String message, String title) {
-
+                    AlertDialogManager.showAlertDialog(CodeConfirmation.this, title, message, false);
                 }
             });
 

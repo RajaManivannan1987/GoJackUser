@@ -187,7 +187,7 @@ public class WebServices {
         setListernerWithoutProgressbar(listerner, url, jsonObject);
     }
 
-    public void registration(String firstname, String lastname, String email, String password, String gender, String dob, String mobilenumber, String referralcode, final VolleyResponseListerner listerner) {
+    public void registration(String firstname, String lastname, String email, String password, String gender, String mobilenumber, String referralcode, final VolleyResponseListerner listerner) {
         String url = ConstantValues.SERVER_URL + "riderregistration";
         JSONObject jsonObject = new JSONObject();
         try {
@@ -196,7 +196,7 @@ public class WebServices {
             jsonObject.put("email", email);
             jsonObject.put("password", password);
             jsonObject.put("gender", gender);
-            jsonObject.put("dob", dob);
+          //  jsonObject.put("dob", dob);
             jsonObject.put("mobilenumber", mobilenumber);
             jsonObject.put("referralcode", referralcode);
         } catch (JSONException e) {

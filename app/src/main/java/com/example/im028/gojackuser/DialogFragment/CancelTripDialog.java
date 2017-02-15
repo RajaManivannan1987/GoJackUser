@@ -2,6 +2,8 @@ package com.example.im028.gojackuser.DialogFragment;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -47,11 +49,13 @@ public class CancelTripDialog extends DialogFragment {
     private Button cancelButton, closeButton;
     private WebServices webServices;
     private String rideId;
+    NotificationManager nMgr ;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         rideId = getArguments().getString(ConstantValues.rideId);
         webServices = new WebServices(getActivity(), TAG);
+        nMgr = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
         dialog = new Dialog(getActivity(), R.style.DialogActivity);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
         dialog.setTitle("Cancel Ride");
@@ -69,6 +73,7 @@ public class CancelTripDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
                 dismiss();
+                nMgr.cancelAll();
             }
         });
         cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -77,6 +82,7 @@ public class CancelTripDialog extends DialogFragment {
                 webServices.cancelTripNew(rideId, spinnerListId.get(spinner.getSelectedItemPosition()), new VolleyResponseListerner() {
                     @Override
                     public void onResponse(JSONObject response) throws JSONException {
+                        nMgr.cancelAll();
                         ConstantFunctions.toast(getActivity(), response.getString("message"));
                         switch (getArguments().getString(ConstantValues.rideType)){
                             case "courier":

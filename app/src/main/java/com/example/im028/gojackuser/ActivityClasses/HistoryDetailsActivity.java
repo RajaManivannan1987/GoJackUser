@@ -59,7 +59,7 @@ public class HistoryDetailsActivity extends BackCommonActivity {
                     nameTextView.setText(response.getJSONObject("data").getString("first_name"));
                     bikeTextView.setText(response.getJSONObject("data").getString("vehicle_make") + " " + response.getJSONObject("data").getString("vehicle_model") + " " + response.getJSONObject("data").getString("vehicle_registration_number"));
                     distanceTextView.setText(response.getJSONObject("data").getString("total_km") + " km");
-                    timeTextView.setText(response.getJSONObject("data").getString("traveltime") + " mins");
+                    timeTextView.setText(response.getJSONObject("data").getString("traveltime"));
                     Typeface face = Typeface.createFromAsset(getAssets(), "fonts/rupee_foradian.ttf");
                     totalAmountTextView.setTypeface(face);
                     totalAmountTextView.setText(getResources().getString(R.string.rs) + " " + response.getJSONObject("data").getString("final_amount"));

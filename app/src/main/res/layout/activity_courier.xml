@@ -207,7 +207,6 @@
                 android:id="@+id/courierActivityDeliverToCurrentLocationImageView"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-                android:visibility="invisible"
                 android:src="@drawable/current_location_blue" />
         </LinearLayout>
 
@@ -481,14 +480,14 @@
                 android:id="@+id/courierActivityTermsCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="I agree to GoJack's Terms" />
+                android:text="I agree to GoJack's" />
 
             <TextView
                 android:id="@+id/courierActivityTermsTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=" Terms"
-                android:visibility="invisible"
+                android:visibility="visible"
                 android:textColor="@color/colorPrimary" />
 
         </LinearLayout>

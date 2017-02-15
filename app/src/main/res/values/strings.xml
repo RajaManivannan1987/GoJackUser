@@ -20,7 +20,7 @@
     <string name="newpassword">Enter New Password</string>
     <string name="confirmpassword">Confirm Password</string>
     <string name="confirmpasswordcontent1">Please enter a new password below.</string>
-    <string name="confirmpasswordcontent2">Your password must be at least 8, but no more then 20 characters. It must also contain a capital letter(Uppercase letter)and one number.</string>
+    <string name="confirmpasswordcontent2">Your password must be at least 6 characters</string>
     <string name="submit">Submit</string>
 
     <string name="forgotcontent1">To reset your password, Please enter your registered email address or mobile number.</string>

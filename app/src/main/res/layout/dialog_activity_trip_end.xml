@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
     <ImageView
-        android:id="@+id/completed_pilot_action"
+        android:id="@+id/cancel_trip_end_action"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_gravity="right"
@@ -26,6 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="YOUR PILOT HERE" />
+            android:textStyle="bold"
+            android:text="trip completed" />
     </LinearLayout>
 </LinearLayout>

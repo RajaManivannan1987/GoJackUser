@@ -26,7 +26,7 @@ public class TripDetailsActivity extends BackCommonActivity {
     private ImageView pilotImageView;
     private TextView totalAmountTextView, nameTextView;
     private RatingBar helmetRatingBar, faceRatingBar, overAllRatingBar;
-    private RadioButton petrolYesRadioButton, petrolNoRadioButton, rudeYesRadioButton, rudeNoRadioButton;
+    private RadioButton petrolYesRadioButton, petrolNoRadioButton, rudeYesRadioButton, rudeNoRadioButton, helmatYesRadioButton, helmatNoRadioButton, faceMaskYesRadioButton, faceMaskNoRadioButton;
     private Button submitButton;
     private JSONObject jsonObject;
 
@@ -52,6 +52,10 @@ public class TripDetailsActivity extends BackCommonActivity {
         petrolNoRadioButton = (RadioButton) findViewById(R.id.tripDetailsActivityPetrolNoRadioButton);
         rudeYesRadioButton = (RadioButton) findViewById(R.id.tripDetailsActivityRudeYesRadioButton);
         rudeNoRadioButton = (RadioButton) findViewById(R.id.tripDetailsActivityRudeNoRadioButton);
+        helmatYesRadioButton = (RadioButton) findViewById(R.id.tripDetailsActivityHelmatYesRadioButton);
+        helmatNoRadioButton = (RadioButton) findViewById(R.id.tripDetailsActivityHelmatNoRadioButton);
+        faceMaskYesRadioButton = (RadioButton) findViewById(R.id.tripDetailsActivityFaceMaskYesRadioButton);
+        faceMaskNoRadioButton = (RadioButton) findViewById(R.id.tripDetailsActivityFaceMaskNoRadioButton);
         submitButton = (Button) findViewById(R.id.tripDetailsActivitySubmitButton);
 
         try {
@@ -63,16 +67,26 @@ public class TripDetailsActivity extends BackCommonActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (helmetRatingBar.getRating() == 0) {
+                //   By raja
+
+               /* if (helmetRatingBar.getRating() == 0) {
                     ConstantFunctions.toast(TripDetailsActivity.this, "Rate Helmet");
                     return;
                 }
                 if (faceRatingBar.getRating() == 0) {
                     ConstantFunctions.toast(TripDetailsActivity.this, "Rate Face Mask");
                     return;
-                }
+                }*/
                 if (overAllRatingBar.getRating() == 0) {
                     ConstantFunctions.toast(TripDetailsActivity.this, "Rate Ride");
+                    return;
+                }
+                if (!(helmatYesRadioButton.isChecked() || helmatNoRadioButton.isChecked())) {
+                    ConstantFunctions.toast(TripDetailsActivity.this, "Select helmat provide or not");
+                    return;
+                }
+                if (!(faceMaskYesRadioButton.isChecked() || faceMaskNoRadioButton.isChecked())) {
+                    ConstantFunctions.toast(TripDetailsActivity.this, "provide facemask or not");
                     return;
                 }
                 if (!(petrolYesRadioButton.isChecked() || petrolNoRadioButton.isChecked())) {
@@ -88,8 +102,11 @@ public class TripDetailsActivity extends BackCommonActivity {
                     new WebServices(TripDetailsActivity.this, TAG).saveTripDetails(
                             jsonObject.getString("rideid"),
                             jsonObject.getString("driverid"),
-                            (int) helmetRatingBar.getRating() + "",
-                            (int) faceRatingBar.getRating() + "",
+                            //   By raja
+//                            (int) helmetRatingBar.getRating() + "",
+//                            (int) faceRatingBar.getRating() + "",
+                            helmatYesRadioButton.isChecked() ? "1" : "5",
+                            faceMaskYesRadioButton.isChecked() ? "1" : "5",
                             petrolYesRadioButton.isChecked() ? "1" : "5",
                             rudeYesRadioButton.isChecked() ? "1" : "5",
                             (int) overAllRatingBar.getRating() + "",

@@ -39,7 +39,7 @@ public class LocationCheckActivity extends AppCompatActivity {
     private String type;
 
     public static Intent getLocationCheck(Activity activity, String type) {
-        return new Intent(activity, LocationCheckActivity.class).putExtra(ConstantValues.rideType, type);
+        return new Intent(activity, LocationCheckActivity.class).putExtra(ConstantValues.rideTypeRide, type);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class LocationCheckActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location_check);
         webServices = new WebServices(this, TAG);
-        type = getIntent().getExtras().getString(ConstantValues.rideType);
+        type = getIntent().getExtras().getString(ConstantValues.rideTypeRide);
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         thread = new ScheduleThread(new TimerInterface() {
             @Override
@@ -76,7 +76,7 @@ public class LocationCheckActivity extends AppCompatActivity {
 
                         @Override
                         public void onError(String message, String title) {
-
+                            AlertDialogManager.showAlertDialog(LocationCheckActivity.this, title, message, false);
                         }
                     });
                     thread.stop();

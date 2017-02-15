@@ -53,7 +53,6 @@ public class CourierActivity extends MenuCommonActivity {
     private boolean isFareCalculated = false;
     private CourierRestrictionDialog courierRestrictionDialog;
     private Handler handler = new Handler();
-    double earthRadius = 6371000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +98,7 @@ public class CourierActivity extends MenuCommonActivity {
         pickUpFromCurrentLocationImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                startActivityForResult(new Intent(CourierActivity.this, PickLocationActivity.class), DELIVERTO);
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -120,7 +120,12 @@ public class CourierActivity extends MenuCommonActivity {
                 pickUpFromNameEditText.setText(new Session(CourierActivity.this, TAG).getName());
             }
         });
-
+        termsTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(CourierActivity.this, AboutActivity.class));
+            }
+        });
         deliverToLocationEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,7 +135,8 @@ public class CourierActivity extends MenuCommonActivity {
         deliverToCurrentLocationImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                handler.post(new Runnable() {
+                startActivityForResult(new Intent(CourierActivity.this, PickLocationActivity.class), DELIVERTO);
+                /*handler.post(new Runnable() {
                     @Override
                     public void run() {
                         deliverLatLng = MyApplication.locationInstance().getLocation();
@@ -142,7 +148,7 @@ public class CourierActivity extends MenuCommonActivity {
                             }
                         });
                     }
-                });
+                });*/
             }
         });
         paymentBySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -169,13 +175,14 @@ public class CourierActivity extends MenuCommonActivity {
             @Override
             public void onClick(View v) {
                 if (pickUpLatLng == null) {
-                    ConstantFunctions.toast(CourierActivity.this, "Select PickUp to Location");
+                    ConstantFunctions.toast(CourierActivity.this, "Select Pickup Location");
                     return;
                 }
                 if (deliverLatLng == null) {
-                    ConstantFunctions.toast(CourierActivity.this, "Select Deliver To Location");
+                    ConstantFunctions.toast(CourierActivity.this, "Select Delivery Location");
                     return;
                 }
+
 //                distFrom(pickUpLatLng.latitude, pickUpLatLng.longitude, deliverLatLng.latitude, deliverLatLng.longitude);
 
                 Location locationA = new Location("LocationA");
@@ -185,23 +192,28 @@ public class CourierActivity extends MenuCommonActivity {
                 locationB.setLatitude(deliverLatLng.latitude);
                 locationB.setLongitude(deliverLatLng.longitude);
                 float distance = locationA.distanceTo(locationB);
-                Log.d(TAG, distance + "");
                 if (distance >= 100) {
-                    new WebServices(CourierActivity.this, TAG).getFareEstimation(pickUpLatLng, deliverLatLng, new VolleyResponseListerner() {
-                        @Override
-                        public void onResponse(JSONObject response) throws JSONException {
-                            if (response.getString("status").equalsIgnoreCase("1")) {
-                                updateFare(response.getString("data").replace("Rs", ""));
+                    if (!pickUpFromPhoneEditText.getText().toString().equalsIgnoreCase(deliverToPhoneEditText.getText().toString())) {
+                        pickUpFromPhoneEditText.setError(null);
+                        new WebServices(CourierActivity.this, TAG).getFareEstimation(pickUpLatLng, deliverLatLng, new VolleyResponseListerner() {
+                            @Override
+                            public void onResponse(JSONObject response) throws JSONException {
+                                if (response.getString("status").equalsIgnoreCase("1")) {
+                                    updateFare(response.getString("data").replace("Rs", ""));
+                                }
                             }
-                        }
 
-                        @Override
-                        public void onError(String message, String title) {
-                            AlertDialogManager.showAlertDialog(CourierActivity.this, title, message, false);
-                        }
-                    });
+                            @Override
+                            public void onError(String message, String title) {
+                                AlertDialogManager.showAlertDialog(CourierActivity.this, title, message, false);
+                            }
+                        });
+                    } else {
+                        deliverToPhoneEditText.setError("Should be different from Pickup mobile no");
+                        deliverToPhoneEditText.requestFocus();
+                    }
                 } else {
-                    ConstantFunctions.toast(CourierActivity.this, "Pickup and delivering location cannot be same");
+                    ConstantFunctions.toast(CourierActivity.this, "Pickup and Delivery locations cannot be same");
                 }
 
 
@@ -215,16 +227,16 @@ public class CourierActivity extends MenuCommonActivity {
                         pickUpFromAddressEditText.setError(null);
                         if (!pickUpFromNameEditText.getText().toString().equalsIgnoreCase("")) {
                             pickUpFromNameEditText.setError(null);
-                            if (!pickUpFromPhoneEditText.getText().toString().equalsIgnoreCase("")) {
+                            if (!pickUpFromPhoneEditText.getText().toString().equalsIgnoreCase("") && pickUpFromPhoneEditText.getText().toString().length() == 10) {
                                 pickUpFromPhoneEditText.setError(null);
                                 if (!deliverToLocationEditText.getText().toString().equalsIgnoreCase("")) {
                                     if (!deliverToAddressEditText.getText().toString().equalsIgnoreCase("")) {
                                         deliverToAddressEditText.setError(null);
                                         if (!deliverToNameEditText.getText().toString().equalsIgnoreCase("")) {
                                             deliverToNameEditText.setError(null);
-                                            if (!deliverToPhoneEditText.getText().toString().equalsIgnoreCase("")) {
+                                            if (!deliverToPhoneEditText.getText().toString().equalsIgnoreCase("") && deliverToPhoneEditText.getText().toString().length() == 10) {
                                                 deliverToPhoneEditText.setError(null);
-                                                if (!pickUpFromPhoneEditText.getText().toString().startsWith(deliverToPhoneEditText.getText().toString())) {
+                                                if (!pickUpFromPhoneEditText.getText().toString().equalsIgnoreCase(deliverToPhoneEditText.getText().toString())) {
                                                     pickUpFromPhoneEditText.setError(null);
                                                     if (!photoCopyEditText.getText().toString().equalsIgnoreCase("")) {
                                                         photoCopyEditText.setError(null);
@@ -236,7 +248,7 @@ public class CourierActivity extends MenuCommonActivity {
                                                                 ConstantFunctions.toast(CourierActivity.this, "Calculate the fare");
                                                             }
                                                         } else {
-                                                            ConstantFunctions.toast(CourierActivity.this, "Select agree GoJack's terms");
+                                                            ConstantFunctions.toast(CourierActivity.this, "Agree GoJack's Terms");
                                                         }
 
                                                     } else {
@@ -244,10 +256,11 @@ public class CourierActivity extends MenuCommonActivity {
                                                         photoCopyEditText.requestFocus();
                                                     }
                                                 } else {
-                                                    deliverToPhoneEditText.setError("Should be different from pickup mobile no");
+                                                    deliverToPhoneEditText.setError("Should be different from Pickup mobile no");
+                                                    deliverToPhoneEditText.requestFocus();
                                                 }
                                             } else {
-                                                deliverToPhoneEditText.setError("Enter phone");
+                                                deliverToPhoneEditText.setError("Enter 10 digit phone number");
                                                 deliverToPhoneEditText.requestFocus();
                                             }
                                         } else {
@@ -259,11 +272,11 @@ public class CourierActivity extends MenuCommonActivity {
                                         deliverToAddressEditText.requestFocus();
                                     }
                                 } else {
-                                    ConstantFunctions.toast(CourierActivity.this, "Select Pickup From and Deliver To Location");
+                                    ConstantFunctions.toast(CourierActivity.this, "Select Deliver Location");
 
                                 }
                             } else {
-                                pickUpFromPhoneEditText.setError("Enter phone");
+                                pickUpFromPhoneEditText.setError("Enter 10 digit phone number");
                                 pickUpFromPhoneEditText.requestFocus();
                             }
                         } else {
@@ -275,7 +288,7 @@ public class CourierActivity extends MenuCommonActivity {
                         pickUpFromAddressEditText.requestFocus();
                     }
                 } else {
-                    ConstantFunctions.toast(CourierActivity.this, "Select PickUp From Location");
+                    ConstantFunctions.toast(CourierActivity.this, "Select Pickup Location");
                 }
             }
         });

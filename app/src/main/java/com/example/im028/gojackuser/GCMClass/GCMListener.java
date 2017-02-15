@@ -16,9 +16,11 @@ import com.example.im028.gojackuser.ActivityClasses.SplashActivity;
 
 import com.example.im028.gojackuser.DialogFragment.GenderRequestDialogActivity;
 import com.example.im028.gojackuser.DialogFragment.PilotHereDialogActivity;
+import com.example.im028.gojackuser.DialogFragment.TripCompletedDialogActivity;
 import com.example.im028.gojackuser.R;
 import com.example.im028.gojackuser.Utility.ConstantClasses.ConstantFunctions;
 import com.example.im028.gojackuser.Utility.ConstantClasses.ConstantValues;
+import com.example.im028.gojackuser.Utility.Session;
 import com.google.android.gms.gcm.GcmListenerService;
 
 
@@ -61,8 +63,10 @@ public class GCMListener extends GcmListenerService {
          * In some cases it may be useful to show a notification indicating to the user
          * that a message was received.
          */
+        if (new Session(this, "GCM").getIsLogin()) {
+            sendNotification(message, type, gender, requestid);
+        }
 
-        sendNotification(message, type, gender, requestid);
 
     }
     // [END receive_message]
@@ -76,28 +80,29 @@ public class GCMListener extends GcmListenerService {
         Intent intent = null;
         switch (type) {
             case "driveraccepted":
-                intent = new Intent(this, LocationCheckActivity.class).putExtra(ConstantValues.rideType, type);
+                intent = new Intent(this, LocationCheckActivity.class).putExtra(ConstantValues.rideTypeRide, type);
                 ConstantFunctions.updateRide(this);
                 break;
             case "drivercancelled":
-                intent = new Intent(this, LocationCheckActivity.class).putExtra(ConstantValues.rideType, type);
+                intent = new Intent(this, LocationCheckActivity.class).putExtra(ConstantValues.rideTypeRide, type);
                 ConstantFunctions.updateRide(this);
                 break;
             case "pilotreached":
-                intent = new Intent(this, LocationCheckActivity.class).putExtra(ConstantValues.rideType, type);
+                intent = new Intent(this, LocationCheckActivity.class).putExtra(ConstantValues.rideTypeRide, type);
                 ConstantFunctions.updateRide(this);
                 startActivity(new Intent(this, PilotHereDialogActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                 break;
             case "tripstarted":
-                intent = new Intent(this, LocationCheckActivity.class).putExtra(ConstantValues.rideType, type);
+                intent = new Intent(this, LocationCheckActivity.class).putExtra(ConstantValues.rideTypeRide, type);
                 ConstantFunctions.updateRide(this);
                 break;
             case "tripcompleted":
-                intent = new Intent(this, LocationCheckActivity.class).putExtra(ConstantValues.rideType, type);
+                intent = new Intent(this, LocationCheckActivity.class).putExtra(ConstantValues.rideTypeRide, type);
                 ConstantFunctions.updateRide(this);
+                startActivity(new Intent(this, TripCompletedDialogActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                 break;
             case "gendernotification":
-                intent = new Intent(this, LocationCheckActivity.class).putExtra(ConstantValues.rideType, type);
+                intent = new Intent(this, LocationCheckActivity.class).putExtra(ConstantValues.rideTypeRide, type);
                 ConstantFunctions.updateRide(this);
                 startActivity(new Intent(this, GenderRequestDialogActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK).putExtra(ConstantValues.genderType, gender).putExtra(ConstantValues.requestid, requestid).putExtra(ConstantValues.message, message));
                 break;
