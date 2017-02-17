@@ -283,6 +283,9 @@ public class RideActivity extends MenuCommonActivity {
                         cancelLinearLayout.setVisibility(View.GONE);
                         riderDetailsLinearLayout.setVisibility(View.VISIBLE);
                         rideProcessLinearLayout.setVisibility(View.GONE);
+                        if (!riderNameTextView.getText().toString().equalsIgnoreCase("")) {
+                            riderNameTextView.setText("");
+                        }
                         riderDistanceTextView.setText(response.getString("message"));
                         updateData();
                         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(pickLatLng, 15));
@@ -352,7 +355,10 @@ public class RideActivity extends MenuCommonActivity {
                     markerOptions.position(new LatLng(Double.parseDouble(response.getString("latitude")), Double.parseDouble(response.getString("longitude"))));
                     pilotMarker = googleMap.addMarker(markerOptions);
                 } else {
-                    pilotMarker.setPosition(new LatLng(Double.parseDouble(response.getString("latitude")), Double.parseDouble(response.getString("longitude"))));
+                    try {
+                        pilotMarker.setPosition(new LatLng(Double.parseDouble(response.getString("latitude")), Double.parseDouble(response.getString("longitude"))));
+                    } catch (Exception e) {
+                    }
                 }
             }
 

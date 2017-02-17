@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.multidex.MultiDexApplication;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.example.im028.gojackuser.GCMClass.RegistrationIntentService;
 import com.example.im028.gojackuser.MapIntegrationClasses.MyLocation;
 import com.example.im028.gojackuser.Utility.font.FontsOverride;
@@ -14,6 +17,8 @@ import com.example.im028.gojackuser.Utility.font.FontsOverride;
  */
 public class MyApplication extends MultiDexApplication {
     private static MyLocation location;
+    private static MyApplication myApplication;
+    private RequestQueue mRequestQueue;
 
     public static MyLocation locationInstance() {
         return location;
@@ -23,9 +28,15 @@ public class MyApplication extends MultiDexApplication {
         location = new MyLocation(context);
     }
 
+
     public MyApplication() {
 
     }
+
+    public static synchronized MyApplication getInstance() {
+        return myApplication;
+    }
+
 
     @Override
     public void onCreate() {
@@ -33,6 +44,17 @@ public class MyApplication extends MultiDexApplication {
         FontsOverride.setDefaultFont(this, "MONOSPACE", "fonts/roboto_regular.ttf");
         FontsOverride.setDefaultFont(this, "SERIF", "fonts/rupee_foradian.ttf");
         startService(new Intent(this, RegistrationIntentService.class));
+        myApplication = this;
+    }
 
+    private RequestQueue getRequestQueue() {
+        if (mRequestQueue == null) {
+            mRequestQueue = Volley.newRequestQueue(getApplicationContext());
+        }
+        return mRequestQueue;
+    }
+
+    public void addRequest(Request request) {
+        getRequestQueue().add(request);
     }
 }

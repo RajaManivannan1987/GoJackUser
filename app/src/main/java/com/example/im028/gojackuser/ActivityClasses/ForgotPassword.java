@@ -1,5 +1,6 @@
 package com.example.im028.gojackuser.ActivityClasses;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -42,11 +43,16 @@ public class ForgotPassword extends BackCommonActivity {
         forgotButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (Validation.isMobileNumberValid(userNameEditText.getText().toString())) {
+                if (Validation.emailPhoneValidation(userNameEditText.getText().toString()).equalsIgnoreCase("email") || Validation.emailPhoneValidation(userNameEditText.getText().toString()).equalsIgnoreCase("phone")) {
                     userNameEditText.setError(null);
+                    final ProgressDialog progressBar = new ProgressDialog(ForgotPassword.this);
+                    progressBar.setMessage("Waiting...");
+                    progressBar.setCancelable(false);
+                    progressBar.show();
                     webServices.forgotPassword(userNameEditText.getText().toString(), new VolleyResponseListerner() {
                         @Override
                         public void onResponse(JSONObject response) throws JSONException {
+                            progressBar.dismiss();
                             if (response.getString("status").equalsIgnoreCase("1")) {
                                 startActivity(new Intent(getApplicationContext(), CodeConfirmation.class).putExtra("customerId", response.getString("userid")));
                             } else {
@@ -56,13 +62,14 @@ public class ForgotPassword extends BackCommonActivity {
 
                         @Override
                         public void onError(String message, String title) {
+                            progressBar.dismiss();
                             AlertDialogManager.showAlertDialog(ForgotPassword.this, title, message, false);
                         }
                     });
 
                 } else {
                     userNameEditText.requestFocus();
-                    userNameEditText.setError(Validation.mobileNoError);
+                    userNameEditText.setError(Validation.emailPhoneValidation(userNameEditText.getText().toString()));
                 }
 
             }

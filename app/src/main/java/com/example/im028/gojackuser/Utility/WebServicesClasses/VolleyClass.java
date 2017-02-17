@@ -21,6 +21,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.im028.gojackuser.ApplicationClass.MyApplication;
 import com.example.im028.gojackuser.Utility.InterfaceClasses.VolleyResponseArrayListerner;
 import com.example.im028.gojackuser.Utility.InterfaceClasses.VolleyResponseListerner;
 
@@ -45,11 +46,11 @@ public class VolleyClass {
     String authorizationFailedTitle = "Network Error";
     String serverNotRespondingTitle = "Server Error";
     String parseErrorTitle = "Network Error";
-    RequestQueue queue;
+    //RequestQueue queue;
 
     public VolleyClass(Context context, String TAG) {
         this.act = context;
-        queue = Volley.newRequestQueue(context);
+        //queue = Volley.newRequestQueue(context);
         this.TAG = TAG + " WebService";
     }
 
@@ -109,7 +110,8 @@ public class VolleyClass {
             jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(MY_SOCKET_TIMEOUT_MS,
                     DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-            queue.add(jsonObjReq);
+//            queue.add(jsonObjReq);
+            MyApplication.getInstance().addRequest(jsonObjReq);
         } else {
             Log.d(TAG, "volleyPostData response - No Internet");
             listener.onError(networkErrorMessage, networkErrorMessage);
@@ -172,7 +174,8 @@ public class VolleyClass {
             jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(MY_SOCKET_TIMEOUT_MS,
                     DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-            queue.add(jsonObjReq);
+            MyApplication.getInstance().addRequest(jsonObjReq);
+//            queue.add(jsonObjReq);
         } else {
             Log.d(TAG, "volleyPostDataJSONArray response - No Internet");
             listener.onError(networkErrorMessage, networkErrorMessage);
@@ -220,7 +223,8 @@ public class VolleyClass {
             jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(MY_SOCKET_TIMEOUT_MS,
                     DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-            queue.add(jsonObjReq);
+            MyApplication.getInstance().addRequest(jsonObjReq);
+//            queue.add(jsonObjReq);
         } else {
             Log.d(TAG, "volleyPostDataNoProgression response - No Internet");
             listener.onError(networkErrorMessage, networkErrorMessage);

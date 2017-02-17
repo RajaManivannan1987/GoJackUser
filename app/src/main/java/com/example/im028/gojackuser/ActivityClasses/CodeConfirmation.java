@@ -1,6 +1,7 @@
 package com.example.im028.gojackuser.ActivityClasses;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -108,9 +109,14 @@ public class CodeConfirmation extends BackCommonActivity implements View.OnClick
         ConstantFunctions.toast(CodeConfirmation.this, "Hai");
         if (Validation.isOtpValid(userNameEditText.getText().toString())) {
             userNameEditText.setError(null);
+            final ProgressDialog progressBar = new ProgressDialog(CodeConfirmation.this);
+            progressBar.setMessage("Waiting...");
+            progressBar.setCancelable(false);
+            progressBar.show();
             webServices.validateOtp(userId, userNameEditText.getText().toString(), new VolleyResponseListerner() {
                 @Override
                 public void onResponse(JSONObject response) throws JSONException {
+                    progressBar.dismiss();
                     if (response.getString("status").equalsIgnoreCase("1")) {
                         startActivity(new Intent(getApplicationContext(), ChangePassword.class).putExtra("customerId", response.getString("userid")));
                     } else {
@@ -120,6 +126,7 @@ public class CodeConfirmation extends BackCommonActivity implements View.OnClick
 
                 @Override
                 public void onError(String message, String title) {
+                    progressBar.dismiss();
                     AlertDialogManager.showAlertDialog(CodeConfirmation.this, title, message, false);
                 }
             });

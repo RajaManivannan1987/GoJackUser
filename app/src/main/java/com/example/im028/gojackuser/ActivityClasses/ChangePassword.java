@@ -1,5 +1,6 @@
 package com.example.im028.gojackuser.ActivityClasses;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -50,9 +51,14 @@ public class ChangePassword extends BackCommonActivity {
             if (Validation.isPasswordValid(confirmNewPasswordEditText.getText().toString())) {
                 confirmNewPasswordEditText.setError(null);
                 if (newPasswordEditText.getText().toString().startsWith(confirmNewPasswordEditText.getText().toString())) {
+                    final ProgressDialog progressBar = new ProgressDialog(ChangePassword.this);
+                    progressBar.setMessage("Waiting...");
+                    progressBar.setCancelable(false);
+                    progressBar.show();
                     new WebServices(ChangePassword.this, TAG).changePassword(userId, newPasswordEditText.getText().toString(), new VolleyResponseListerner() {
                         @Override
                         public void onResponse(JSONObject response) throws JSONException {
+                            progressBar.dismiss();
                             new Session(ChangePassword.this, TAG).createSession(response.getString("customerid"), response.getString("name"), response.getString("token"));
                             startActivity(new Intent(ChangePassword.this, ChooseTypeActivity.class));
                             finish();
@@ -61,6 +67,7 @@ public class ChangePassword extends BackCommonActivity {
 
                         @Override
                         public void onError(String message, String title) {
+                            progressBar.dismiss();
                             AlertDialogManager.showAlertDialog(ChangePassword.this, title, message, false);
                         }
                     });

@@ -1,5 +1,6 @@
 package com.example.im028.gojackuser.ActivityClasses;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
@@ -36,9 +37,14 @@ public class OtpActivity extends BackCommonActivity {
             public void onClick(View v) {
                 if (pinTextInputEditText.getText().toString().length() == 4) {
                     pinTextInputEditText.setError(null);
+                    final ProgressDialog progressBar = new ProgressDialog(OtpActivity.this);
+                    progressBar.setMessage("Waiting...");
+                    progressBar.setCancelable(false);
+                    progressBar.show();
                     new WebServices(OtpActivity.this, TAG).verifyPIN(getIntent().getExtras().getString(ConstantValues.customerId, ""), pinTextInputEditText.getText().toString(), new VolleyResponseListerner() {
                         @Override
                         public void onResponse(JSONObject response) throws JSONException {
+                            progressBar.dismiss();
                             if (response.getString("status").equalsIgnoreCase("1")) {
                                 new Session(OtpActivity.this, TAG).createSession(response.getJSONObject("data").getString("customerid"), response.getJSONObject("data").getString("name"), response.getJSONObject("data").getString("token"));
                                 ConstantFunctions.toast(OtpActivity.this, response.getString("message"));
@@ -52,6 +58,7 @@ public class OtpActivity extends BackCommonActivity {
 
                         @Override
                         public void onError(String message, String title) {
+                            progressBar.dismiss();
                             AlertDialogManager.showAlertDialog(OtpActivity.this, title, message, false);
                         }
                     });

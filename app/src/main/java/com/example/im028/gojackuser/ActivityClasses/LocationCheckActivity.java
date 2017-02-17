@@ -76,7 +76,7 @@ public class LocationCheckActivity extends AppCompatActivity {
 
                         @Override
                         public void onError(String message, String title) {
-                            AlertDialogManager.showAlertDialog(LocationCheckActivity.this, title, message, false);
+
                         }
                     });
                     thread.stop();
