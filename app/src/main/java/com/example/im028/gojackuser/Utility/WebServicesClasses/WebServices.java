@@ -133,6 +133,19 @@ public class WebServices {
         setListerner1(listener, url, jsonObject);
     }
 
+    public void getReferalCode(final VolleyResponseListerner listener) {
+        String url = ConstantValues.SERVER_URL + "getreferralcode";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("token", session.getToken());
+            jsonObject.put("customerid", session.getCustomerId());
+        } catch (JSONException e) {
+            Log.e(TAG, e.getMessage());
+        }
+        setListerner(listener, url, jsonObject);
+    }
+
+
     public void checkStatusNew(String rideId, final VolleyResponseListerner listener) {
         String url = ConstantValues.SERVER_URL + "checkridestatusnew";
         JSONObject jsonObject = new JSONObject();
@@ -196,7 +209,7 @@ public class WebServices {
             jsonObject.put("email", email);
             jsonObject.put("password", password);
             jsonObject.put("gender", gender);
-          //  jsonObject.put("dob", dob);
+            //  jsonObject.put("dob", dob);
             jsonObject.put("mobilenumber", mobilenumber);
             jsonObject.put("referralcode", referralcode);
         } catch (JSONException e) {
@@ -206,11 +219,35 @@ public class WebServices {
     }
 
     public void verifyPIN(String customerId, String pin, final VolleyResponseListerner listerner) {
-        String url = ConstantValues.SERVER_URL + "riderotpverify";
+        String url = ConstantValues.SERVER_URL + "ridersendotpverify";
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("customerid", customerId);
             jsonObject.put("otpcode", pin);
+        } catch (JSONException e) {
+            Log.e(TAG, e.toString());
+        }
+        setListerner(listerner, url, jsonObject);
+    }
+
+    public void forgotPWverifyPIN(String customerId, String pin, final VolleyResponseListerner listerner) {
+        String url = ConstantValues.SERVER_URL + "fpriderotpverify";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("customerid", customerId);
+            jsonObject.put("otpcode", pin);
+        } catch (JSONException e) {
+            Log.e(TAG, e.toString());
+        }
+        setListerner(listerner, url, jsonObject);
+    }
+
+    public void reSendOtp(String customerId, final VolleyResponseListerner listerner) {
+        String url = ConstantValues.SERVER_URL + "riderresendotp";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("customerid", customerId);
+//            jsonObject.put("mobilenumber", mobileno);
         } catch (JSONException e) {
             Log.e(TAG, e.toString());
         }
@@ -252,14 +289,24 @@ public class WebServices {
     }
 
     public void getCouponValidation(String type, String couponCode, final VolleyResponseListerner listerner) {
-        String url = ConstantValues.SERVER_URL + "validatecoupon";
+        String url = ConstantValues.SERVER_URL + "addcoupon";
         JSONObject jsonObject = new JSONObject();
         try {
-
             jsonObject.put("customerid", session.getCustomerId());
             jsonObject.put("token", session.getToken());
-            jsonObject.put("type", type);
-            jsonObject.put("couponcode", couponCode);
+//            jsonObject.put("type", type);
+            jsonObject.put("coupon", couponCode);
+        } catch (JSONException e) {
+            Log.e(TAG, e.toString());
+        }
+        setListerner1(listerner, url, jsonObject);
+    }
+    public void getCoupon(final VolleyResponseListerner listerner) {
+        String url = ConstantValues.SERVER_URL + "getusercoupons";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("customerid", session.getCustomerId());
+            jsonObject.put("token", session.getToken());
         } catch (JSONException e) {
             Log.e(TAG, e.toString());
         }
@@ -378,18 +425,6 @@ public class WebServices {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("username", username);
-        } catch (JSONException e) {
-            Log.e(TAG, e.getMessage());
-        }
-        setListernerWithoutProgressbar(listener, url, jsonObject);
-    }
-
-    public void validateOtp(String customerId, String otp, final VolleyResponseListerner listener) {
-        String url = ConstantValues.SERVER_URL + "validateotprider";
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("customerid", customerId);
-            jsonObject.put("otp", otp);
         } catch (JSONException e) {
             Log.e(TAG, e.getMessage());
         }

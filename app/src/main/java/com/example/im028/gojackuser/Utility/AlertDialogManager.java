@@ -4,8 +4,10 @@ package com.example.im028.gojackuser.Utility;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.annotation.Nullable;
 
+import com.example.im028.gojackuser.ActivityClasses.LoginActivity;
 import com.example.im028.gojackuser.R;
 import com.example.im028.gojackuser.Utility.InterfaceClasses.DialogBoxInterface;
 
@@ -77,6 +79,8 @@ public class AlertDialogManager {
             public void onClick(DialogInterface dialog, int which) {
 
                 dialog.cancel();
+                activity.startActivity(new Intent(activity, LoginActivity.class));
+
             }
         });
         // Showing Alert Message

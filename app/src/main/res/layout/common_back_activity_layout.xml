@@ -40,7 +40,7 @@
                 android:layout_gravity="center"
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
-                android:src="@drawable/gojack_logo" />
+                android:src="@drawable/cl_header_icon" />
 
             <Button
                 android:id="@+id/okButton"

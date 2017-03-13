@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
  */
 public class Validation {
     public static String userNameError = "Enter valid EmailId";
+    public static String passwordEmptyMessage = "Please enter the password";
     public static String passwordError = "Password must be minimum 6 character";
     public static String mobileNoError = "Enter 10 digit mobile number or EmailId";
     public static String otpError = "Enter Valid OTP";
@@ -18,6 +19,9 @@ public class Validation {
 
     public static boolean isPasswordValid(String text) {
         return text.length() >= 6;
+    }
+    public static boolean isPasswordEmpty(String text) {
+        return !TextUtils.isEmpty(text);
     }
 
     public static boolean isUserNameValid(String text) {

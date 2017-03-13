@@ -33,7 +33,7 @@ public class ImcomeSmsReceiver extends BroadcastReceiver {
                     String message = currentMessage.getDisplayMessageBody();
                     Log.e(TAG, "Received SMS: " + message + ", Sender: " + id);
                     try {
-                        if (id.equals("MOBDRV")){
+                        if (id.equals("SHOUTJ")){
                             imComeSms.messageReceived(message);
                         }
                     }catch (Exception e){

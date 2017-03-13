@@ -93,6 +93,13 @@
                     android:text="Submit"
                     android:theme="@style/AppTheme.Button" />
 
+                <TextView
+                    android:id="@+id/resendOtpTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="@string/resend" />
+
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

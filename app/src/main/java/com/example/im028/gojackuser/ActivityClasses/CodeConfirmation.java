@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.im028.gojackuser.CommonActivityClasses.BackCommonActivity;
 import com.example.im028.gojackuser.R;
@@ -28,11 +29,12 @@ import org.json.JSONObject;
 /**
  * Created by IM0033 on 8/3/2016.
  */
-public class CodeConfirmation extends BackCommonActivity implements View.OnClickListener{
+public class CodeConfirmation extends BackCommonActivity {
     private EditText userNameEditText;
     private String TAG = "CodeConfirmation";
-    String userId;
-    Button codeSendButton,otpButton;
+    private String customerId;
+    private TextView reSendTextView;
+    Button codeSendButton, otpButton;
     private WebServices webServices;
 
     @Override
@@ -41,29 +43,55 @@ public class CodeConfirmation extends BackCommonActivity implements View.OnClick
         setContentView(R.layout.activity_code_confirmation);
         webServices = new WebServices(CodeConfirmation.this, TAG);
         codeSendButton = (Button) findViewById(R.id.codeConirmationButton);
-        otpButton= (Button) findViewById(R.id.otpButton);
+        reSendTextView = (TextView) findViewById(R.id.reSendTextView);
+        otpButton = (Button) findViewById(R.id.otpButton);
 //        otpButton.setOnClickListener(this);
 //        codeSendButton.setOnClickListener(this);
-        userId = getIntent().getExtras().getString("customerId");
+        customerId = getIntent().getExtras().getString("customerId");
         userNameEditText = (EditText) findViewById(R.id.otpEditText);
         // setActionBar();
-     /*   ImcomeSmsReceiver.bindMessageListener(new ImComeSms() {
+        ImcomeSmsReceiver.bindMessageListener(new ImComeSms() {
             @Override
             public void messageReceived(String messageText) {
                 userNameEditText.setText(messageText);
             }
-        });*/
+        });
+        reSendTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                userNameEditText.setText("");
+                webServices.reSendOtp(customerId, new VolleyResponseListerner() {
+                    @Override
+                    public void onResponse(JSONObject response) throws JSONException {
+                        if (response.getString("status").equalsIgnoreCase("1")) {
+                            ConstantFunctions.toast(CodeConfirmation.this, response.getString("message"));
+                        }
+                    }
+
+                    @Override
+                    public void onError(String message, String title) {
+
+                    }
+                });
+            }
+        });
         otpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 //                ConstantFunctions.toast(CodeConfirmation.this, "Hai");
                 if (Validation.isOtpValid(userNameEditText.getText().toString())) {
                     userNameEditText.setError(null);
-                    webServices.validateOtp(userId, userNameEditText.getText().toString(), new VolleyResponseListerner() {
+                    final ProgressDialog progressBar = new ProgressDialog(CodeConfirmation.this);
+                    progressBar.setMessage("Waiting...");
+                    progressBar.setCancelable(false);
+                    progressBar.show();
+                    webServices.forgotPWverifyPIN(customerId, userNameEditText.getText().toString(), new VolleyResponseListerner() {
                         @Override
                         public void onResponse(JSONObject response) throws JSONException {
+                            progressBar.dismiss();
                             if (response.getString("status").equalsIgnoreCase("1")) {
                                 startActivity(new Intent(getApplicationContext(), ChangePassword.class).putExtra("customerId", response.getString("userid")));
+                                finish();
                             } else {
                                 ConstantFunctions.toast(CodeConfirmation.this, response.getString("message"));
                             }
@@ -71,7 +99,7 @@ public class CodeConfirmation extends BackCommonActivity implements View.OnClick
 
                         @Override
                         public void onError(String message, String title) {
-
+                            progressBar.dismiss();
                         }
                     });
 
@@ -88,9 +116,11 @@ public class CodeConfirmation extends BackCommonActivity implements View.OnClick
     @Override
     protected void onStart() {
         super.onStart();
-//        if (!ConstantFunctions.checkmarshmallowPermission(CodeConfirmation.this, Manifest.permission.RECEIVE_SMS, ConstantValues.MY_PERMISSIONS_REQUEST_LOCATION)) {
-//            //CommonMethods.toast(CodeConfirmation.this,"Enable");
-//        }
+        if (!ConstantFunctions.checkmarshmallowPermission(CodeConfirmation.this, Manifest.permission.RECEIVE_SMS, ConstantValues.MY_PERMISSIONS_REQUEST_LOCATION)) {
+//            ConstantFunctions.toast(CodeConfirmation.this,"Enable");
+        } else {
+            ConstantFunctions.toast(CodeConfirmation.this, "Enable sms ");
+        }
     }
 
     @Override
@@ -104,7 +134,7 @@ public class CodeConfirmation extends BackCommonActivity implements View.OnClick
         }
     }
 
-    @Override
+   /* @Override
     public void onClick(View view) {
         ConstantFunctions.toast(CodeConfirmation.this, "Hai");
         if (Validation.isOtpValid(userNameEditText.getText().toString())) {
@@ -113,7 +143,7 @@ public class CodeConfirmation extends BackCommonActivity implements View.OnClick
             progressBar.setMessage("Waiting...");
             progressBar.setCancelable(false);
             progressBar.show();
-            webServices.validateOtp(userId, userNameEditText.getText().toString(), new VolleyResponseListerner() {
+            webServices.verifyPIN(customerId, userNameEditText.getText().toString(), new VolleyResponseListerner() {
                 @Override
                 public void onResponse(JSONObject response) throws JSONException {
                     progressBar.dismiss();
@@ -135,5 +165,5 @@ public class CodeConfirmation extends BackCommonActivity implements View.OnClick
             userNameEditText.setError(Validation.otpError);
             userNameEditText.requestFocus();
         }
-    }
+    }*/
 }

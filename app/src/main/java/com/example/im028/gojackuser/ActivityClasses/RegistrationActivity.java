@@ -31,7 +31,7 @@ public class RegistrationActivity extends BackCommonActivity {
     private RadioButton femaleRadioButton, maleRadioButton;
     private CheckBox checkBox;
     private Button submitButton;
-   // private DatePickerDialog dobDatePickerDialog;
+    // private DatePickerDialog dobDatePickerDialog;
     private Calendar calendar;
     private WebServices webServices;
 
@@ -81,16 +81,16 @@ public class RegistrationActivity extends BackCommonActivity {
                                 passwordTextInputEditText.setError(null);
 //                                if (dobTextInputEditText.getText().toString().length() > 0) {
 //                                    dobTextInputEditText.setError(null);
-                                    if (maleRadioButton.isChecked() || femaleRadioButton.isChecked()) {
-                                        if (checkBox.isChecked()) {
-                                            submit();
-                                        } else {
-                                            ConstantFunctions.toast(RegistrationActivity.this, "Please agree gojack terms");
-//                                            checkBox.setError("Please agree gojack terms");
-                                        }
+                                if (maleRadioButton.isChecked() || femaleRadioButton.isChecked()) {
+                                    if (checkBox.isChecked()) {
+                                        submit();
                                     } else {
-                                        ConstantFunctions.toast(RegistrationActivity.this, "Select gender");
+                                        ConstantFunctions.toast(RegistrationActivity.this, "Please agree gojack terms");
+//                                            checkBox.setError("Please agree gojack terms");
                                     }
+                                } else {
+                                    ConstantFunctions.toast(RegistrationActivity.this, "Select gender");
+                                }
 //                                } else {
 //                                    dobTextInputEditText.setError("Select date of birth");
 //                                }
@@ -142,6 +142,9 @@ public class RegistrationActivity extends BackCommonActivity {
                                 break;
                             case "4":
                                 startActivity(new Intent(RegistrationActivity.this, OtpActivity.class).putExtra(ConstantValues.customerId, response.getJSONObject("data").getString("customer_id")));
+                                break;
+                            case "5":
+                                AlertDialogManager.alertBox(RegistrationActivity.this, "Registration!", response.getString("message"));
                                 break;
                         }
                     }

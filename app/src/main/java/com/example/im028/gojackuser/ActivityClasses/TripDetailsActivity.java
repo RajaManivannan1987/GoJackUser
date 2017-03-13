@@ -1,5 +1,7 @@
 package com.example.im028.gojackuser.ActivityClasses;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,11 +31,13 @@ public class TripDetailsActivity extends BackCommonActivity {
     private RadioButton petrolYesRadioButton, petrolNoRadioButton, rudeYesRadioButton, rudeNoRadioButton, helmatYesRadioButton, helmatNoRadioButton, faceMaskYesRadioButton, faceMaskNoRadioButton;
     private Button submitButton;
     private JSONObject jsonObject;
+    private NotificationManager nMgr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setView(R.layout.activity_trip_details);
+        nMgr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         try {
             jsonObject = new JSONObject(getIntent().getExtras().getString("data"));
@@ -67,6 +71,7 @@ public class TripDetailsActivity extends BackCommonActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                nMgr.cancelAll();
                 //   By raja
 
                /* if (helmetRatingBar.getRating() == 0) {

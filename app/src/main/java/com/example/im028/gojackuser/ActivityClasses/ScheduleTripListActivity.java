@@ -3,6 +3,8 @@ package com.example.im028.gojackuser.ActivityClasses;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import com.example.im028.gojackuser.AdapterClasses.ScheduleListAdapter;
 import com.example.im028.gojackuser.CommonActivityClasses.BackCommonActivity;
@@ -29,6 +31,7 @@ public class ScheduleTripListActivity extends BackCommonActivity {
     private RecyclerView scheduleListRecyclerView;
     private ArrayList<ScheduleList> list = new ArrayList<>();
     private ScheduleListAdapter adapter;
+    private LinearLayout scheduleTripLayout;
     private Gson gson;
 
     @Override
@@ -37,6 +40,7 @@ public class ScheduleTripListActivity extends BackCommonActivity {
         setView(R.layout.activity_schedule_list);
         webServices = new WebServices(ScheduleTripListActivity.this, TAG);
         gson = new Gson();
+        scheduleTripLayout = (LinearLayout) findViewById(R.id.scheduleTripLayout);
         scheduleListRecyclerView = (RecyclerView) findViewById(R.id.scheduleListRecyclerView);
         scheduleListRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         adapter = new ScheduleListAdapter(this, list);
@@ -62,9 +66,17 @@ public class ScheduleTripListActivity extends BackCommonActivity {
             public void onResponse(JSONObject response) throws JSONException {
                 list.clear();
                 if (response.getString("status").equalsIgnoreCase("1")) {
-                    for (int i = 0; i < response.getJSONArray("data").length(); i++) {
-                        list.add(gson.fromJson(response.getJSONArray("data").getJSONObject(i).toString(), ScheduleList.class));
+                    if (response.getJSONArray("data").length() > 0) {
+                        scheduleTripLayout.setVisibility(View.GONE);
+                        scheduleListRecyclerView.setVisibility(View.VISIBLE);
+                        for (int i = 0; i < response.getJSONArray("data").length(); i++) {
+                            list.add(gson.fromJson(response.getJSONArray("data").getJSONObject(i).toString(), ScheduleList.class));
+                        }
+                    }else {
+                        scheduleTripLayout.setVisibility(View.VISIBLE);
+                        scheduleListRecyclerView.setVisibility(View.GONE);
                     }
+
                 }
                 adapter.notifyDataSetChanged();
             }

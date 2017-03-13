@@ -1,5 +1,7 @@
 package com.example.im028.gojackuser.ActivityClasses;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -21,12 +23,14 @@ public class CourierDetailsActivity extends BackCommonActivity {
     private TextView deliveredToPersonTextView, itemsCourieredTextView, totalAmountTextView, paymentByTextView;
     private WebServices webServices;
     private String rideId;
+    private NotificationManager nMager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setView(R.layout.activity_courier_details);
         webServices = new WebServices(this, TAG);
+        nMager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         rideId = getIntent().getExtras().getString(ConstantValues.rideId, "0");
         pickUpNameTextView = (TextView) findViewById(R.id.courierDetailsActivityPickUpNameTextView);
         pickUpAddressTextView = (TextView) findViewById(R.id.courierDetailsActivityPickUpAddressTextView);
@@ -44,6 +48,7 @@ public class CourierDetailsActivity extends BackCommonActivity {
     }
 
     private void getData() {
+        nMager.cancelAll();
         webServices.getPODDetails(rideId, new VolleyResponseListerner() {
             @Override
             public void onResponse(JSONObject response) throws JSONException {

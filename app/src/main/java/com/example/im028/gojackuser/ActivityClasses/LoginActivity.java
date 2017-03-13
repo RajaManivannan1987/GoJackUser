@@ -75,11 +75,17 @@ public class LoginActivity extends AppCompatActivity {
     private void loginValidate() {
         if (Validation.emailPhoneValidation(userNameEditText.getText().toString()).equalsIgnoreCase("email") || Validation.emailPhoneValidation(userNameEditText.getText().toString()).equalsIgnoreCase("phone")) {
             userNameEditText.setError(null);
-            if (Validation.isPasswordValid(passwordEditText.getText().toString())) {
+            if (Validation.isPasswordEmpty(passwordEditText.getText().toString())) {
                 passwordEditText.setError(null);
-                login();
+                if (Validation.isPasswordValid(passwordEditText.getText().toString())) {
+                    passwordEditText.setError(null);
+                    login();
+                } else {
+                    passwordEditText.setError(Validation.passwordError);
+                    passwordEditText.requestFocus();
+                }
             } else {
-                passwordEditText.setError(Validation.passwordError);
+                passwordEditText.setError(Validation.passwordEmptyMessage);
                 passwordEditText.requestFocus();
             }
         } else {
@@ -105,7 +111,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login() {
-        webServices.login(userNameEditText.getText().toString(), passwordEditText.getText().toString(), new VolleyResponseListerner() {
+        webServices.login(userNameEditText.getText().toString().trim(), passwordEditText.getText().toString().trim(), new VolleyResponseListerner() {
             @Override
             public void onResponse(JSONObject response) throws JSONException {
                 if (response.getString("status").equalsIgnoreCase("1")) {

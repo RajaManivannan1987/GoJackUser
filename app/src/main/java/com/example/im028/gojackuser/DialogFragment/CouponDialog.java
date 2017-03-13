@@ -70,14 +70,14 @@ public class CouponDialog extends DialogFragment {
         couponCodeTextInputEditText = (TextInputEditText) view.findViewById(R.id.couponDialogCodeTextInputEditText);
         submitImageView = (ImageView) view.findViewById(R.id.couponDialogValidImageView);
         validTextView = (TextView) view.findViewById(R.id.couponDialogValidTextView);
-        adapter = new CouponRecyclerViewAdapter(getActivity(), data);
+//        adapter = new CouponRecyclerViewAdapter(getActivity(), data);
         recyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener(new ItemClickListener() {
+      /*  adapter.setOnItemClickListener(new ItemClickListener() {
             @Override
             public void onItemClick(Coupon coupon) {
                 couponCodeTextInputEditText.setText(coupon.getCouponcode());
             }
-        });
+        });*/
         submitImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

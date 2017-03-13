@@ -185,13 +185,7 @@ public class CourierActivity extends MenuCommonActivity {
 
 //                distFrom(pickUpLatLng.latitude, pickUpLatLng.longitude, deliverLatLng.latitude, deliverLatLng.longitude);
 
-                Location locationA = new Location("LocationA");
-                locationA.setLatitude(pickUpLatLng.latitude);
-                locationA.setLongitude(pickUpLatLng.longitude);
-                Location locationB = new Location("LocationB");
-                locationB.setLatitude(deliverLatLng.latitude);
-                locationB.setLongitude(deliverLatLng.longitude);
-                float distance = locationA.distanceTo(locationB);
+                float distance = new ConstantFunctions().getDistance(pickUpLatLng, deliverLatLng);
                 if (distance >= 100) {
                     if (!pickUpFromPhoneEditText.getText().toString().equalsIgnoreCase(deliverToPhoneEditText.getText().toString())) {
                         pickUpFromPhoneEditText.setError(null);
@@ -295,6 +289,16 @@ public class CourierActivity extends MenuCommonActivity {
 
     }
 
+   /* private float getDistance() {
+        Location locationA = new Location("LocationA");
+        locationA.setLatitude(pickUpLatLng.latitude);
+        locationA.setLongitude(pickUpLatLng.longitude);
+        Location locationB = new Location("LocationB");
+        locationB.setLatitude(deliverLatLng.latitude);
+        locationB.setLongitude(deliverLatLng.longitude);
+        return locationA.distanceTo(locationB);
+    }
+*/
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
@@ -347,6 +351,8 @@ public class CourierActivity extends MenuCommonActivity {
                             courierRestrictionDialog.dismiss();
                             startActivity(new Intent(CourierActivity.this, RideActivity.class).putExtra(ConstantValues.rideId, response.getString("rideid")));
                             finish();
+                        } else if (response.getString("status").equalsIgnoreCase("0")) {
+                            courierRestrictionDialog.dismiss();
                         }
 
                     }

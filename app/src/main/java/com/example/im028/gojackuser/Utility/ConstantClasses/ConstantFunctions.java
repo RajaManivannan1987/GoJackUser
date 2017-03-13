@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
 import android.net.Uri;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
@@ -95,11 +96,22 @@ public class ConstantFunctions {
         Intent intent = new Intent(ConstantValues.driverStatus);
         context.sendBroadcast(intent);
     }
+
     public static boolean checkmarshmallowPermission(Activity activity, String permision, int requestCode) {
         if (ActivityCompat.checkSelfPermission(activity, permision) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(activity, new String[]{permision}, requestCode);
             return true;
         }
         return false;
+    }
+
+    public static float getDistance(LatLng pickUpLatLng, LatLng deliverLatLng) {
+        Location locationA = new Location("LocationA");
+        locationA.setLatitude(pickUpLatLng.latitude);
+        locationA.setLongitude(pickUpLatLng.longitude);
+        Location locationB = new Location("LocationB");
+        locationB.setLatitude(deliverLatLng.latitude);
+        locationB.setLongitude(deliverLatLng.longitude);
+        return locationA.distanceTo(locationB);
     }
 }

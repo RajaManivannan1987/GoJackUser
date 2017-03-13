@@ -19,6 +19,8 @@ import android.widget.TextView;
 import com.example.im028.gojackuser.ActivityClasses.AboutActivity;
 import com.example.im028.gojackuser.ActivityClasses.ChooseTypeActivity;
 import com.example.im028.gojackuser.ActivityClasses.HistoryActivity;
+import com.example.im028.gojackuser.ActivityClasses.RateCardActivity;
+import com.example.im028.gojackuser.ActivityClasses.ReferActivity;
 import com.example.im028.gojackuser.ActivityClasses.ScheduleTripListActivity;
 import com.example.im028.gojackuser.AdapterClasses.CommonActionBarListAdapter;
 import com.example.im028.gojackuser.R;
@@ -98,6 +100,12 @@ public class MenuCommonActivity extends AppCompatActivity {
                             break;
                         case "about":
                             startActivity(new Intent(MenuCommonActivity.this, AboutActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+                            break;
+                        case "offers and free rides":
+                            startActivity(new Intent(MenuCommonActivity.this, ReferActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+                            break;
+                        case "rate card":
+                            startActivity(new Intent(MenuCommonActivity.this, RateCardActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
                             break;
                         default:
                             break;

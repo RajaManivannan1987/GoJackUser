@@ -19,6 +19,7 @@ import com.example.im028.gojackuser.DialogFragment.CancelTripDialog;
 import com.example.im028.gojackuser.DialogFragment.ContactDialog;
 import com.example.im028.gojackuser.R;
 import com.example.im028.gojackuser.Utility.AlertDialogManager;
+import com.example.im028.gojackuser.Utility.ConstantClasses.ConstantFunctions;
 import com.example.im028.gojackuser.Utility.ConstantClasses.ConstantValues;
 import com.example.im028.gojackuser.Utility.CustomUI.TouchableWrapper;
 import com.example.im028.gojackuser.Utility.InterfaceClasses.VolleyResponseListerner;
@@ -151,11 +152,12 @@ public class RideActivity extends MenuCommonActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    ContactDialog contactDialog = new ContactDialog();
+                    ConstantFunctions.call(RideActivity.this,jsonObject.getString("mobilenumber"));
+                  /*  ContactDialog contactDialog = new ContactDialog();
                     Bundle bundle = new Bundle();
                     bundle.putString(ConstantValues.phoneNumber, jsonObject.getString("mobilenumber"));
                     contactDialog.setArguments(bundle);
-                    contactDialog.show(getFragmentManager(), "contactDialog");
+                    contactDialog.show(getFragmentManager(), "contactDialog");*/
                 } catch (Exception e) {
                     Log.e(TAG, e.toString());
                 }
@@ -324,7 +326,11 @@ public class RideActivity extends MenuCommonActivity {
         riderBikeNumberTextView.setText(jsonObject.getString("vehiclenumber"));
         riderRatingTextView.setText(jsonObject.getString("rating"));
         try {
-            Picasso.with(RideActivity.this).load(jsonObject.getString("photo")).into(riderPhotoCircleImageView);
+            Picasso.with(RideActivity.this).load(jsonObject.getString("photo"))
+                    .placeholder(R.drawable.rider_user_icon)
+                    .error(R.drawable.rider_user_icon)
+                    .resize(250, 200).into(riderPhotoCircleImageView);
+//            Picasso.with(RideActivity.this).load(jsonObject.getString("photo")).into(riderPhotoCircleImageView);
         } catch (Exception e) {
             Log.e(TAG, e.toString());
         }
@@ -347,7 +353,7 @@ public class RideActivity extends MenuCommonActivity {
         webServices.trackPilotDistance(jsonObject.getString("rideid"), new VolleyResponseListerner() {
             @Override
             public void onResponse(JSONObject response) throws JSONException {
-                riderDistanceTextView.setText("YOUR PILOT WILL ARRIVE IN " + response.getString("time").toUpperCase());
+                //riderDistanceTextView.setText("YOUR PILOT WILL ARRIVE IN " + response.getString("time").toUpperCase());
                 if (pilotMarker == null) {
                     MarkerOptions markerOptions = new MarkerOptions();
                     markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.male_pilot_icon));

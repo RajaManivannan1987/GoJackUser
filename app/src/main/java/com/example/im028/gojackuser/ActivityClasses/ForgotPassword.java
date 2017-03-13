@@ -55,6 +55,7 @@ public class ForgotPassword extends BackCommonActivity {
                             progressBar.dismiss();
                             if (response.getString("status").equalsIgnoreCase("1")) {
                                 startActivity(new Intent(getApplicationContext(), CodeConfirmation.class).putExtra("customerId", response.getString("userid")));
+                                finish();
                             } else {
                                 ConstantFunctions.toast(ForgotPassword.this, response.getString("message"));
                             }

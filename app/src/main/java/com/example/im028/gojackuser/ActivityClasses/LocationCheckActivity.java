@@ -40,6 +40,7 @@ public class LocationCheckActivity extends AppCompatActivity {
 
     public static Intent getLocationCheck(Activity activity, String type) {
         return new Intent(activity, LocationCheckActivity.class).putExtra(ConstantValues.rideTypeRide, type);
+        //   ride or courier
     }
 
     @Override

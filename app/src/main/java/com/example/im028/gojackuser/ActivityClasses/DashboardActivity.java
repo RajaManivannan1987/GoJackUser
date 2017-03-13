@@ -71,7 +71,7 @@ public class DashboardActivity extends MenuCommonActivity {
 
     private LinearLayout disableLinearLayout, enableLinearLayout, couponLinearLayout, sheduleLinearLayout;
     public TextView couponTextView;
-    public String couponId = "0";
+    public static String couponId = "0";
     private TextView fareTextView;
     private FloatingActionButton locationFloatingActionButton, location1FloatingActionButton;
     private View.OnClickListener currentLocation;
@@ -79,12 +79,20 @@ public class DashboardActivity extends MenuCommonActivity {
     private Button disabledRequestRideButton, enabledRequestRideButton;
     private final int paymentTypeRequestCode = 1;
     private final int scheduleRequestCode = 2;
+    private final int couponRequestCode = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setView(R.layout.activity_dashboard);
         webServices = new WebServices(this, TAG);
+        couponTextView = (TextView) findViewById(R.id.dashboardActivityCouponCodeTextView);
+       /* if (getIntent().getExtras() != null) {
+            couponTextView.setText(getIntent().getExtras().getString("couponName"));
+            couponId = getIntent().getExtras().getString("couponId");
+            updateAddress();
+        }*/
+
         searchLocation = new SearchLocation(this, new PlaceInterface() {
             @Override
             public void getPlace(Place place) {
@@ -191,15 +199,18 @@ public class DashboardActivity extends MenuCommonActivity {
         paymentModeTextView = (TextView) findViewById(R.id.dashboardActivityPaymentModeTextView);
         scheduleDateTimeTextView = (TextView) findViewById(R.id.dashboardActivityscheduleTextView);
         couponLinearLayout = (LinearLayout) findViewById(R.id.dashboardActivityCouponLinearLayout);
-        couponTextView = (TextView) findViewById(R.id.dashboardActivityCouponCodeTextView);
         couponLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CouponDialog couponDialog = new CouponDialog();
+                Intent i = new Intent(DashboardActivity.this, CouponActivity.class);
+                i.putExtra(ConstantValues.couponType, "ride");
+                startActivityForResult(i, couponRequestCode);
+                overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
+               /* CouponDialog couponDialog = new CouponDialog();
                 Bundle bundle = new Bundle();
                 bundle.putString(ConstantValues.couponType, "ride");
                 couponDialog.setArguments(bundle);
-                couponDialog.show(getFragmentManager(), "CouponDialog");
+                couponDialog.show(getFragmentManager(), "CouponDialog");*/
             }
         });
         disabledRequestRideButton.setOnClickListener(new View.OnClickListener() {
@@ -211,29 +222,32 @@ public class DashboardActivity extends MenuCommonActivity {
         enabledRequestRideButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                webServices.requestRide(pickLatLng, toLatLng, pickAddressString, toAddressString, paymentModeTextView.getText().toString(), couponId, dateTimeValue, fare, new VolleyResponseListerner() {
-                    @Override
-                    public void onResponse(JSONObject response) throws JSONException {
-
-                        if (!response.getString("status").equalsIgnoreCase("0")) {
-                            ConstantFunctions.toast(DashboardActivity.this, response.getString("message"));
-                            Log.d(TAG, scheduleType);
-                            if (scheduleType.equalsIgnoreCase("schedule")) {
-                                startActivity(new Intent(DashboardActivity.this, ScheduleTripListActivity.class));
-                                finish();
-                            } else {
-                                startActivity(new Intent(DashboardActivity.this, RideActivity.class).putExtra(ConstantValues.rideId, response.getString("rideid")));
-                                finish();
+                float distance = new ConstantFunctions().getDistance(pickLatLng, toLatLng);
+                if (distance >= 100 && pickLatLng != null && toLatLng != null) {
+                    webServices.requestRide(pickLatLng, toLatLng, pickAddressString, toAddressString, paymentModeTextView.getText().toString(), couponId, dateTimeValue, fare, new VolleyResponseListerner() {
+                        @Override
+                        public void onResponse(JSONObject response) throws JSONException {
+                            if (!response.getString("status").equalsIgnoreCase("0")) {
+                                ConstantFunctions.toast(DashboardActivity.this, response.getString("message"));
+                                Log.d(TAG, scheduleType);
+                                if (scheduleType.equalsIgnoreCase("schedule")) {
+                                    startActivity(new Intent(DashboardActivity.this, ScheduleTripListActivity.class));
+                                    finish();
+                                } else {
+                                    startActivity(new Intent(DashboardActivity.this, RideActivity.class).putExtra(ConstantValues.rideId, response.getString("rideid")));
+                                    finish();
+                                }
                             }
-
                         }
-                    }
 
-                    @Override
-                    public void onError(String message, String title) {
-                        AlertDialogManager.showAlertDialog(DashboardActivity.this, title, message, false);
-                    }
-                });
+                        @Override
+                        public void onError(String message, String title) {
+                            AlertDialogManager.showAlertDialog(DashboardActivity.this, title, message, false);
+                        }
+                    });
+                } else {
+                    ConstantFunctions.toast(DashboardActivity.this, "Pickup and Delivery locations can't be same and not null.");
+                }
             }
         });
         paymentModeTextView.setOnClickListener(new View.OnClickListener() {
@@ -419,6 +433,12 @@ public class DashboardActivity extends MenuCommonActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         flagTouchPressed = false;
         switch (requestCode) {
+            case couponRequestCode:
+                if (resultCode == RESULT_OK) {
+                    couponId = data.getExtras().getString("couponId");
+                    couponTextView.setText(data.getExtras().getString("couponName"));
+                }
+                break;
             case paymentTypeRequestCode:
                 if (resultCode == RESULT_OK) {
                     paymentModeTextView.setText(data.getExtras().getString(ConstantValues.paymentType, "cash"));
@@ -441,6 +461,6 @@ public class DashboardActivity extends MenuCommonActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
     }
+
 }

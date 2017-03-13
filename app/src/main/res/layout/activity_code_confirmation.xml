@@ -51,7 +51,7 @@
                     android:drawableLeft="@drawable/mobile_icon"
                     android:drawablePadding="25dp"
                     android:hint="@string/bin"
-                    android:maxLength="6"
+                    android:maxLength="4"
                     android:maxLines="1" />
             </android.support.design.widget.TextInputLayout>
 
@@ -61,19 +61,27 @@
                 android:layout_height="?android:actionBarSize"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
-                android:visibility="gone"
                 android:text="@string/submit"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/otpButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@color/button_background"
-                android:textColor="@android:color/white"
                 android:layout_marginTop="20dp"
-                android:text="@string/submit" />
+                android:background="@color/button_background"
+                android:text="@string/submit"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/reSendTextView"
+                style="@style/textView_Normal"
+                android:layout_marginTop="20dp"
+                android:gravity="right"
+                android:text="@string/resend"
+                android:textSize="@dimen/contentSizeSmall" />
         </LinearLayout>
     </ScrollView>
 

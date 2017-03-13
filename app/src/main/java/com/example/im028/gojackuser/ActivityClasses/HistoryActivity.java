@@ -4,6 +4,8 @@ package com.example.im028.gojackuser.ActivityClasses;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import com.example.im028.gojackuser.AdapterClasses.TripHistoryRecyclerViewAdapter;
 import com.example.im028.gojackuser.CommonActivityClasses.BackCommonActivity;
@@ -28,6 +30,7 @@ public class HistoryActivity extends BackCommonActivity {
     private Gson gson = new Gson();
     private List<Trip> data = new ArrayList<>();
     private WebServices webServices;
+    private LinearLayout historyLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,7 @@ public class HistoryActivity extends BackCommonActivity {
         setView(R.layout.activity_history);
         webServices = new WebServices(this, TAG);
 
+        historyLayout = (LinearLayout) findViewById(R.id.historyLayout);
         recyclerView = (RecyclerView) findViewById(R.id.historyActivityRecyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -53,14 +57,22 @@ public class HistoryActivity extends BackCommonActivity {
         webServices.getHistoryList(new VolleyResponseListerner() {
             @Override
             public void onResponse(JSONObject response) throws JSONException {
+                data.clear();
                 if (response.getString("status").equalsIgnoreCase("1")) {
-                    data.clear();
-                    for (int i = 0; i < response.getJSONArray("data").length(); i++)
-                        data.add(gson.fromJson(response.getJSONArray("data").getJSONObject(i).toString(), Trip.class));
-                    adapter.notifyDataSetChanged();
+                    if (response.getJSONArray("data").length() > 0) {
+                        historyLayout.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
+                        for (int i = 0; i < response.getJSONArray("data").length(); i++)
+                            data.add(gson.fromJson(response.getJSONArray("data").getJSONObject(i).toString(), Trip.class));
+                        adapter.notifyDataSetChanged();
+                    } else {
+                        AlertDialogManager.showAlertDialog(HistoryActivity.this, "Alert", response.getString("message"), false);
+                    }
                 } else {
-                    AlertDialogManager.showAlertDialog(HistoryActivity.this, "Alert", response.getString("message"), false);
+                    historyLayout.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
                 }
+
             }
 
             @Override

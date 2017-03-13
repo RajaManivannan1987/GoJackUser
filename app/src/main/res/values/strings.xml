@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Go Jack</string>
+    <string name="app_name">CallJack</string>
 
     <string name="login_forgot_password"><u>Forgot your password?</u></string>
     <string name="open"></string>
@@ -11,6 +11,9 @@
     <string name="code_sent_content_2">Once you receive your code, please enter in the section below.</string>
     <string name="code_sent_content_3">You can contact us at +91-XXXXX-XXXXX or by email.</string>
     <string name="rs">`</string>
+
+    <string name="resend_content">Four digit code sent to your email/mobile number. This code is valid for next 2 hours.</string>
+    <string name="resend_content_1">You can contact us at +91-XXXXX-XXXXX.</string>
 
     <string name="forgotpassword"><u>Forgot Your Password?</u></string>
     <string name="forgotpassword1">Forgot Password?</string>
@@ -29,6 +32,10 @@
     <string name="mobile">Mobile Number / Email</string>
     <string name="bin">Enter OTP</string>
     <string name="codesend">Code Send</string>
+    <string name="resend"><u>Resend</u></string>
+    <string name="refer_friends">Gift you friends Rs.100 by inviting them to join you at Call Jack</string>
+    <string name="refer_friends1">You got Rs.100 too once they take their first ride.</string>
+    <string name="refer_friends2">Share the promo code below</string>
 
     <string-array name="payment_by">
         <item>Sender</item>
@@ -36,7 +43,7 @@
     </string-array>
     <string name="courier_restriction_content">I hereby agree that I am not sending any item not approved by GoJack such as Drugs, Cash, Jewellery, and other valuable items etc. I also agree GoJack is not responsible if I do send the restricted item.</string>
 
-//-------------paytm strings-------------
+    //-------------paytm strings-------------
     <string name="order_id">Order Id : </string>
     <string name="customer_id">Customer Id : </string>
     <string name="transaction_amount">Transaction Amount : </string>
