@@ -49,7 +49,7 @@
                         android:id="@+id/registrationActivityNameEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Name"
+                        android:hint="Name*"
                         android:inputType="text"
                         android:singleLine="true"
                         android:textSize="20sp" />
@@ -81,7 +81,7 @@
                         android:id="@+id/registrationActivityEmailAddressEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Email Address"
+                        android:hint="Email Address*"
                         android:inputType="textEmailAddress"
                         android:singleLine="true"
                         android:textSize="20sp" />
@@ -113,7 +113,7 @@
                         android:id="@+id/registrationActivityMobileNumberEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Mobile Number"
+                        android:hint="Mobile Number*"
                         android:inputType="phone"
                         android:singleLine="true"
                         android:maxLength="10"
@@ -146,8 +146,9 @@
                         android:id="@+id/registrationActivityPasswordEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Password"
+                        android:hint="Password*"
                         android:inputType="textPassword"
+                        android:maxLength="20"
                         android:singleLine="true"
                         android:textSize="20sp" />
                 </android.support.design.widget.TextInputLayout>
@@ -180,7 +181,7 @@
                         android:layout_height="wrap_content"
                         android:cursorVisible="false"
                         android:focusable="false"
-                        android:hint="Date of Birth"
+                        android:hint="Date of Birth*"
                         android:singleLine="true"
                         android:textSize="20sp" />
                 </android.support.design.widget.TextInputLayout>

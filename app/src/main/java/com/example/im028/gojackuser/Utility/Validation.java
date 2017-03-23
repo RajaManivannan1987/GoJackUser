@@ -20,6 +20,7 @@ public class Validation {
     public static boolean isPasswordValid(String text) {
         return text.length() >= 6;
     }
+
     public static boolean isPasswordEmpty(String text) {
         return !TextUtils.isEmpty(text);
     }
@@ -33,7 +34,7 @@ public class Validation {
     }
 
     public static boolean isMobileNumberValid(String text) {
-        return !TextUtils.isEmpty(text) && Patterns.PHONE.matcher(text).matches();
+        return !TextUtils.isEmpty(text) && Patterns.PHONE.matcher(text).matches() && text.length() == 10;
     }
 
     public static boolean isOtpValid(String text) {

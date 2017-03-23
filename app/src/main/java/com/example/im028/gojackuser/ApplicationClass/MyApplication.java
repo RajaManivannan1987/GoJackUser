@@ -10,6 +10,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.im028.gojackuser.GCMClass.RegistrationIntentService;
 import com.example.im028.gojackuser.MapIntegrationClasses.MyLocation;
+import com.example.im028.gojackuser.Utility.InterNet.ConnectivityReceiver;
 import com.example.im028.gojackuser.Utility.font.FontsOverride;
 
 /**
@@ -37,6 +38,9 @@ public class MyApplication extends MultiDexApplication {
         return myApplication;
     }
 
+    public void setConnectivityListener(ConnectivityReceiver.ConnectivityReceiverListener listener) {
+        ConnectivityReceiver.connectivityReceiverListener = listener;
+    }
 
     @Override
     public void onCreate() {

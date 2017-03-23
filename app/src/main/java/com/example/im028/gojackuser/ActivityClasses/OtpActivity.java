@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.im028.gojackuser.ApplicationClass.MyApplication;
 import com.example.im028.gojackuser.CommonActivityClasses.BackCommonActivity;
 import com.example.im028.gojackuser.GCMClass.RegistrationIntentService;
 import com.example.im028.gojackuser.R;
@@ -128,4 +129,9 @@ public class OtpActivity extends BackCommonActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MyApplication.getInstance().setConnectivityListener(this);
+    }
 }

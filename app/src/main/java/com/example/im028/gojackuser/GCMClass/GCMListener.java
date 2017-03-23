@@ -18,8 +18,10 @@ import com.example.im028.gojackuser.DialogFragment.GenderRequestDialogActivity;
 import com.example.im028.gojackuser.DialogFragment.PilotHereDialogActivity;
 import com.example.im028.gojackuser.DialogFragment.TripCompletedDialogActivity;
 import com.example.im028.gojackuser.R;
+import com.example.im028.gojackuser.Singleton.ActionCompletedSingleton;
 import com.example.im028.gojackuser.Utility.ConstantClasses.ConstantFunctions;
 import com.example.im028.gojackuser.Utility.ConstantClasses.ConstantValues;
+import com.example.im028.gojackuser.Utility.InterfaceClasses.CompletedInterface;
 import com.example.im028.gojackuser.Utility.Session;
 import com.google.android.gms.gcm.GcmListenerService;
 
@@ -101,12 +103,23 @@ public class GCMListener extends GcmListenerService {
             case "tripcompleted":
                 intent = new Intent(this, LocationCheckActivity.class).putExtra(ConstantValues.rideTypeRide, ridetype);
                 ConstantFunctions.updateRide(this);
-                startActivity(new Intent(this, TripCompletedDialogActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                //startActivity(new Intent(this, TripCompletedDialogActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                 break;
             case "gendernotification":
                 intent = new Intent(this, LocationCheckActivity.class).putExtra(ConstantValues.rideTypeRide, ridetype);
                 ConstantFunctions.updateRide(this);
                 startActivity(new Intent(this, GenderRequestDialogActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK).putExtra(ConstantValues.genderType, gender).putExtra(ConstantValues.requestid, requestid).putExtra(ConstantValues.message, message));
+                break;
+            case "tripnotaccepted":
+                intent = new Intent(this, LocationCheckActivity.class).putExtra(ConstantValues.rideTypeRide, ridetype);
+                startActivity(new Intent(this, TripCompletedDialogActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                ActionCompletedSingleton.getNopilot().setListener(new CompletedInterface() {
+                    @Override
+                    public void completed() {
+                        Intent intent = new Intent(ConstantValues.driverStatus);
+                        sendBroadcast(intent);
+                    }
+                });
                 break;
             default:
                 intent = new Intent(this, SplashActivity.class);
@@ -130,8 +143,4 @@ public class GCMListener extends GcmListenerService {
         notificationManager.notify((int) Calendar.getInstance().getTimeInMillis(), notificationBuilder.build());
     }
 
-  /*  private Intent updateRide(Intent intent) {
-
-        return intent;
-    }*/
 }

@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.EditText;
 
+import com.example.im028.gojackuser.ApplicationClass.MyApplication;
 import com.example.im028.gojackuser.CommonActivityClasses.BackCommonActivity;
 
 import com.example.im028.gojackuser.GCMClass.RegistrationIntentService;
@@ -50,7 +51,7 @@ public class ChangePassword extends BackCommonActivity {
             newPasswordEditText.setError(null);
             if (Validation.isPasswordValid(confirmNewPasswordEditText.getText().toString())) {
                 confirmNewPasswordEditText.setError(null);
-                if (newPasswordEditText.getText().toString().startsWith(confirmNewPasswordEditText.getText().toString())) {
+                if (newPasswordEditText.getText().toString().equalsIgnoreCase(confirmNewPasswordEditText.getText().toString())) {
                     final ProgressDialog progressBar = new ProgressDialog(ChangePassword.this);
                     progressBar.setMessage("Waiting...");
                     progressBar.setCancelable(false);
@@ -84,5 +85,11 @@ public class ChangePassword extends BackCommonActivity {
             newPasswordEditText.requestFocus();
             newPasswordEditText.setError(Validation.passwordError);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MyApplication.getInstance().setConnectivityListener(this);
     }
 }

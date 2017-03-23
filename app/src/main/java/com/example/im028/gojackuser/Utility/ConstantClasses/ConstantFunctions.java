@@ -9,6 +9,8 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
@@ -113,5 +115,15 @@ public class ConstantFunctions {
         locationB.setLatitude(deliverLatLng.latitude);
         locationB.setLongitude(deliverLatLng.longitude);
         return locationA.distanceTo(locationB);
+    }
+
+    public boolean isOnline(Context act) {
+        ConnectivityManager cm = (ConnectivityManager) act.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnected()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

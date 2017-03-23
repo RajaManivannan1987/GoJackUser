@@ -66,7 +66,7 @@ public class DashboardActivity extends MenuCommonActivity {
     private String pickAddressString = "", toAddressString = "", dateTimeValue = "", fare = "", scheduleType = "";
     private int locationType = PICKLOCATION;
     private SearchLocation searchLocation;
-
+    private Button scheduleButton, ScheduleButton1;
     private boolean flagTouchPressed = false, isMoved = false;
 
     private LinearLayout disableLinearLayout, enableLinearLayout, couponLinearLayout, sheduleLinearLayout;
@@ -158,7 +158,9 @@ public class DashboardActivity extends MenuCommonActivity {
         pickLinearLayout = (LinearLayout) findViewById(R.id.dashboardActivityPickLocationLinearLayout);
         toLinearLayout = (LinearLayout) findViewById(R.id.dashboardActivityToLocationLinearLayout);
         toLocationTextView = (TextView) findViewById(R.id.dashboardActivityToLocationTextView);
+        scheduleButton = (Button) findViewById(R.id.dashboardActivityScheduleButton);
         sheduleLinearLayout = (LinearLayout) findViewById(R.id.dashboardActivitysheduleLinearLayout);
+        ScheduleButton1 = (Button) findViewById(R.id.dashboardActivityScheduleButton1);
         pickLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -216,7 +218,11 @@ public class DashboardActivity extends MenuCommonActivity {
         disabledRequestRideButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ConstantFunctions.toast(DashboardActivity.this, "Select To Address");
+                if (pilotList.size() == 0) {
+                    ConstantFunctions.toast(DashboardActivity.this, "No pilots available");
+                } else {
+                    ConstantFunctions.toast(DashboardActivity.this, "Select To Address");
+                }
             }
         });
         enabledRequestRideButton.setOnClickListener(new View.OnClickListener() {
@@ -261,13 +267,44 @@ public class DashboardActivity extends MenuCommonActivity {
         sheduleLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(DashboardActivity.this, ScheduleActivity.class);
-                startActivityForResult(intent, scheduleRequestCode);
+//                scheduledIntent();
+            }
+        });
+        scheduleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scheduledTrip();
+            }
+        });
+        ScheduleButton1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scheduledTrip();
             }
         });
 
         //Bottom Integration Ends
 
+    }
+
+    private void scheduledTrip() {
+        if (pickLatLng != null && toLatLng != null) {
+            scheduledIntent();
+            if (enableLinearLayout.getVisibility() == View.GONE) {
+                enableLinearLayout.setVisibility(View.VISIBLE);
+                disableLinearLayout.setVisibility(View.GONE);
+                getFare();
+            } else {
+//                enableLinearLayout.setVisibility(View.GONE);
+//                disableLinearLayout.setVisibility(View.VISIBLE);
+            }
+        } else
+            ConstantFunctions.toast(DashboardActivity.this, "Selete To Address");
+    }
+
+    private void scheduledIntent() {
+        Intent intent = new Intent(DashboardActivity.this, ScheduleActivity.class);
+        startActivityForResult(intent, scheduleRequestCode);
     }
 
     private void pickLocation() {
@@ -349,7 +386,6 @@ public class DashboardActivity extends MenuCommonActivity {
         googleMap.setMyLocationEnabled(true);
         googleMap.getUiSettings().setMyLocationButtonEnabled(false);
     }
-
     private void getPilotLocation(LatLng latLng) {
         if (locationType == PICKLOCATION)
             webServices.getPilotLocation(latLng.latitude + "", latLng.longitude + "", new VolleyResponseListerner() {
@@ -363,9 +399,12 @@ public class DashboardActivity extends MenuCommonActivity {
                                 pilotList.add(gson.fromJson(response.getJSONArray("data").getJSONObject(i).toString(), Pilot.class));
                             }
                         } else {
-                            ConstantFunctions.toast(DashboardActivity.this, "No pilot is available");
+                            ConstantFunctions.toast(DashboardActivity.this, "No pilots available");
                             googleMap.clear();
                             markerManagement.clearMarker();
+                            if (enableLinearLayout.getVisibility() == View.VISIBLE) {
+                                enableLinearLayout.setVisibility(View.GONE);
+                            }
                         }
 //                        if (response.getJSONArray("data").length() != 0) {
 //                            for (int i = 0; i < response.getJSONArray("data").length(); i++) {
@@ -461,6 +500,7 @@ public class DashboardActivity extends MenuCommonActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        MyApplication.getInstance().setConnectivityListener(this);
     }
 
 }

@@ -6,8 +6,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.im028.gojackuser.AdapterClasses.TripHistoryRecyclerViewAdapter;
+import com.example.im028.gojackuser.ApplicationClass.MyApplication;
 import com.example.im028.gojackuser.CommonActivityClasses.BackCommonActivity;
 import com.example.im028.gojackuser.ModelClasses.Trip;
 import com.example.im028.gojackuser.R;
@@ -26,6 +28,7 @@ import java.util.List;
 public class HistoryActivity extends BackCommonActivity {
     private static String TAG = "HistoryActivity";
     private RecyclerView recyclerView;
+    private TextView noHistoryTextView;
     private TripHistoryRecyclerViewAdapter adapter;
     private Gson gson = new Gson();
     private List<Trip> data = new ArrayList<>();
@@ -39,6 +42,7 @@ public class HistoryActivity extends BackCommonActivity {
         webServices = new WebServices(this, TAG);
 
         historyLayout = (LinearLayout) findViewById(R.id.historyLayout);
+        noHistoryTextView= (TextView) findViewById(R.id.noHistoryTextView);
         recyclerView = (RecyclerView) findViewById(R.id.historyActivityRecyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -51,6 +55,7 @@ public class HistoryActivity extends BackCommonActivity {
     protected void onResume() {
         super.onResume();
         getData();
+        MyApplication.getInstance().setConnectivityListener(this);
     }
 
     private void getData() {

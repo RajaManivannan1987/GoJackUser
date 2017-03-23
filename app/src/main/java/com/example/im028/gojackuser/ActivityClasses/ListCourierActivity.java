@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.im028.gojackuser.AdapterClasses.ListCourierRecyclerViewAdapter;
+import com.example.im028.gojackuser.ApplicationClass.MyApplication;
 import com.example.im028.gojackuser.CommonActivityClasses.MenuCommonActivity;
 import com.example.im028.gojackuser.ModelClasses.CourierActiveRide;
 import com.example.im028.gojackuser.R;
@@ -58,6 +59,7 @@ public class ListCourierActivity extends MenuCommonActivity {
     protected void onResume() {
         getData();
         super.onResume();
+        MyApplication.getInstance().setConnectivityListener(this);
     }
 
     private void getData() {

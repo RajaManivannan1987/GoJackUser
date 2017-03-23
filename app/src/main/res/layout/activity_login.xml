@@ -12,9 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center_horizontal"
-
         android:orientation="vertical">
-
 
         <ImageView
             android:layout_width="wrap_content"
@@ -39,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/user_icon"
                 android:drawablePadding="3dp"
-                android:hint="User Name"
+                android:hint="Username"
                 android:inputType="text"
                 android:singleLine="true"
                 android:textSize="20sp" />

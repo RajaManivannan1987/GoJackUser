@@ -10,6 +10,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.im028.gojackuser.ApplicationClass.MyApplication;
 import com.example.im028.gojackuser.GCMClass.RegistrationIntentService;
 import com.example.im028.gojackuser.R;
 import com.example.im028.gojackuser.Utility.AlertDialogManager;
@@ -134,5 +135,11 @@ public class LoginActivity extends AppCompatActivity {
                 AlertDialogManager.showAlertDialog(LoginActivity.this, title, message, false);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+//        MyApplication.getInstance().setConnectivityListener(this);
     }
 }

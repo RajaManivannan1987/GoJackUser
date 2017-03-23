@@ -27,7 +27,7 @@
     <string name="submit">Submit</string>
 
     <string name="forgotcontent1">To reset your password, Please enter your registered email address or mobile number.</string>
-    <string name="forgotcontent2">You will receive an email or sms with a four digit code to reset yout password shortly. Be sure to check you junk folder if you dont receive in 10 minutes.</string>
+    <string name="forgotcontent2">You will receive an email or sms with a four digit code to reset your password shortly. Be sure to check your junk folder if you dont receive in 10 minutes.</string>
     <string name="forgotcontent3">You can always contact us at +91-xxxxx-xxxxx or by email.</string>
     <string name="mobile">Mobile Number / Email</string>
     <string name="bin">Enter OTP</string>
@@ -41,7 +41,7 @@
         <item>Sender</item>
         <item>Receiver</item>
     </string-array>
-    <string name="courier_restriction_content">I hereby agree that I am not sending any item not approved by GoJack such as Drugs, Cash, Jewellery, and other valuable items etc. I also agree GoJack is not responsible if I do send the restricted item.</string>
+    <string name="courier_restriction_content">I hereby agree that I am not sending any item not approved by GoJack such as Drugs, Cash, Jewellery and other valuable items etc. I also agree GoJack is not responsible if I do send the restricted item.</string>
 
     //-------------paytm strings-------------
     <string name="order_id">Order Id : </string>

@@ -24,6 +24,6 @@ public class RateCardActivity extends BackCommonActivity {
         rateCardTextView.setTypeface(typeface);
         rateCardminimumTextView.setTypeface(typeface);
         rateCardTextView.setText("`");
-        rateCardminimumTextView.setText("minimum fare: " + "`" + "18");
+        rateCardminimumTextView.setText("minimum fare: " + "`" + "18 for 3 Km");
     }
 }

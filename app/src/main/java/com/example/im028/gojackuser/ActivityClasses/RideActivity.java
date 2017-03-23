@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.im028.gojackuser.ApplicationClass.MyApplication;
 import com.example.im028.gojackuser.CommonActivityClasses.MenuCommonActivity;
 import com.example.im028.gojackuser.DialogFragment.CancelTripDialog;
 import com.example.im028.gojackuser.DialogFragment.ContactDialog;
@@ -375,4 +376,9 @@ public class RideActivity extends MenuCommonActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MyApplication.getInstance().setConnectivityListener(this);
+    }
 }

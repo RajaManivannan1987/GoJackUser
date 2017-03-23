@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.example.im028.gojackuser.ApplicationClass.MyApplication;
 import com.example.im028.gojackuser.CommonActivityClasses.BackCommonActivity;
 import com.example.im028.gojackuser.R;
 import com.example.im028.gojackuser.Utility.AlertDialogManager;
@@ -79,5 +80,6 @@ public class CourierDetailsActivity extends BackCommonActivity {
     protected void onResume() {
         getData();
         super.onResume();
+        MyApplication.getInstance().setConnectivityListener(this);
     }
 }

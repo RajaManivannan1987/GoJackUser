@@ -13,18 +13,23 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.im028.gojackuser.AdapterClasses.CouponRecyclerViewAdapter;
+import com.example.im028.gojackuser.ApplicationClass.MyApplication;
 import com.example.im028.gojackuser.CommonActivityClasses.BackCommonActivity;
 import com.example.im028.gojackuser.ModelClasses.Coupon;
 import com.example.im028.gojackuser.ModelClasses.GetCoupon;
 import com.example.im028.gojackuser.R;
+import com.example.im028.gojackuser.Singleton.ActionCompletedSingleton;
+import com.example.im028.gojackuser.Singleton.AddCouponSingleton;
 import com.example.im028.gojackuser.Utility.ConstantClasses.ConstantFunctions;
 import com.example.im028.gojackuser.Utility.ConstantClasses.ConstantValues;
+import com.example.im028.gojackuser.Utility.InterfaceClasses.CompletedInterface;
 import com.example.im028.gojackuser.Utility.InterfaceClasses.ItemClickListener;
 import com.example.im028.gojackuser.Utility.InterfaceClasses.VolleyResponseListerner;
 import com.example.im028.gojackuser.Utility.WebServicesClasses.WebServices;
@@ -48,7 +53,7 @@ public class CouponActivity extends BackCommonActivity {
     private TextInputEditText couponCodeTextInputEditText;
     private ImageView submitImageView;
     private Button couponCloseButton, applyCouponButton;
-    private TextView validTextView;
+    private TextView validTextView, noCouponAvialableTextView;
     private List<GetCoupon> data = new ArrayList<GetCoupon>();
     private CouponRecyclerViewAdapter adapter;
     private String type = "";
@@ -69,6 +74,7 @@ public class CouponActivity extends BackCommonActivity {
         recyclerView.setLayoutManager(layoutManager);
         couponCloseButton = (Button) findViewById(R.id.couponCloseButton);
         applyCouponButton = (Button) findViewById(R.id.applyCouponButton);
+        noCouponAvialableTextView = (TextView) findViewById(R.id.noCouponAvialableTextView);
         couponCodeTextInputEditText = (TextInputEditText) findViewById(R.id.couponDialogCodeTextInputEditText);
         submitImageView = (ImageView) findViewById(R.id.couponDialogValidImageView);
         validTextView = (TextView) findViewById(R.id.couponDialogValidTextView);
@@ -95,36 +101,58 @@ public class CouponActivity extends BackCommonActivity {
                 finish();
             }
         });
+        couponCodeTextInputEditText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                v.setFocusable(true);
+                v.setFocusableInTouchMode(true);
+                return false;
+            }
+        });
 
         submitImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                webServices.getCouponValidation(type, couponCodeTextInputEditText.getText().toString(), new VolleyResponseListerner() {
-                    @Override
-                    public void onResponse(JSONObject response) throws JSONException {
-                        if (response.getString("status").equalsIgnoreCase("1")) {
-                            if (type.equalsIgnoreCase("ride")) {
-                                setResult(RESULT_OK, getIntent().putExtra("couponName", response.getString("coupon_code")).putExtra("couponId", response.getString("couponid")));
+                if (!couponCodeTextInputEditText.getText().toString().equalsIgnoreCase("")) {
+
+                    webServices.getCouponValidation(type, couponCodeTextInputEditText.getText().toString(), new VolleyResponseListerner() {
+                        @Override
+                        public void onResponse(JSONObject response) throws JSONException {
+                            if (response.getString("status").equalsIgnoreCase("1")) {
+//                            if (type.equalsIgnoreCase("ride")) {
+                                AddCouponSingleton.getInstance().couponAdded();
+                                setResult(RESULT_OK, getIntent().putExtra("couponName", response.getJSONObject("data").getString("description")).putExtra("couponId", response.getJSONObject("data").getString("coupon_id")));
                                 finish();
                                /* DashboardActivity dashboardActivity = new DashboardActivity();
                                 dashboardActivity.couponTextView.setText(couponCodeTextInputEditText.getText().toString());
                                 dashboardActivity.couponId = response.getString("couponid");
                                 finish();*/
                                 //dismiss();
+//                        }
+                            } else {
+                                ConstantFunctions.toast(CouponActivity.this, response.getString("message"));
                             }
-                        } else {
-                            ConstantFunctions.toast(CouponActivity.this, response.getString("message"));
                         }
-                    }
 
-                    @Override
-                    public void onError(String message, String title) {
-                        ConstantFunctions.toast(CouponActivity.this, message);
-                    }
-                });
+                        @Override
+                        public void onError(String message, String title) {
+                            ConstantFunctions.toast(CouponActivity.this, message);
+                        }
+                    });
+                } else {
+                    ConstantFunctions.toast(CouponActivity.this, "Enter Coupon Code");
+                    couponCodeTextInputEditText.setError("Enter Coupon Code");
+                    couponCodeTextInputEditText.requestFocus();
+                }
             }
         });
-        getData(type);
+        AddCouponSingleton.getInstance().setListener(new CompletedInterface() {
+            @Override
+            public void completed() {
+                getData(type);
+            }
+        });
+
     }
 
     private void getData(String type) {
@@ -132,10 +160,18 @@ public class CouponActivity extends BackCommonActivity {
             @Override
             public void onResponse(JSONObject response) throws JSONException {
                 data.clear();
-                for (int i = 0; i < response.getJSONArray("data").length(); i++) {
-                    data.add(gson.fromJson(response.getJSONArray("data").getJSONObject(i).toString(), GetCoupon.class));
+                if (response.getJSONArray("data").length() > 0) {
+                    noCouponAvialableTextView.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    for (int i = 0; i < response.getJSONArray("data").length(); i++) {
+                        data.add(gson.fromJson(response.getJSONArray("data").getJSONObject(i).toString(), GetCoupon.class));
+                    }
+                    adapter.notifyDataSetChanged();
+                } else {
+                    noCouponAvialableTextView.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
                 }
-                adapter.notifyDataSetChanged();
+
             }
 
             @Override
@@ -146,8 +182,15 @@ public class CouponActivity extends BackCommonActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        getData(type);
+    }
+
+    @Override
     public void onBackPressed() {
         super.onBackPressed();
         setResult(RESULT_CANCELED);
+        MyApplication.getInstance().setConnectivityListener(this);
     }
 }

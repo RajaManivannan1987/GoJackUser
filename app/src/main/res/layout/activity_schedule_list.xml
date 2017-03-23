@@ -16,7 +16,7 @@
             android:layout_centerVertical="true"
             android:gravity="center"
             android:layout_gravity="center"
-            android:text="No Schedule Ride" />
+            android:text="No Scheduled Rides" />
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView

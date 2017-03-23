@@ -9,9 +9,19 @@ import com.example.im028.gojackuser.Utility.InterfaceClasses.CompletedInterface;
 public class ActionCompletedSingleton {
     private CompletedInterface actionCompleted;
     private static ActionCompletedSingleton completedSingleton = new ActionCompletedSingleton();
+    private static ActionCompletedSingleton couponLoad = new ActionCompletedSingleton();
+    private static ActionCompletedSingleton nopilot = new ActionCompletedSingleton();
+
+    public static ActionCompletedSingleton getNopilot() {
+        return nopilot;
+    }
 
     public static ActionCompletedSingleton actionCompletedSingleton() {
         return completedSingleton;
+    }
+
+    public static ActionCompletedSingleton getCouponLoad() {
+        return couponLoad;
     }
 
     public void setListener(CompletedInterface completed) {

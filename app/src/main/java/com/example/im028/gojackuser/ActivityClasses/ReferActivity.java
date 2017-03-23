@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.im028.gojackuser.AdapterClasses.ViewPagerAdapter;
+import com.example.im028.gojackuser.ApplicationClass.MyApplication;
 import com.example.im028.gojackuser.CommonActivityClasses.BackCommonActivity;
 import com.example.im028.gojackuser.Fragment.CouponFragment;
 import com.example.im028.gojackuser.Fragment.RefralFragment;

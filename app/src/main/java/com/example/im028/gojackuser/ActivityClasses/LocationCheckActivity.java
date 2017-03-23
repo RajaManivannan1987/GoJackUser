@@ -8,18 +8,24 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.LocationManager;
 import android.provider.Settings;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.im028.gojackuser.ApplicationClass.MyApplication;
 import com.example.im028.gojackuser.R;
 import com.example.im028.gojackuser.Utility.AlertDialogManager;
 import com.example.im028.gojackuser.Utility.ConstantClasses.ConstantFunctions;
 import com.example.im028.gojackuser.Utility.ConstantClasses.ConstantValues;
+import com.example.im028.gojackuser.Utility.InterNet.ConnectivityReceiver;
 import com.example.im028.gojackuser.Utility.InterfaceClasses.VolleyResponseListerner;
 import com.example.im028.gojackuser.Utility.ScheduleThread.ScheduleThread;
 import com.example.im028.gojackuser.Utility.ScheduleThread.TimerInterface;
@@ -28,7 +34,7 @@ import com.example.im028.gojackuser.Utility.WebServicesClasses.WebServices;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class LocationCheckActivity extends AppCompatActivity {
+public class LocationCheckActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener {
     private static String TAG = "LocationCheckActivity";
     private LocationManager lm;
     boolean gps_enabled = false;
@@ -37,6 +43,7 @@ public class LocationCheckActivity extends AppCompatActivity {
     private ScheduleThread thread;
     private WebServices webServices;
     private String type;
+    private RelativeLayout locationCheckRelativeLayout;
 
     public static Intent getLocationCheck(Activity activity, String type) {
         return new Intent(activity, LocationCheckActivity.class).putExtra(ConstantValues.rideTypeRide, type);
@@ -48,6 +55,7 @@ public class LocationCheckActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location_check);
         webServices = new WebServices(this, TAG);
+        locationCheckRelativeLayout = (RelativeLayout) findViewById(R.id.locationCheckRelativeLayout);
         type = getIntent().getExtras().getString(ConstantValues.rideTypeRide);
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         thread = new ScheduleThread(new TimerInterface() {
@@ -173,7 +181,30 @@ public class LocationCheckActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         enableLocation();
+        MyApplication.getInstance().setConnectivityListener(this);
 //        NotificationManager notifManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 //        notifManager.cancelAll();
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        showSnack(isConnected);
+    }
+
+    private void showSnack(boolean isConnected) {
+        String message = null;
+        int color = 0;
+        if (!isConnected) {
+            message = "Sorry! Not connected to internet";
+            color = Color.RED;
+        } else {
+            message = "Good! Connected to Internet";
+            color = Color.WHITE;
+        }
+        Snackbar snackbar = Snackbar.make(locationCheckRelativeLayout, message, Snackbar.LENGTH_LONG);
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(color);
+        snackbar.show();
     }
 }

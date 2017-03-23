@@ -2,7 +2,9 @@ package com.example.im028.gojackuser.CommonActivityClasses;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -22,18 +24,20 @@ import com.example.im028.gojackuser.ActivityClasses.HistoryActivity;
 import com.example.im028.gojackuser.ActivityClasses.RateCardActivity;
 import com.example.im028.gojackuser.ActivityClasses.ReferActivity;
 import com.example.im028.gojackuser.ActivityClasses.ScheduleTripListActivity;
+import com.example.im028.gojackuser.ActivityClasses.SettingsActivity;
 import com.example.im028.gojackuser.AdapterClasses.CommonActionBarListAdapter;
 import com.example.im028.gojackuser.R;
 import com.example.im028.gojackuser.Utility.ConstantClasses.ConstantFunctions;
+import com.example.im028.gojackuser.Utility.InterNet.ConnectivityReceiver;
 import com.example.im028.gojackuser.Utility.Session;
 
 /**
  * Created by IM028 on 8/2/16.
  */
-public class MenuCommonActivity extends AppCompatActivity {
+public class MenuCommonActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener {
     private static final String TAG = "MenuCommonActivity";
     private Toolbar toolbar;
-    private FrameLayout frameLayout;
+    private FrameLayout frameLayout, menuActivityFrameLayout;
     private DrawerLayout drawerLayout;
     private ImageView menuImageView, menuHeaderImageView;
     public ImageView sosImg;
@@ -55,7 +59,7 @@ public class MenuCommonActivity extends AppCompatActivity {
         sosImg = (ImageView) findViewById(R.id.sosMenu);
         menuListView = (ListView) findViewById(R.id.commonMenuActivityDrawerListView);
         titleTextView = (TextView) findViewById(R.id.commonMenuActivityTitleTextView);
-
+        menuActivityFrameLayout = (FrameLayout) findViewById(R.id.menuActivityFrameLayout);
         sosImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,14 +89,13 @@ public class MenuCommonActivity extends AppCompatActivity {
                     TextView nameTextView = (TextView) view.findViewById(R.id.commonNavigationItemTextView);
 //                    Toast.makeText(NavigationCommonActivity.this, nameTextView.getText().toString(), Toast.LENGTH_SHORT).show();
                     switch (nameTextView.getText().toString().toLowerCase().trim()) {
-                        case "logout":
-                            new Session(MenuCommonActivity.this, TAG).logout();
-                            ConstantFunctions.logout(MenuCommonActivity.this);
+                        case "settings":
+                            startActivity(new Intent(MenuCommonActivity.this, SettingsActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
                             break;
                         case "history":
                             startActivity(new Intent(MenuCommonActivity.this, HistoryActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
                             break;
-                        case "schedule trips":
+                        case "scheduled trips":
                             startActivity(new Intent(MenuCommonActivity.this, ScheduleTripListActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
                             break;
                         case "book your ride":
@@ -127,5 +130,27 @@ public class MenuCommonActivity extends AppCompatActivity {
 
     public void setTitle(String title) {
         titleTextView.setText(title);
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        showSnack(isConnected);
+    }
+
+    private void showSnack(boolean isConnected) {
+        String message = null;
+        int color = 0;
+        if (!isConnected) {
+            message = "Sorry! Not connected to internet";
+            color = Color.RED;
+        } else {
+            message = "Good! Connected to Internet";
+            color = Color.WHITE;
+        }
+        Snackbar snackbar = Snackbar.make(menuActivityFrameLayout, message, Snackbar.LENGTH_LONG);
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(color);
+        snackbar.show();
     }
 }

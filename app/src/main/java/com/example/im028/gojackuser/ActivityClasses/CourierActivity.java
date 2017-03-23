@@ -187,24 +187,36 @@ public class CourierActivity extends MenuCommonActivity {
 
                 float distance = new ConstantFunctions().getDistance(pickUpLatLng, deliverLatLng);
                 if (distance >= 100) {
-                    if (!pickUpFromPhoneEditText.getText().toString().equalsIgnoreCase(deliverToPhoneEditText.getText().toString())) {
+                    if (!pickUpFromPhoneEditText.getText().toString().equalsIgnoreCase("")) {
                         pickUpFromPhoneEditText.setError(null);
-                        new WebServices(CourierActivity.this, TAG).getFareEstimation(pickUpLatLng, deliverLatLng, new VolleyResponseListerner() {
-                            @Override
-                            public void onResponse(JSONObject response) throws JSONException {
-                                if (response.getString("status").equalsIgnoreCase("1")) {
-                                    updateFare(response.getString("data").replace("Rs", ""));
-                                }
-                            }
+                        if (!deliverToPhoneEditText.getText().toString().equalsIgnoreCase("")) {
+                            deliverToPhoneEditText.setError(null);
+                            if (!pickUpFromPhoneEditText.getText().toString().equalsIgnoreCase(deliverToPhoneEditText.getText().toString())) {
+                                pickUpFromPhoneEditText.setError(null);
+                                new WebServices(CourierActivity.this, TAG).getFareEstimation(pickUpLatLng, deliverLatLng, new VolleyResponseListerner() {
+                                    @Override
+                                    public void onResponse(JSONObject response) throws JSONException {
+                                        if (response.getString("status").equalsIgnoreCase("1")) {
+                                            updateFare(response.getString("data").replace("Rs", ""));
+                                        }
+                                    }
 
-                            @Override
-                            public void onError(String message, String title) {
-                                AlertDialogManager.showAlertDialog(CourierActivity.this, title, message, false);
+                                    @Override
+                                    public void onError(String message, String title) {
+                                        AlertDialogManager.showAlertDialog(CourierActivity.this, title, message, false);
+                                    }
+                                });
+                            } else {
+                                deliverToPhoneEditText.setError("Should be different from Pickup mobile no");
+                                deliverToPhoneEditText.requestFocus();
                             }
-                        });
+                        } else {
+                            deliverToPhoneEditText.setError("Enter mobile no");
+                            deliverToPhoneEditText.requestFocus();
+                        }
                     } else {
-                        deliverToPhoneEditText.setError("Should be different from Pickup mobile no");
-                        deliverToPhoneEditText.requestFocus();
+                        pickUpFromPhoneEditText.setError("Enter mobile no");
+                        pickUpFromPhoneEditText.requestFocus();
                     }
                 } else {
                     ConstantFunctions.toast(CourierActivity.this, "Pickup and Delivery locations cannot be same");
@@ -289,16 +301,16 @@ public class CourierActivity extends MenuCommonActivity {
 
     }
 
-   /* private float getDistance() {
-        Location locationA = new Location("LocationA");
-        locationA.setLatitude(pickUpLatLng.latitude);
-        locationA.setLongitude(pickUpLatLng.longitude);
-        Location locationB = new Location("LocationB");
-        locationB.setLatitude(deliverLatLng.latitude);
-        locationB.setLongitude(deliverLatLng.longitude);
-        return locationA.distanceTo(locationB);
-    }
-*/
+    /* private float getDistance() {
+         Location locationA = new Location("LocationA");
+         locationA.setLatitude(pickUpLatLng.latitude);
+         locationA.setLongitude(pickUpLatLng.longitude);
+         Location locationB = new Location("LocationB");
+         locationB.setLatitude(deliverLatLng.latitude);
+         locationB.setLongitude(deliverLatLng.longitude);
+         return locationA.distanceTo(locationB);
+     }
+ */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
@@ -388,4 +400,9 @@ public class CourierActivity extends MenuCommonActivity {
         return dist;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MyApplication.getInstance().setConnectivityListener(this);
+    }
 }

@@ -173,4 +173,10 @@ public class PickLocationActivity extends BackCommonActivity {
         }
         return false;
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MyApplication.getInstance().setConnectivityListener(this);
+    }
 }

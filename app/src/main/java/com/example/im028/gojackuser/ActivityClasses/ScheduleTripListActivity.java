@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.example.im028.gojackuser.AdapterClasses.ScheduleListAdapter;
+import com.example.im028.gojackuser.ApplicationClass.MyApplication;
 import com.example.im028.gojackuser.CommonActivityClasses.BackCommonActivity;
 import com.example.im028.gojackuser.ModelClasses.ScheduleList;
 import com.example.im028.gojackuser.R;
@@ -58,6 +59,7 @@ public class ScheduleTripListActivity extends BackCommonActivity {
     protected void onResume() {
         super.onResume();
         getScheduleList();
+        MyApplication.getInstance().setConnectivityListener(this);
     }
 
     private void getScheduleList() {
