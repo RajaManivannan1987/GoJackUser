@@ -11,8 +11,9 @@ public class ConstantValues {
     //    public static String SERVER_URL = "http://imaginetventures.net/sample/gojack/webservice/";
 //    public static String SERVER_URL = "http://www.shoutjack.com/manage/webservice/";
     public static String SERVER_URL = "http://www.calljacktech.com/manage/webservice/";
-//    public static String SERVER_URL = "http://vvnear.com/gojack/manage/webservice/";
+    //    public static String SERVER_URL = "http://vvnear.com/gojack/manage/webservice/";
     //Intent Constants Starts
+    public static String TRACKRIDEURL = "http://calljacktech.com/track/?id=";
     public static String driverStatus = "driverStatus";
     public static String phoneNumber = "phoneNumber";
     public static String paymentType = "paymentType";

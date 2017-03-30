@@ -54,8 +54,8 @@ public class HistoryDetailsActivity extends BackCommonActivity {
             @Override
             public void onResponse(JSONObject response) throws JSONException {
                 if (response.getString("status").equalsIgnoreCase("1")) {
-                    fromTextView.setText(response.getJSONObject("data").getString("starting_address"));
-                    toTextView.setText(response.getJSONObject("data").getString("ending_address"));
+                    fromTextView.setText(response.getJSONObject("data").getString("driver_s_address"));
+                    toTextView.setText(response.getJSONObject("data").getString("driver_e_address"));
                     nameTextView.setText(response.getJSONObject("data").getString("first_name"));
                     nameTextView.setText(response.getJSONObject("data").getString("first_name"));
                     bikeTextView.setText(response.getJSONObject("data").getString("vehicle_make") + " " + response.getJSONObject("data").getString("vehicle_model") + " " + response.getJSONObject("data").getString("vehicle_registration_number"));

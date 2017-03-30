@@ -1,7 +1,10 @@
 package com.example.im028.gojackuser.ActivityClasses;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -16,6 +19,7 @@ import com.example.im028.gojackuser.R;
 import com.example.im028.gojackuser.Utility.AlertDialogManager;
 import com.example.im028.gojackuser.Utility.ConstantClasses.ConstantFunctions;
 import com.example.im028.gojackuser.Utility.ConstantClasses.ConstantValues;
+import com.example.im028.gojackuser.Utility.InterNet.ConnectivityReceiver;
 import com.example.im028.gojackuser.Utility.InterfaceClasses.VolleyResponseListerner;
 import com.example.im028.gojackuser.Utility.Session;
 import com.example.im028.gojackuser.Utility.Validation;
@@ -24,12 +28,13 @@ import com.example.im028.gojackuser.Utility.WebServicesClasses.WebServices;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener {
     private static final String TAG = "LoginActivity";
     private TextInputEditText userNameEditText, passwordEditText;
     private Button loginButton;
     private TextView registerTextView, forgotTextView;
     private WebServices webServices;
+    private TextInputLayout loginActivityPasswordInputLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = (Button) findViewById(R.id.loginActivityLoginButton);
         registerTextView = (TextView) findViewById(R.id.loginActivityRegisterTextView);
         forgotTextView = (TextView) findViewById(R.id.loginActivityForgotPasswordTextView);
+        loginActivityPasswordInputLayout = (TextInputLayout) findViewById(R.id.loginActivityPasswordInputLayout);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,11 +88,11 @@ public class LoginActivity extends AppCompatActivity {
                     passwordEditText.setError(null);
                     login();
                 } else {
-                    passwordEditText.setError(Validation.passwordError);
+                    loginActivityPasswordInputLayout.setError(Validation.passwordError);
                     passwordEditText.requestFocus();
                 }
             } else {
-                passwordEditText.setError(Validation.passwordEmptyMessage);
+                loginActivityPasswordInputLayout.setError(Validation.passwordEmptyMessage);
                 passwordEditText.requestFocus();
             }
         } else {
@@ -140,6 +146,29 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//        MyApplication.getInstance().setConnectivityListener(this);
+        MyApplication.getInstance().setConnectivityListener(this);
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        showSnack(isConnected);
+    }
+
+    private void showSnack(boolean isConnected) {
+        String message = null;
+        int color = 0;
+        if (!isConnected) {
+            message = "Sorry! Not connected to internet";
+            color = Color.WHITE;
+        } else {
+            message = "Good! Connected to Internet";
+            color = Color.WHITE;
+        }
+        Snackbar snackbar = Snackbar.make(userNameEditText, message, Snackbar.LENGTH_LONG);
+        View sbView = snackbar.getView();
+        sbView.setBackgroundColor(Color.RED);
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(color);
+        snackbar.show();
     }
 }

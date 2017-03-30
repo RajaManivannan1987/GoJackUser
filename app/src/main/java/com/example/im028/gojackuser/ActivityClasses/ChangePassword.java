@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.view.View;
 import android.widget.EditText;
 
@@ -28,6 +29,7 @@ import org.json.JSONObject;
 public class ChangePassword extends BackCommonActivity {
     private EditText newPasswordEditText, confirmNewPasswordEditText;
     private String TAG = "ForgotPassword";
+    private TextInputLayout newPasswordTextInputLayout, confirmNewPasswordTextInputLayout;
     String userId;
 
     @Override
@@ -38,6 +40,8 @@ public class ChangePassword extends BackCommonActivity {
         userId = getIntent().getExtras().getString("customerId");
         newPasswordEditText = (EditText) findViewById(R.id.newPasswordEditText);
         confirmNewPasswordEditText = (EditText) findViewById(R.id.confirmNewPasswordEditText);
+        newPasswordTextInputLayout = (TextInputLayout) findViewById(R.id.newPasswordTextInputLayout);
+        confirmNewPasswordTextInputLayout = (TextInputLayout) findViewById(R.id.confirmNewPasswordTextInputLayout);
         findViewById(R.id.changePasswordButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -48,10 +52,13 @@ public class ChangePassword extends BackCommonActivity {
 
     private void setPasswordValidate() {
         if (Validation.isPasswordValid(newPasswordEditText.getText().toString())) {
-            newPasswordEditText.setError(null);
+//            newPasswordEditText.setError(null);
+            newPasswordTextInputLayout.setError(null);
             if (Validation.isPasswordValid(confirmNewPasswordEditText.getText().toString())) {
-                confirmNewPasswordEditText.setError(null);
+//                confirmNewPasswordEditText.setError(null);
+                confirmNewPasswordTextInputLayout.setError(null);
                 if (newPasswordEditText.getText().toString().equalsIgnoreCase(confirmNewPasswordEditText.getText().toString())) {
+                    confirmNewPasswordTextInputLayout.setError(null);
                     final ProgressDialog progressBar = new ProgressDialog(ChangePassword.this);
                     progressBar.setMessage("Waiting...");
                     progressBar.setCancelable(false);
@@ -74,16 +81,16 @@ public class ChangePassword extends BackCommonActivity {
                     });
 
                 } else {
-                    confirmNewPasswordEditText.setError("Password mismatch");
+                    confirmNewPasswordTextInputLayout.setError("Password mismatch");
                     confirmNewPasswordEditText.requestFocus();
                 }
             } else {
                 confirmNewPasswordEditText.requestFocus();
-                confirmNewPasswordEditText.setError(Validation.passwordError);
+                confirmNewPasswordTextInputLayout.setError(Validation.passwordError);
             }
         } else {
             newPasswordEditText.requestFocus();
-            newPasswordEditText.setError(Validation.passwordError);
+            newPasswordTextInputLayout.setError(Validation.passwordError);
         }
     }
 

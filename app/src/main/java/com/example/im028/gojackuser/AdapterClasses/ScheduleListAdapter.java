@@ -55,7 +55,7 @@ public class ScheduleListAdapter extends RecyclerView.Adapter<ScheduleListAdapte
     public void onBindViewHolder(Customholder holder, final int position) {
         holder.dateTimeTextView.setText(list.get(position).getDatetime());
         holder.fromTextView.setText(list.get(position).getStartingaddress());
-//        holder.fromTextView.setSelected(true);
+        holder.fromTextView.setSelected(true);
         holder.toTextView.setText(list.get(position).getEndingaddress());
         holder.toTextView.setSelected(true);
 

@@ -1,11 +1,13 @@
 package com.example.im028.gojackuser.ActivityClasses;
 
 import android.Manifest;
+import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
@@ -14,10 +16,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.im028.gojackuser.ApplicationClass.MyApplication;
 import com.example.im028.gojackuser.CommonActivityClasses.MenuCommonActivity;
 import com.example.im028.gojackuser.DialogFragment.CancelTripDialog;
-import com.example.im028.gojackuser.DialogFragment.ContactDialog;
 import com.example.im028.gojackuser.R;
 import com.example.im028.gojackuser.Utility.AlertDialogManager;
 import com.example.im028.gojackuser.Utility.ConstantClasses.ConstantFunctions;
@@ -26,6 +26,7 @@ import com.example.im028.gojackuser.Utility.CustomUI.TouchableWrapper;
 import com.example.im028.gojackuser.Utility.InterfaceClasses.VolleyResponseListerner;
 import com.example.im028.gojackuser.Utility.ScheduleThread.ScheduleThread;
 import com.example.im028.gojackuser.Utility.ScheduleThread.TimerInterface;
+import com.example.im028.gojackuser.Utility.Session;
 import com.example.im028.gojackuser.Utility.WebServicesClasses.WebServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -49,6 +50,7 @@ public class RideActivity extends MenuCommonActivity {
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            Log.d("CallGetData", "BroadcastReceiver");
             getData();
         }
     };
@@ -61,7 +63,7 @@ public class RideActivity extends MenuCommonActivity {
     private WebServices webServices;
     private JSONObject jsonObject;
     private LatLng pickLatLng, toLatLng;
-    private String pickAddressString = "", toAddressString = "";
+    private String pickAddressString = "", toAddressString = "", driverName = "", driverPhoneNo = "", vehicleNo = "", userName = "";
 
     private LinearLayout riderDetailsLinearLayout, rideProcessLinearLayout;
     private CircleImageView riderPhotoCircleImageView;
@@ -81,6 +83,7 @@ public class RideActivity extends MenuCommonActivity {
         setView(R.layout.activity_ride);
         webServices = new WebServices(this, TAG);
         rideId = getIntent().getExtras().getString(ConstantValues.rideId);
+        userName = new Session(RideActivity.this, TAG).getName();
         scheduleThread = new ScheduleThread(new TimerInterface() {
             @Override
             public void onRun() {
@@ -98,6 +101,7 @@ public class RideActivity extends MenuCommonActivity {
             @Override
             public void onMapReady(GoogleMap googleMap1) {
                 googleMap = googleMap1;
+                Log.d("CallGetData", "getMapAsync");
                 getData();
                 if (ActivityCompat.checkSelfPermission(RideActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(RideActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     // TODO: Consider calling
@@ -115,8 +119,10 @@ public class RideActivity extends MenuCommonActivity {
         });
 
         toLocationTextView = (TextView) findViewById(R.id.rideActivityToLocationTextView);
+        toLocationTextView.setSelected(true);
         toLocationLinearLayout = (LinearLayout) findViewById(R.id.rideActivityToLocationLinearLayout);
         pickLocationTextView = (TextView) findViewById(R.id.rideActivityPickLocationTextView);
+        pickLocationTextView.setSelected(true);
         pickLocationLinearLayout = (LinearLayout) findViewById(R.id.rideActivityPickLocationLinearLayout);
 
         messageTextView = (TextView) findViewById(R.id.rideActivityMessageTextView);
@@ -153,7 +159,7 @@ public class RideActivity extends MenuCommonActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    ConstantFunctions.call(RideActivity.this,jsonObject.getString("mobilenumber"));
+                    ConstantFunctions.call(RideActivity.this, jsonObject.getString("mobilenumber"));
                   /*  ContactDialog contactDialog = new ContactDialog();
                     Bundle bundle = new Bundle();
                     bundle.putString(ConstantValues.phoneNumber, jsonObject.getString("mobilenumber"));
@@ -162,6 +168,20 @@ public class RideActivity extends MenuCommonActivity {
                 } catch (Exception e) {
                     Log.e(TAG, e.toString());
                 }
+            }
+        });
+        trackMyRideLinearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.putExtra("sms_body", userName + " has shared CallJack ride info" + "\n" + "Driver info: " + driverName + "/" + driverPhoneNo + "/" + vehicleNo + "\n" + "Track: " + ConstantValues.TRACKRIDEURL + rideId);
+                    intent.setData(Uri.parse("sms:"));
+                    startActivity(intent);
+                } catch (ActivityNotFoundException e) {
+                    e.printStackTrace();
+                }
+
             }
         });
         toLocationLinearLayout.setOnClickListener(new View.OnClickListener() {
@@ -280,7 +300,6 @@ public class RideActivity extends MenuCommonActivity {
                         finish();
                         break;
                     case "3":
-                        updateDriverData();
                         scheduleThread.stop();
                         sosImg.setVisibility(View.VISIBLE);
                         cancelLinearLayout.setVisibility(View.GONE);
@@ -289,6 +308,7 @@ public class RideActivity extends MenuCommonActivity {
                         if (!riderNameTextView.getText().toString().equalsIgnoreCase("")) {
                             riderNameTextView.setText("");
                         }
+                        updateDriverData();
                         riderDistanceTextView.setText(response.getString("message"));
                         updateData();
                         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(pickLatLng, 15));
@@ -298,7 +318,7 @@ public class RideActivity extends MenuCommonActivity {
                     case "4":
                         switch (jsonObject.getString("type")) {
                             case "courier":
-                                startActivity(new Intent(RideActivity.this, CourierDetailsActivity.class).putExtra(ConstantValues.rideId, rideId));
+                                startActivity(new Intent(RideActivity.this, CourierDetailsActivity.class).putExtra("rideId", rideId));
                                 break;
                             case "ride":
                                 startActivity(new Intent(RideActivity.this, TripDetailsActivity.class).putExtra("data", jsonObject.toString()));
@@ -338,6 +358,10 @@ public class RideActivity extends MenuCommonActivity {
 
         pickAddressString = jsonObject.getString("startinglocality");
         toAddressString = jsonObject.getString("endinglocality");
+        driverName = jsonObject.getString("name");
+        driverPhoneNo = jsonObject.getString("mobilenumber");
+        vehicleNo = jsonObject.getString("vehiclenumber");
+
         pickLatLng = new LatLng(Double.parseDouble(jsonObject.getString("startinglatitude")), Double.parseDouble(jsonObject.getString("startinglongitude")));
         toLatLng = new LatLng(Double.parseDouble(jsonObject.getString("endinglatitude")), Double.parseDouble(jsonObject.getString("endinglongitude")));
         if (toMarker == null)
@@ -379,6 +403,6 @@ public class RideActivity extends MenuCommonActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        MyApplication.getInstance().setConnectivityListener(this);
+//        MyApplication.getInstance().setConnectivityListener(this);
     }
 }

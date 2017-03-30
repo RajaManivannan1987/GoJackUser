@@ -26,6 +26,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="YOUR PILOT HERE" />
+            android:text="YOUR PILOT IS HERE" />
     </LinearLayout>
 </LinearLayout>

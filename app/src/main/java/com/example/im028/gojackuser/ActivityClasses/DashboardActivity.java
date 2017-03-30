@@ -59,7 +59,6 @@ public class DashboardActivity extends MenuCommonActivity {
     private MarkerManagement markerManagement;
     private List<Pilot> pilotList = new ArrayList<Pilot>();
     private ImageView markerImageView;
-
     private TextView pickUpLocationTextView, toLocationTextView;
     private LinearLayout pickLinearLayout, toLinearLayout;
     private LatLng pickLatLng, toLatLng;
@@ -155,9 +154,11 @@ public class DashboardActivity extends MenuCommonActivity {
         //Address Integration Starts
         markerImageView = (ImageView) findViewById(R.id.dashboardActivityMapMarkerImageView);
         pickUpLocationTextView = (TextView) findViewById(R.id.dashboardActivityPickLocationTextView);
+        pickUpLocationTextView.setSelected(true);
         pickLinearLayout = (LinearLayout) findViewById(R.id.dashboardActivityPickLocationLinearLayout);
         toLinearLayout = (LinearLayout) findViewById(R.id.dashboardActivityToLocationLinearLayout);
         toLocationTextView = (TextView) findViewById(R.id.dashboardActivityToLocationTextView);
+        toLocationTextView.setSelected(true);
         scheduleButton = (Button) findViewById(R.id.dashboardActivityScheduleButton);
         sheduleLinearLayout = (LinearLayout) findViewById(R.id.dashboardActivitysheduleLinearLayout);
         ScheduleButton1 = (Button) findViewById(R.id.dashboardActivityScheduleButton1);

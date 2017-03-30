@@ -362,6 +362,8 @@ public class CourierActivity extends MenuCommonActivity {
                         if (!response.getString("status").equalsIgnoreCase("0")) {
                             courierRestrictionDialog.dismiss();
                             startActivity(new Intent(CourierActivity.this, RideActivity.class).putExtra(ConstantValues.rideId, response.getString("rideid")));
+//                            startActivity(new Intent(CourierActivity.this, LocationCheckActivity.class).putExtra(ConstantValues.rideType, ConstantValues.rideTypeCourier));
+//                            startActivity(new Intent(CourierActivity.this, LocationCheckActivity.class).putExtra(ConstantValues.rideTypeRide, "courier"));
                             finish();
                         } else if (response.getString("status").equalsIgnoreCase("0")) {
                             courierRestrictionDialog.dismiss();
@@ -403,6 +405,6 @@ public class CourierActivity extends MenuCommonActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        MyApplication.getInstance().setConnectivityListener(this);
+//        MyApplication.getInstance().setConnectivityListener(this);
     }
 }

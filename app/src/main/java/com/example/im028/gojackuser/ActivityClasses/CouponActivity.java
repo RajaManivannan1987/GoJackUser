@@ -97,8 +97,13 @@ public class CouponActivity extends BackCommonActivity {
         applyCouponButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setResult(RESULT_OK, getIntent().putExtra("couponName", couponName).putExtra("couponId", couponId));
-                finish();
+                if (data.size() > 0){
+                    setResult(RESULT_OK, getIntent().putExtra("couponName", couponName).putExtra("couponId", couponId));
+                    finish();
+                }else {
+                    ConstantFunctions.toast(CouponActivity.this,"No coupons available.");
+                }
+
             }
         });
         couponCodeTextInputEditText.setOnTouchListener(new View.OnTouchListener() {
@@ -114,7 +119,6 @@ public class CouponActivity extends BackCommonActivity {
             @Override
             public void onClick(View v) {
                 if (!couponCodeTextInputEditText.getText().toString().equalsIgnoreCase("")) {
-
                     webServices.getCouponValidation(type, couponCodeTextInputEditText.getText().toString(), new VolleyResponseListerner() {
                         @Override
                         public void onResponse(JSONObject response) throws JSONException {
@@ -191,6 +195,5 @@ public class CouponActivity extends BackCommonActivity {
     public void onBackPressed() {
         super.onBackPressed();
         setResult(RESULT_CANCELED);
-        MyApplication.getInstance().setConnectivityListener(this);
     }
 }

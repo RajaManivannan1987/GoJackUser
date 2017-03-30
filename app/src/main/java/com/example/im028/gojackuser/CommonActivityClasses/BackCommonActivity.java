@@ -63,13 +63,14 @@ public class BackCommonActivity extends AppCompatActivity implements Connectivit
         int color = 0;
         if (!isConnected) {
             message = "Sorry! Not connected to internet";
-            color = Color.RED;
+            color = Color.WHITE;
         } else {
             message = "Good! Connected to Internet";
             color = Color.WHITE;
         }
         Snackbar snackbar = Snackbar.make(backActivityFrameLayout, message, Snackbar.LENGTH_LONG);
         View sbView = snackbar.getView();
+        sbView.setBackgroundColor(Color.RED);
         TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
         textView.setTextColor(color);
         snackbar.show();

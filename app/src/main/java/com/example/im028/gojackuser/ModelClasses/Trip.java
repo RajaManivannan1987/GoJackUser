@@ -6,8 +6,8 @@ package com.example.im028.gojackuser.ModelClasses;
 public class Trip {
     private String ride_id;
     private String date_time;
-    private String starting_address;
-    private String ending_address;
+    private String driver_s_address;
+    private String driver_e_address;
     private String final_amount;
     private String ride_type;
 
@@ -20,11 +20,11 @@ public class Trip {
     }
 
     public String getStarting_address() {
-        return starting_address;
+        return driver_s_address;
     }
 
     public String getEnding_address() {
-        return ending_address;
+        return driver_e_address;
     }
 
     public String getFinal_amount() {

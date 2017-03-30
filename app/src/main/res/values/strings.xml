@@ -26,8 +26,8 @@
     <string name="confirmpasswordcontent2">Your password must be at least 6 characters</string>
     <string name="submit">Submit</string>
 
-    <string name="forgotcontent1">To reset your password, Please enter your registered email address or mobile number.</string>
-    <string name="forgotcontent2">You will receive an email or sms with a four digit code to reset your password shortly. Be sure to check your junk folder if you dont receive in 10 minutes.</string>
+    <string name="forgotcontent1">To reset your password, Enter your registered email address or mobile number.</string>
+    <string name="forgotcontent2">You will receive an email or SMS with a four digit code to reset your password shortly. Be sure to check your junk folder if you don\'t receive in 10 minutes.</string>
     <string name="forgotcontent3">You can always contact us at +91-xxxxx-xxxxx or by email.</string>
     <string name="mobile">Mobile Number / Email</string>
     <string name="bin">Enter OTP</string>

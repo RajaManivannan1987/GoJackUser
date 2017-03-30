@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/button_text"
     android:paddingTop="?android:actionBarSize"
+    android:isScrollContainer="true"
     tools:context="com.example.im028.gojackuser.ActivityClasses.CourierActivity">
 
     <LinearLayout
@@ -423,7 +424,7 @@
                 <ImageView
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:src="@drawable/payment_icon" />
+                    android:src="@drawable/pickup_person_name" />
 
                 <Spinner
                     android:id="@+id/courierActivityPaymentModeSpinner"
@@ -442,7 +443,7 @@
                 <ImageView
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:src="@drawable/pickup_person_name" />
+                    android:src="@drawable/payment_icon" />
 
                 <TextView
                     android:layout_width="wrap_content"
