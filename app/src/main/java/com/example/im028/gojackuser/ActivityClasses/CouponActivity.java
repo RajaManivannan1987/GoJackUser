@@ -97,11 +97,11 @@ public class CouponActivity extends BackCommonActivity {
         applyCouponButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (data.size() > 0){
+                if (data.size() > 0) {
                     setResult(RESULT_OK, getIntent().putExtra("couponName", couponName).putExtra("couponId", couponId));
                     finish();
-                }else {
-                    ConstantFunctions.toast(CouponActivity.this,"No coupons available.");
+                } else {
+                    ConstantFunctions.toast(CouponActivity.this, "No coupons available.");
                 }
 
             }
@@ -140,7 +140,7 @@ public class CouponActivity extends BackCommonActivity {
 
                         @Override
                         public void onError(String message, String title) {
-                            ConstantFunctions.toast(CouponActivity.this, message);
+                            ConstantFunctions.showSnakBar(message, couponCodeTextInputEditText);
                         }
                     });
                 } else {
@@ -180,7 +180,7 @@ public class CouponActivity extends BackCommonActivity {
 
             @Override
             public void onError(String message, String title) {
-                ConstantFunctions.toast(CouponActivity.this, message);
+                ConstantFunctions.showSnakBar(message, couponCodeTextInputEditText);
             }
         });
     }

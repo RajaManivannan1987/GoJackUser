@@ -126,7 +126,7 @@ public class TripDetailsActivity extends BackCommonActivity {
 
                                 @Override
                                 public void onError(String message, String title) {
-
+                                    ConstantFunctions.showSnakBar(message, petrolYesRadioButton);
                                 }
                             });
                 } catch (JSONException e) {
@@ -139,6 +139,6 @@ public class TripDetailsActivity extends BackCommonActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        MyApplication.getInstance().setConnectivityListener(this);
+//        MyApplication.getInstance().setConnectivityListener(this);
     }
 }

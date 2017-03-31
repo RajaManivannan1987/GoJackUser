@@ -14,6 +14,7 @@ import com.example.im028.gojackuser.CommonActivityClasses.BackCommonActivity;
 import com.example.im028.gojackuser.ModelClasses.Trip;
 import com.example.im028.gojackuser.R;
 import com.example.im028.gojackuser.Utility.AlertDialogManager;
+import com.example.im028.gojackuser.Utility.ConstantClasses.ConstantFunctions;
 import com.example.im028.gojackuser.Utility.InterfaceClasses.VolleyResponseListerner;
 import com.example.im028.gojackuser.Utility.WebServicesClasses.WebServices;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -55,7 +56,7 @@ public class HistoryActivity extends BackCommonActivity {
     protected void onResume() {
         super.onResume();
         getData();
-        MyApplication.getInstance().setConnectivityListener(this);
+//        MyApplication.getInstance().setConnectivityListener(this);
     }
 
     private void getData() {
@@ -82,7 +83,7 @@ public class HistoryActivity extends BackCommonActivity {
 
             @Override
             public void onError(String message, String title) {
-                AlertDialogManager.showAlertDialog(HistoryActivity.this, title, message, false);
+                ConstantFunctions.showSnakBar(message, recyclerView);
             }
         });
     }

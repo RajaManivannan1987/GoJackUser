@@ -85,7 +85,7 @@ public class LocationCheckActivity extends AppCompatActivity implements Connecti
 
                         @Override
                         public void onError(String message, String title) {
-
+                            ConstantFunctions.showSnakBar(message,locationCheckRelativeLayout);
                         }
                     });
                     thread.stop();
@@ -110,7 +110,8 @@ public class LocationCheckActivity extends AppCompatActivity implements Connecti
 
             @Override
             public void onError(String message, String title) {
-                AlertDialogManager.showAlertDialog(LocationCheckActivity.this, title, message, false);
+//                AlertDialogManager.showAlertDialog(LocationCheckActivity.this, title, message, false);
+                ConstantFunctions.showSnakBar(message,locationCheckRelativeLayout);
             }
         });
 
@@ -193,19 +194,11 @@ public class LocationCheckActivity extends AppCompatActivity implements Connecti
 
     private void showSnack(boolean isConnected) {
         String message = null;
-        int color = 0;
         if (!isConnected) {
             message = "Sorry! Not connected to internet";
-            color = Color.WHITE;
         } else {
             message = "Good! Connected to Internet";
-            color = Color.WHITE;
         }
-        Snackbar snackbar = Snackbar.make(locationCheckRelativeLayout, message, Snackbar.LENGTH_LONG);
-        View sbView = snackbar.getView();
-        sbView.setBackgroundColor(Color.RED);
-        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-        textView.setTextColor(color);
-        snackbar.show();
+        ConstantFunctions.showSnakBar(message,locationCheckRelativeLayout);
     }
 }

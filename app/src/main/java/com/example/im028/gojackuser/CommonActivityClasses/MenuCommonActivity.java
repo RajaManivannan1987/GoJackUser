@@ -26,6 +26,7 @@ import com.example.im028.gojackuser.ActivityClasses.ReferActivity;
 import com.example.im028.gojackuser.ActivityClasses.ScheduleTripListActivity;
 import com.example.im028.gojackuser.ActivityClasses.SettingsActivity;
 import com.example.im028.gojackuser.AdapterClasses.CommonActionBarListAdapter;
+import com.example.im028.gojackuser.ApplicationClass.MyApplication;
 import com.example.im028.gojackuser.R;
 import com.example.im028.gojackuser.Utility.ConstantClasses.ConstantFunctions;
 import com.example.im028.gojackuser.Utility.InterNet.ConnectivityReceiver;
@@ -139,19 +140,20 @@ public class MenuCommonActivity extends AppCompatActivity implements Connectivit
 
     private void showSnack(boolean isConnected) {
         String message = null;
-        int color = 0;
+
         if (!isConnected) {
             message = "Sorry! Not connected to internet";
-            color = Color.WHITE;
+
         } else {
             message = "Good! Connected to Internet";
-            color = Color.WHITE;
+
         }
-        Snackbar snackbar = Snackbar.make(menuActivityFrameLayout, message, Snackbar.LENGTH_LONG);
-        View sbView = snackbar.getView();
-        sbView.setBackgroundColor(Color.RED);
-        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-        textView.setTextColor(color);
-        snackbar.show();
+        ConstantFunctions.showSnakBar(message,menuActivityFrameLayout);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MyApplication.getInstance().setConnectivityListener(this);
     }
 }

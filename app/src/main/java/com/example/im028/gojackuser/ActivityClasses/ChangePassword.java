@@ -97,6 +97,5 @@ public class ChangePassword extends BackCommonActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        MyApplication.getInstance().setConnectivityListener(this);
     }
 }

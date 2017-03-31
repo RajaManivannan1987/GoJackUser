@@ -55,8 +55,8 @@ public class ScheduleActivity extends BackCommonActivity {
                     date2 = format.parse(strdateTime);
 
                     long diff = date2.getTime() - date1.getTime();
-//                    long diffHours = diff / (60 * 60 * 1000);
-                    long diffHours = diff / (300);
+                    long diffHours = diff / (60 * 60 * 1000);
+//                    long diffHours = diff / (300);
 
                     if (diffHours >= 1) {
                         String strdateTime1 = datePicker.getYear() + "-" + (datePicker.getMonth() + 1) + "-" + datePicker.getDayOfMonth() + " " + timePicker.getCurrentHour() + ":" + timePicker.getCurrentMinute();

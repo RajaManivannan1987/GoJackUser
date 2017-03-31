@@ -300,7 +300,7 @@ public class DashboardActivity extends MenuCommonActivity {
 //                disableLinearLayout.setVisibility(View.VISIBLE);
             }
         } else
-            ConstantFunctions.toast(DashboardActivity.this, "Selete To Address");
+            ConstantFunctions.toast(DashboardActivity.this, "Select To Address");
     }
 
     private void scheduledIntent() {
@@ -387,6 +387,7 @@ public class DashboardActivity extends MenuCommonActivity {
         googleMap.setMyLocationEnabled(true);
         googleMap.getUiSettings().setMyLocationButtonEnabled(false);
     }
+
     private void getPilotLocation(LatLng latLng) {
         if (locationType == PICKLOCATION)
             webServices.getPilotLocation(latLng.latitude + "", latLng.longitude + "", new VolleyResponseListerner() {
@@ -422,7 +423,8 @@ public class DashboardActivity extends MenuCommonActivity {
 
                 @Override
                 public void onError(String message, String title) {
-                    AlertDialogManager.showAlertDialog(DashboardActivity.this, title, message, false);
+                    ConstantFunctions.showSnakBar(message, toLocationTextView);
+//                    AlertDialogManager.showAlertDialog(DashboardActivity.this, title, message, false);
                 }
             });
     }
@@ -434,7 +436,8 @@ public class DashboardActivity extends MenuCommonActivity {
             disableLinearLayout.setVisibility(View.GONE);
             getFare();
         } else {
-            enableLinearLayout.setVisibility(View.GONE);
+            if (toLatLng == null)
+                enableLinearLayout.setVisibility(View.GONE);
             disableLinearLayout.setVisibility(View.VISIBLE);
         }
     }
@@ -451,7 +454,7 @@ public class DashboardActivity extends MenuCommonActivity {
 
             @Override
             public void onError(String message, String title) {
-                AlertDialogManager.showAlertDialog(DashboardActivity.this, title, message, false);
+                ConstantFunctions.showSnakBar(message, toLocationTextView);
             }
         });
     }
@@ -501,7 +504,7 @@ public class DashboardActivity extends MenuCommonActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        MyApplication.getInstance().setConnectivityListener(this);
+//        MyApplication.getInstance().setConnectivityListener(this);
     }
 
 }

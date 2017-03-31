@@ -65,7 +65,7 @@ public class ForgotPassword extends BackCommonActivity {
                         @Override
                         public void onError(String message, String title) {
                             progressBar.dismiss();
-                            AlertDialogManager.showAlertDialog(ForgotPassword.this, title, message, false);
+                            ConstantFunctions.showSnakBar(message, userNameEditText);
                         }
                     });
 
@@ -106,6 +106,6 @@ public class ForgotPassword extends BackCommonActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        MyApplication.getInstance().setConnectivityListener(this);
+//        MyApplication.getInstance().setConnectivityListener(this);
     }
 }

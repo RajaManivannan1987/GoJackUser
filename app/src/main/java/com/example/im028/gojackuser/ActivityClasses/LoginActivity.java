@@ -80,11 +80,11 @@ public class LoginActivity extends AppCompatActivity implements ConnectivityRece
     }
 
     private void loginValidate() {
-        if (Validation.emailPhoneValidation(userNameEditText.getText().toString()).equalsIgnoreCase("email") || Validation.emailPhoneValidation(userNameEditText.getText().toString()).equalsIgnoreCase("phone")) {
+        if (Validation.emailPhoneValidation(userNameEditText.getText().toString().trim()).equalsIgnoreCase("email") || Validation.emailPhoneValidation(userNameEditText.getText().toString().trim()).equalsIgnoreCase("phone")) {
             userNameEditText.setError(null);
-            if (Validation.isPasswordEmpty(passwordEditText.getText().toString())) {
+            if (Validation.isPasswordEmpty(passwordEditText.getText().toString().trim())) {
                 passwordEditText.setError(null);
-                if (Validation.isPasswordValid(passwordEditText.getText().toString())) {
+                if (Validation.isPasswordValid(passwordEditText.getText().toString().trim())) {
                     passwordEditText.setError(null);
                     login();
                 } else {
@@ -138,7 +138,7 @@ public class LoginActivity extends AppCompatActivity implements ConnectivityRece
 
             @Override
             public void onError(String message, String title) {
-                AlertDialogManager.showAlertDialog(LoginActivity.this, title, message, false);
+                ConstantFunctions.showSnakBar(message, userNameEditText);
             }
         });
     }
@@ -156,19 +156,11 @@ public class LoginActivity extends AppCompatActivity implements ConnectivityRece
 
     private void showSnack(boolean isConnected) {
         String message = null;
-        int color = 0;
         if (!isConnected) {
             message = "Sorry! Not connected to internet";
-            color = Color.WHITE;
         } else {
             message = "Good! Connected to Internet";
-            color = Color.WHITE;
         }
-        Snackbar snackbar = Snackbar.make(userNameEditText, message, Snackbar.LENGTH_LONG);
-        View sbView = snackbar.getView();
-        sbView.setBackgroundColor(Color.RED);
-        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-        textView.setTextColor(color);
-        snackbar.show();
+        ConstantFunctions.showSnakBar(message, userNameEditText);
     }
 }

@@ -14,6 +14,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.im028.gojackuser.ApplicationClass.MyApplication;
 import com.example.im028.gojackuser.R;
 import com.example.im028.gojackuser.Utility.InterNet.ConnectivityReceiver;
 
@@ -74,5 +75,11 @@ public class BackCommonActivity extends AppCompatActivity implements Connectivit
         TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
         textView.setTextColor(color);
         snackbar.show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MyApplication.getInstance().setConnectivityListener(this);
     }
 }

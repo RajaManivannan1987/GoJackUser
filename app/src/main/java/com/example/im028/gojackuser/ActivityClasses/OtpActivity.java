@@ -97,7 +97,7 @@ public class OtpActivity extends BackCommonActivity {
                         @Override
                         public void onError(String message, String title) {
                             progressBar.dismiss();
-                            AlertDialogManager.showAlertDialog(OtpActivity.this, title, message, false);
+                            ConstantFunctions.showSnakBar(message,pinTextInputEditText);
                         }
                     });
                 } else {
@@ -132,6 +132,6 @@ public class OtpActivity extends BackCommonActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        MyApplication.getInstance().setConnectivityListener(this);
+//        MyApplication.getInstance().setConnectivityListener(this);
     }
 }

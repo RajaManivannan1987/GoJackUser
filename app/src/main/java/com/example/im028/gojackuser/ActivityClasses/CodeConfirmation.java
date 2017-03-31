@@ -101,6 +101,7 @@ public class CodeConfirmation extends BackCommonActivity {
                         @Override
                         public void onError(String message, String title) {
                             progressBar.dismiss();
+                            ConstantFunctions.showSnakBar(message, userNameEditText);
                         }
                     });
 
@@ -171,6 +172,6 @@ public class CodeConfirmation extends BackCommonActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        MyApplication.getInstance().setConnectivityListener(this);
+//        MyApplication.getInstance().setConnectivityListener(this);
     }
 }

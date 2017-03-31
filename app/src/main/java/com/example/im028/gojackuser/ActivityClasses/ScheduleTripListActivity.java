@@ -12,6 +12,7 @@ import com.example.im028.gojackuser.CommonActivityClasses.BackCommonActivity;
 import com.example.im028.gojackuser.ModelClasses.ScheduleList;
 import com.example.im028.gojackuser.R;
 import com.example.im028.gojackuser.Singleton.ActionCompletedSingleton;
+import com.example.im028.gojackuser.Utility.ConstantClasses.ConstantFunctions;
 import com.example.im028.gojackuser.Utility.InterfaceClasses.CompletedInterface;
 import com.example.im028.gojackuser.Utility.InterfaceClasses.VolleyResponseListerner;
 import com.example.im028.gojackuser.Utility.WebServicesClasses.WebServices;
@@ -59,7 +60,7 @@ public class ScheduleTripListActivity extends BackCommonActivity {
     protected void onResume() {
         super.onResume();
         getScheduleList();
-        MyApplication.getInstance().setConnectivityListener(this);
+//        MyApplication.getInstance().setConnectivityListener(this);
     }
 
     private void getScheduleList() {
@@ -74,7 +75,7 @@ public class ScheduleTripListActivity extends BackCommonActivity {
                         for (int i = 0; i < response.getJSONArray("data").length(); i++) {
                             list.add(gson.fromJson(response.getJSONArray("data").getJSONObject(i).toString(), ScheduleList.class));
                         }
-                    }else {
+                    } else {
                         scheduleTripLayout.setVisibility(View.VISIBLE);
                         scheduleListRecyclerView.setVisibility(View.GONE);
                     }
@@ -85,7 +86,7 @@ public class ScheduleTripListActivity extends BackCommonActivity {
 
             @Override
             public void onError(String message, String title) {
-
+                ConstantFunctions.showSnakBar(message, scheduleTripLayout);
             }
         });
     }

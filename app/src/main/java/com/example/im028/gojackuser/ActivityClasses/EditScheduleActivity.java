@@ -77,7 +77,7 @@ public class EditScheduleActivity extends BackCommonActivity {
 
                             @Override
                             public void onError(String message, String title) {
-                                AlertDialogManager.showAlertDialog(EditScheduleActivity.this, title, message, false);
+                                ConstantFunctions.showSnakBar(message, dateTimeSetButton);
                             }
                         });
 //                        String strdateTime1 = datePicker.getYear() + "-" + (datePicker.getMonth() + 1) + "-" + datePicker.getDayOfMonth() + " " + timePicker.getCurrentHour() + ":" + timePicker.getCurrentMinute();

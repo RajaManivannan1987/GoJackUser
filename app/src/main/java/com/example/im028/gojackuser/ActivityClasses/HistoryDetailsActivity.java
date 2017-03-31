@@ -11,6 +11,7 @@ import com.example.im028.gojackuser.ApplicationClass.MyApplication;
 import com.example.im028.gojackuser.CommonActivityClasses.BackCommonActivity;
 import com.example.im028.gojackuser.R;
 import com.example.im028.gojackuser.Utility.AlertDialogManager;
+import com.example.im028.gojackuser.Utility.ConstantClasses.ConstantFunctions;
 import com.example.im028.gojackuser.Utility.ConstantClasses.ConstantValues;
 import com.example.im028.gojackuser.Utility.InterfaceClasses.VolleyResponseListerner;
 import com.example.im028.gojackuser.Utility.WebServicesClasses.WebServices;
@@ -78,7 +79,7 @@ public class HistoryDetailsActivity extends BackCommonActivity {
 
             @Override
             public void onError(String message, String title) {
-                AlertDialogManager.showAlertDialog(HistoryDetailsActivity.this, title, message, false);
+                ConstantFunctions.showSnakBar(message, paymentTypeTextView);
             }
         });
     }
@@ -86,6 +87,6 @@ public class HistoryDetailsActivity extends BackCommonActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        MyApplication.getInstance().setConnectivityListener(this);
+//        MyApplication.getInstance().setConnectivityListener(this);
     }
 }

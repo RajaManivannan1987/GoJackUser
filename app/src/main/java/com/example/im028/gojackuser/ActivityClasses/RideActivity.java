@@ -7,9 +7,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
@@ -19,10 +21,12 @@ import android.widget.TextView;
 import com.example.im028.gojackuser.CommonActivityClasses.MenuCommonActivity;
 import com.example.im028.gojackuser.DialogFragment.CancelTripDialog;
 import com.example.im028.gojackuser.R;
+import com.example.im028.gojackuser.Singleton.AddCouponSingleton;
 import com.example.im028.gojackuser.Utility.AlertDialogManager;
 import com.example.im028.gojackuser.Utility.ConstantClasses.ConstantFunctions;
 import com.example.im028.gojackuser.Utility.ConstantClasses.ConstantValues;
 import com.example.im028.gojackuser.Utility.CustomUI.TouchableWrapper;
+import com.example.im028.gojackuser.Utility.InterfaceClasses.CompletedInterface;
 import com.example.im028.gojackuser.Utility.InterfaceClasses.VolleyResponseListerner;
 import com.example.im028.gojackuser.Utility.ScheduleThread.ScheduleThread;
 import com.example.im028.gojackuser.Utility.ScheduleThread.TimerInterface;
@@ -67,7 +71,7 @@ public class RideActivity extends MenuCommonActivity {
 
     private LinearLayout riderDetailsLinearLayout, rideProcessLinearLayout;
     private CircleImageView riderPhotoCircleImageView;
-    private TextView riderNameTextView, riderBikeNameTextView, riderBikeNumberTextView, riderRatingTextView, riderDistanceTextView;
+    private TextView riderNameTextView, riderBikeNameTextView, riderBikeNumberTextView, riderRatingTextView,riderDistanceTextView;
     private LinearLayout callLinearLayout, trackMyRideLinearLayout, cancelRideLinearLayout;
     private boolean waitFlag = true;
     private View.OnClickListener cancel;
@@ -197,6 +201,18 @@ public class RideActivity extends MenuCommonActivity {
             public void onClick(View v) {
                 if (googleMap != null)
                     googleMap.animateCamera(CameraUpdateFactory.newLatLng(pickLatLng));
+            }
+        });
+        AddCouponSingleton.getChagePilotStatus().setListener(new CompletedInterface() {
+            @Override
+            public void completed() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        riderDistanceTextView.setText("Your pilot is here");
+                    }
+                });
+
             }
         });
     }
@@ -331,7 +347,8 @@ public class RideActivity extends MenuCommonActivity {
 
             @Override
             public void onError(String message, String title) {
-                AlertDialogManager.showAlertDialog(RideActivity.this, title, message, false);
+//                AlertDialogManager.showAlertDialog(RideActivity.this, title, message, false);
+                ConstantFunctions.showSnakBar(message, toLocationTextView);
             }
         });
     }
@@ -378,7 +395,7 @@ public class RideActivity extends MenuCommonActivity {
         webServices.trackPilotDistance(jsonObject.getString("rideid"), new VolleyResponseListerner() {
             @Override
             public void onResponse(JSONObject response) throws JSONException {
-                //riderDistanceTextView.setText("YOUR PILOT WILL ARRIVE IN " + response.getString("time").toUpperCase());
+//                riderDistanceTextView.setText("YOUR PILOT IS HERE");
                 if (pilotMarker == null) {
                     MarkerOptions markerOptions = new MarkerOptions();
                     markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.male_pilot_icon));
@@ -395,7 +412,7 @@ public class RideActivity extends MenuCommonActivity {
 
             @Override
             public void onError(String message, String title) {
-                AlertDialogManager.showAlertDialog(RideActivity.this, title, message, false);
+                ConstantFunctions.showSnakBar(message, riderNameTextView);
             }
         });
     }

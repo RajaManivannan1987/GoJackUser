@@ -19,6 +19,7 @@ import com.example.im028.gojackuser.DialogFragment.PilotHereDialogActivity;
 import com.example.im028.gojackuser.DialogFragment.TripCompletedDialogActivity;
 import com.example.im028.gojackuser.R;
 import com.example.im028.gojackuser.Singleton.ActionCompletedSingleton;
+import com.example.im028.gojackuser.Singleton.AddCouponSingleton;
 import com.example.im028.gojackuser.Utility.ConstantClasses.ConstantFunctions;
 import com.example.im028.gojackuser.Utility.ConstantClasses.ConstantValues;
 import com.example.im028.gojackuser.Utility.InterfaceClasses.CompletedInterface;
@@ -27,6 +28,8 @@ import com.google.android.gms.gcm.GcmListenerService;
 
 
 import java.util.Calendar;
+
+//import static com.example.im028.gojackuser.ActivityClasses.RideActivity.riderDistanceTextView;
 
 /**
  * Created by IM028 on 4/20/16.
@@ -92,6 +95,7 @@ public class GCMListener extends GcmListenerService {
                 ConstantFunctions.updateRide(this);
                 break;
             case "pilotreached":
+                AddCouponSingleton.getChagePilotStatus().couponAdded();
                 intent = new Intent(this, LocationCheckActivity.class).putExtra(ConstantValues.rideTypeRide, ridetype);
                 ConstantFunctions.updateRide(this);
                 startActivity(new Intent(this, PilotHereDialogActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));

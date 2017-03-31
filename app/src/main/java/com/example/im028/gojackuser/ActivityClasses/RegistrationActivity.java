@@ -152,7 +152,7 @@ public class RegistrationActivity extends BackCommonActivity {
 
                     @Override
                     public void onError(String message, String title) {
-                        AlertDialogManager.showAlertDialog(RegistrationActivity.this, title, message, false);
+                        ConstantFunctions.showSnakBar(message, emailTextInputEditText);
                     }
                 });
     }
@@ -160,6 +160,6 @@ public class RegistrationActivity extends BackCommonActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        MyApplication.getInstance().setConnectivityListener(this);
+//        MyApplication.getInstance().setConnectivityListener(this);
     }
 }

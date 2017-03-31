@@ -373,7 +373,8 @@ public class CourierActivity extends MenuCommonActivity {
 
                     @Override
                     public void onError(String message, String title) {
-                        AlertDialogManager.showAlertDialog(CourierActivity.this, title, message, false);
+                        ConstantFunctions.showSnakBar(message,enablePickUpNowButton);
+//                        AlertDialogManager.showAlertDialog(CourierActivity.this, title, message, false);
                     }
                 });
     }

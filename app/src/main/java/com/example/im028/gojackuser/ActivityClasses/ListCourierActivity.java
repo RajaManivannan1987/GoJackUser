@@ -14,6 +14,7 @@ import com.example.im028.gojackuser.CommonActivityClasses.MenuCommonActivity;
 import com.example.im028.gojackuser.ModelClasses.CourierActiveRide;
 import com.example.im028.gojackuser.R;
 import com.example.im028.gojackuser.Utility.AlertDialogManager;
+import com.example.im028.gojackuser.Utility.ConstantClasses.ConstantFunctions;
 import com.example.im028.gojackuser.Utility.ConstantClasses.ConstantValues;
 import com.example.im028.gojackuser.Utility.InterfaceClasses.VolleyResponseListerner;
 import com.example.im028.gojackuser.Utility.WebServicesClasses.WebServices;
@@ -59,7 +60,7 @@ public class ListCourierActivity extends MenuCommonActivity {
     protected void onResume() {
         getData();
         super.onResume();
-        MyApplication.getInstance().setConnectivityListener(this);
+//        MyApplication.getInstance().setConnectivityListener(this);
     }
 
     private void getData() {
@@ -77,7 +78,7 @@ public class ListCourierActivity extends MenuCommonActivity {
 
             @Override
             public void onError(String message, String title) {
-                AlertDialogManager.showAlertDialog(ListCourierActivity.this, title, message, false);
+                ConstantFunctions.showSnakBar(message, newButton);
             }
         });
     }
