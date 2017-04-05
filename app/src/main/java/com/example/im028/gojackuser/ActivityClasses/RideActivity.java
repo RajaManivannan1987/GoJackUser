@@ -8,13 +8,21 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.Point;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.animation.Interpolator;
+import android.view.animation.LinearInterpolator;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -32,9 +40,16 @@ import com.example.im028.gojackuser.Utility.ScheduleThread.ScheduleThread;
 import com.example.im028.gojackuser.Utility.ScheduleThread.TimerInterface;
 import com.example.im028.gojackuser.Utility.Session;
 import com.example.im028.gojackuser.Utility.WebServicesClasses.WebServices;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.Projection;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -47,7 +62,7 @@ import org.json.JSONObject;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class RideActivity extends MenuCommonActivity {
+public class RideActivity extends MenuCommonActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
     private String TAG = "RideActivity";
 
     //This is the handler that will manager to process the broadcast intent
@@ -71,20 +86,26 @@ public class RideActivity extends MenuCommonActivity {
 
     private LinearLayout riderDetailsLinearLayout, rideProcessLinearLayout;
     private CircleImageView riderPhotoCircleImageView;
-    private TextView riderNameTextView, riderBikeNameTextView, riderBikeNumberTextView, riderRatingTextView,riderDistanceTextView;
+    private TextView riderNameTextView, riderBikeNameTextView, riderBikeNumberTextView, riderRatingTextView, riderDistanceTextView;
     private LinearLayout callLinearLayout, trackMyRideLinearLayout, cancelRideLinearLayout;
     private boolean waitFlag = true;
     private View.OnClickListener cancel;
     private final Handler handler = new Handler();
+    private final Handler handler1 = new Handler();
     private ScheduleThread scheduleThread;
     private Marker pilotMarker, toMarker, fromMarker;
     private String rideId;
+    private boolean isOnTrip = false;
+    MarkerOptions onTripMarkerOption = new MarkerOptions();
 
+    protected GoogleApiClient mGoogleApiClient;
+    protected LocationRequest mLocationRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setView(R.layout.activity_ride);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         webServices = new WebServices(this, TAG);
         rideId = getIntent().getExtras().getString(ConstantValues.rideId);
         userName = new Session(RideActivity.this, TAG).getName();
@@ -119,6 +140,7 @@ public class RideActivity extends MenuCommonActivity {
                 }
                 googleMap.setMyLocationEnabled(true);
                 googleMap.getUiSettings().setMyLocationButtonEnabled(false);
+                buildGoogleApiClient();
             }
         });
 
@@ -257,6 +279,7 @@ public class RideActivity extends MenuCommonActivity {
                 }
                 switch (response.getString("status")) {
                     case "0":
+                        isOnTrip = false;
                         scheduleThread.stop();
                         riderDetailsLinearLayout.setVisibility(View.GONE);
                         rideProcessLinearLayout.setVisibility(View.VISIBLE);
@@ -281,6 +304,7 @@ public class RideActivity extends MenuCommonActivity {
                         cancelRideLinearLayout.setOnClickListener(cancel);
                         break;
                     case "1":
+                        isOnTrip = false;
                         scheduleThread.start();
                         handler.postDelayed(new Runnable() {
                             @Override
@@ -304,6 +328,7 @@ public class RideActivity extends MenuCommonActivity {
                         cancelRideLinearLayout.setOnClickListener(cancel);
                         break;
                     case "2":
+                        isOnTrip = false;
                         scheduleThread.stop();
                         switch (jsonObject.getString("type")) {
                             case "courier":
@@ -316,6 +341,7 @@ public class RideActivity extends MenuCommonActivity {
                         finish();
                         break;
                     case "3":
+                        isOnTrip = true;
                         scheduleThread.stop();
                         sosImg.setVisibility(View.VISIBLE);
                         cancelLinearLayout.setVisibility(View.GONE);
@@ -325,13 +351,14 @@ public class RideActivity extends MenuCommonActivity {
                             riderNameTextView.setText("");
                         }
                         updateDriverData();
-                        riderDistanceTextView.setText(response.getString("message"));
                         updateData();
+                        riderDistanceTextView.setText(response.getString("message"));
                         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(pickLatLng, 15));
                         cancelLinearLayout.setOnClickListener(cancel);
                         cancelRideLinearLayout.setOnClickListener(cancel);
                         break;
                     case "4":
+                        isOnTrip = false;
                         switch (jsonObject.getString("type")) {
                             case "courier":
                                 startActivity(new Intent(RideActivity.this, CourierDetailsActivity.class).putExtra("rideId", rideId));
@@ -396,7 +423,7 @@ public class RideActivity extends MenuCommonActivity {
             @Override
             public void onResponse(JSONObject response) throws JSONException {
 //                riderDistanceTextView.setText("YOUR PILOT IS HERE");
-                if (pilotMarker == null) {
+                if (pilotMarker == null && !isOnTrip) {
                     MarkerOptions markerOptions = new MarkerOptions();
                     markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.male_pilot_icon));
                     markerOptions.draggable(false);
@@ -418,8 +445,129 @@ public class RideActivity extends MenuCommonActivity {
     }
 
     @Override
+    public void onLocationChanged(Location location) {
+        Log.d(TAG, "onLocationChanged");
+        if (location != null && isOnTrip) {
+            setMarker(new LatLng(location.getLatitude(), location.getLongitude()));
+        }
+    }
+
+    private void setMarker(LatLng currentLocation) {
+        if (pilotMarker != null) {
+            pilotMarker.remove();
+        }
+        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(currentLocation, 17);
+        googleMap.animateCamera(update);
+        onTripMarkerOption = new MarkerOptions().position(currentLocation).icon(BitmapDescriptorFactory.fromResource(R.drawable.male_pilot_ride_icon)).title("").anchor(0.5f, 1f);
+        pilotMarker = googleMap.addMarker(onTripMarkerOption);
+        animateMarker(pilotMarker, currentLocation, false);
+    }
+
+    private void animateMarker(final Marker pilotMarker, final LatLng toPosition, final boolean hideMarker) {
+        final Handler handler = new Handler();
+        final long start = SystemClock.uptimeMillis();
+        Projection proj = googleMap.getProjection();
+        Point startPoint = proj.toScreenLocation(pilotMarker.getPosition());
+        final LatLng startLatLng = proj.fromScreenLocation(startPoint);
+        final long duration = 500;
+        final Interpolator interpolator = new LinearInterpolator();
+
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                long elapsed = SystemClock.uptimeMillis() - start;
+                float t = interpolator.getInterpolation((float) elapsed
+                        / duration);
+                double lng = t * toPosition.longitude + (1 - t)
+                        * startLatLng.longitude;
+                double lat = t * toPosition.latitude + (1 - t)
+                        * startLatLng.latitude;
+                pilotMarker.setPosition(new LatLng(lat, lng));
+//                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 17));
+
+                if (t < 1.0) {
+                    // Post again 16ms later.
+                    handler.postDelayed(this, 17);
+                }
+                {
+                    if (hideMarker) {
+                        pilotMarker.setVisible(false);
+                    } else {
+                        pilotMarker.setVisible(true);
+                    }
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+            stopLocationUpdates();
+        }
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
-//        MyApplication.getInstance().setConnectivityListener(this);
+    }
+
+    private void stopLocationUpdates() {
+        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+    }
+
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        if (mGoogleApiClient != null && !mGoogleApiClient.isConnected()) {
+            buildGoogleApiClient();
+        }
+        handler1.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                onConnected(Bundle.EMPTY);
+            }
+        }, 5000);
+    }
+
+    private void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        mLocationRequest = LocationRequest.create();
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationRequest.setInterval(1000);
+        if (mGoogleApiClient.isConnected()) {
+            startLocationUpdates();
+        } else {
+            buildGoogleApiClient();
+        }
+    }
+
+    private void startLocationUpdates() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        LocationServices.FusedLocationApi.requestLocationUpdates(
+                mGoogleApiClient, mLocationRequest, this);
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
     }
 }

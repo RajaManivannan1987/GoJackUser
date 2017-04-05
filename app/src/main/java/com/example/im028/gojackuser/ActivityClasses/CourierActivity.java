@@ -13,6 +13,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -33,6 +34,7 @@ import org.json.JSONObject;
 
 public class CourierActivity extends MenuCommonActivity {
     private static final String TAG = CourierActivity.class.getSimpleName();
+    private ScrollView courierScrollView;
     private EditText pickUpFromLocationEditText, pickUpFromAddressEditText, pickUpFromNameEditText, pickUpFromPhoneEditText;
     private ImageView pickUpFromCurrentLocationImageView;
     private TextView pickUpFromMeTextView;
@@ -60,6 +62,7 @@ public class CourierActivity extends MenuCommonActivity {
         setView(R.layout.activity_courier);
         setTitle("Courier");
 
+        courierScrollView = (ScrollView) findViewById(R.id.courierScrollView);
         pickUpFromLocationEditText = (EditText) findViewById(R.id.courierActivityPickUpFromLocationEditText);
         pickUpFromCurrentLocationImageView = (ImageView) findViewById(R.id.courierActivityPickUpFromCurrentLocationImageView);
         pickUpFromAddressEditText = (EditText) findViewById(R.id.courierActivityPickUpFromLandmarkAddressEditText);
@@ -209,14 +212,17 @@ public class CourierActivity extends MenuCommonActivity {
                             } else {
                                 deliverToPhoneEditText.setError("Should be different from Pickup mobile no");
                                 deliverToPhoneEditText.requestFocus();
+                                focusScrollView(deliverToPhoneEditText);
                             }
                         } else {
                             deliverToPhoneEditText.setError("Enter mobile no");
                             deliverToPhoneEditText.requestFocus();
+                            focusScrollView(deliverToPhoneEditText);
                         }
                     } else {
                         pickUpFromPhoneEditText.setError("Enter mobile no");
                         pickUpFromPhoneEditText.requestFocus();
+                        focusScrollView(pickUpFromPhoneEditText);
                     }
                 } else {
                     ConstantFunctions.toast(CourierActivity.this, "Pickup and Delivery locations cannot be same");
@@ -260,22 +266,27 @@ public class CourierActivity extends MenuCommonActivity {
                                                     } else {
                                                         photoCopyEditText.setError("Enter items couriered");
                                                         photoCopyEditText.requestFocus();
+                                                        focusScrollView(photoCopyEditText);
                                                     }
                                                 } else {
                                                     deliverToPhoneEditText.setError("Should be different from Pickup mobile no");
                                                     deliverToPhoneEditText.requestFocus();
+                                                    focusScrollView(deliverToPhoneEditText);
                                                 }
                                             } else {
                                                 deliverToPhoneEditText.setError("Enter 10 digit phone number");
                                                 deliverToPhoneEditText.requestFocus();
+                                                focusScrollView(deliverToPhoneEditText);
                                             }
                                         } else {
                                             deliverToNameEditText.setError("Enter Name");
                                             deliverToNameEditText.requestFocus();
+                                            focusScrollView(deliverToNameEditText);
                                         }
                                     } else {
                                         deliverToAddressEditText.setError("Enter Landmark/Address");
                                         deliverToAddressEditText.requestFocus();
+                                        focusScrollView(deliverToAddressEditText);
                                     }
                                 } else {
                                     ConstantFunctions.toast(CourierActivity.this, "Select Deliver Location");
@@ -284,14 +295,17 @@ public class CourierActivity extends MenuCommonActivity {
                             } else {
                                 pickUpFromPhoneEditText.setError("Enter 10 digit phone number");
                                 pickUpFromPhoneEditText.requestFocus();
+                                focusScrollView(pickUpFromPhoneEditText);
                             }
                         } else {
                             pickUpFromNameEditText.setError("Enter Name");
                             pickUpFromNameEditText.requestFocus();
+                            focusScrollView(pickUpFromNameEditText);
                         }
                     } else {
                         pickUpFromAddressEditText.setError("Enter Landmark/Address");
                         pickUpFromAddressEditText.requestFocus();
+                        focusScrollView(pickUpFromAddressEditText);
                     }
                 } else {
                     ConstantFunctions.toast(CourierActivity.this, "Select Pickup Location");
@@ -348,6 +362,14 @@ public class CourierActivity extends MenuCommonActivity {
         enablePickUpNowButton.setVisibility(View.GONE);
         disablePickUpNowButton.setVisibility(View.VISIBLE);
     }
+    private void focusScrollView(final EditText editText){
+        courierScrollView.post(new Runnable() {
+            @Override
+            public void run() {
+           courierScrollView.scrollTo(0,editText.getBottom());
+            }
+        });
+    }
 
     public void submit() {
         new WebServices(CourierActivity.this, TAG).requestCourier(pickUpLatLng, deliverLatLng, pickUpFromLocationEditText.getText().toString(),
@@ -373,7 +395,7 @@ public class CourierActivity extends MenuCommonActivity {
 
                     @Override
                     public void onError(String message, String title) {
-                        ConstantFunctions.showSnakBar(message,enablePickUpNowButton);
+                        ConstantFunctions.showSnakBar(message, enablePickUpNowButton);
 //                        AlertDialogManager.showAlertDialog(CourierActivity.this, title, message, false);
                     }
                 });

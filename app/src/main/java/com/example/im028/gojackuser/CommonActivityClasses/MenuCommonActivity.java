@@ -1,10 +1,17 @@
 package com.example.im028.gojackuser.CommonActivityClasses;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +28,7 @@ import android.widget.TextView;
 import com.example.im028.gojackuser.ActivityClasses.AboutActivity;
 import com.example.im028.gojackuser.ActivityClasses.ChooseTypeActivity;
 import com.example.im028.gojackuser.ActivityClasses.HistoryActivity;
+import com.example.im028.gojackuser.ActivityClasses.LocationCheckActivity;
 import com.example.im028.gojackuser.ActivityClasses.RateCardActivity;
 import com.example.im028.gojackuser.ActivityClasses.ReferActivity;
 import com.example.im028.gojackuser.ActivityClasses.ScheduleTripListActivity;
@@ -44,13 +52,17 @@ public class MenuCommonActivity extends AppCompatActivity implements Connectivit
     public ImageView sosImg;
     private TextView menuHeaderTextView, titleTextView;
     private ListView menuListView;
+    private LocationManager lm;
+    boolean gps_enabled = false;
+    boolean network_enabled = false;
+    private final int MY_LOCATION = 1;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.common_menu_activity_layout);
-
+        lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         toolbar = (Toolbar) findViewById(R.id.commonMenuActivityToolbar);
         setSupportActionBar(toolbar);
@@ -155,5 +167,65 @@ public class MenuCommonActivity extends AppCompatActivity implements Connectivit
     protected void onResume() {
         super.onResume();
         MyApplication.getInstance().setConnectivityListener(this);
+        enableLocation();
+    }
+
+    private void enableLocation() {
+        try {
+            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        } catch (Exception ex) {
+        }
+
+        try {
+            network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        } catch (Exception ex) {
+        }
+        if (!gps_enabled && !network_enabled) {
+            // notify user
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setMessage("Enable Location Services");
+            dialog.setPositiveButton("Settings", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivity(myIntent);
+                }
+            });
+            dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    finish();
+                }
+            });
+            dialog.show();
+        } else {
+            enableMyLocation();
+        }
+    }
+
+    private boolean enableMyLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MenuCommonActivity.this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, MY_LOCATION);
+        } else {
+            MyApplication.instanceLocation(MenuCommonActivity.this);
+            return true;
+        }
+        return false;
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case MY_LOCATION:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    enableLocation();
+                } else {
+                    ConstantFunctions.toast(MenuCommonActivity.this, "My Location permission denied");
+                    finish();
+                }
+                break;
+        }
+
     }
 }

@@ -114,7 +114,6 @@
                     android:singleLine="true"
                     android:text=""
                     android:textSize="12sp" />
-
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
@@ -302,7 +301,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:maxLines="1"
-                            android:text="Schedule Ride"
+                            android:text=""
                             android:textSize="12sp" />
                     </LinearLayout>
 
