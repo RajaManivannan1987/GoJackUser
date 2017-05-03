@@ -32,6 +32,7 @@ public class ConnectivityReceiver extends BroadcastReceiver {
             connectivityReceiverListener.onNetworkConnectionChanged(isConnected);
         }
     }
+/*
 
     public static boolean isConnected() {
         ConnectivityManager
@@ -41,6 +42,7 @@ public class ConnectivityReceiver extends BroadcastReceiver {
         return activeNetwork != null
                 && activeNetwork.isConnectedOrConnecting();
     }
+*/
 
 
     public interface ConnectivityReceiverListener {

@@ -18,7 +18,7 @@
     <string name="forgotpassword"><u>Forgot Your Password?</u></string>
     <string name="forgotpassword1">Forgot Password?</string>
     <string name="changepassword">Change Password</string>
-    <string name="codesendcontent1">Four digit code send to your email/mobile. This code is valid for next 2 hours.</string>
+    <string name="codesendcontent1">Four digit code sent to your email/mobile. This code is valid for next 2 hours.</string>
     <string name="codesendcontent2">Once you receive your code, please enter in the section below.</string>
     <string name="newpassword">Enter New Password</string>
     <string name="confirmpassword">Confirm Password</string>
@@ -31,7 +31,7 @@
     <string name="forgotcontent3">You can always contact us at +91-xxxxx-xxxxx or by email.</string>
     <string name="mobile">Mobile Number / Email</string>
     <string name="bin">Enter OTP</string>
-    <string name="codesend">Code Send</string>
+    <string name="codesend">Code Sent</string>
     <string name="resend"><u>Resend</u></string>
     <string name="refer_friends">Gift you friends Rs.100 by inviting them to join you at Call Jack</string>
     <string name="refer_friends1">You got Rs.100 too once they take their first ride.</string>
@@ -41,7 +41,7 @@
         <item>Sender</item>
         <item>Receiver</item>
     </string-array>
-    <string name="courier_restriction_content">I hereby agree that I am not sending any item not approved by GoJack such as Drugs, Cash, Jewellery and other valuable items etc. I also agree GoJack is not responsible if I do send the restricted item.</string>
+    <string name="courier_restriction_content">I hereby agree that I am not sending any item not approved by CallJack such as Drugs, Cash, Jewellery and other valuable items etc. I also agree CallJack is not responsible if I do send the restricted item.</string>
 
     //-------------paytm strings-------------
     <string name="order_id">Order Id : </string>

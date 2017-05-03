@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.example.im028.gojackuser.AdapterClasses.ViewPagerAdapter;
 import com.example.im028.gojackuser.ApplicationClass.MyApplication;
 import com.example.im028.gojackuser.CommonActivityClasses.BackCommonActivity;
+import com.example.im028.gojackuser.CommonActivityClasses.MenuCommonActivity;
 import com.example.im028.gojackuser.Fragment.CouponFragment;
 import com.example.im028.gojackuser.Fragment.RefralFragment;
 import com.example.im028.gojackuser.R;
@@ -32,7 +33,7 @@ import org.json.JSONObject;
  * Created by Im033 on 3/7/2017.
  */
 
-public class ReferActivity extends AppCompatActivity {
+public class ReferActivity extends MenuCommonActivity {
     private String TAG = "ReferActivity";
     private TextView promoCodeTextView;
     private static String promoCode = "";
@@ -49,7 +50,8 @@ public class ReferActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_offers_and_free);
+        setView(R.layout.activity_offers_and_free);
+        setTitle("Offers & Free Rides");
         toolbar = (Toolbar) findViewById(R.id.commonMenuActivityToolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);

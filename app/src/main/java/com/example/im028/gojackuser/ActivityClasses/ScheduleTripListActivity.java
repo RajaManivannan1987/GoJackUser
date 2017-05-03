@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import com.example.im028.gojackuser.AdapterClasses.ScheduleListAdapter;
 import com.example.im028.gojackuser.ApplicationClass.MyApplication;
 import com.example.im028.gojackuser.CommonActivityClasses.BackCommonActivity;
+import com.example.im028.gojackuser.CommonActivityClasses.MenuCommonActivity;
 import com.example.im028.gojackuser.ModelClasses.ScheduleList;
 import com.example.im028.gojackuser.R;
 import com.example.im028.gojackuser.Singleton.ActionCompletedSingleton;
@@ -27,7 +28,7 @@ import java.util.ArrayList;
  * Created by Im033 on 1/10/2017.
  */
 
-public class ScheduleTripListActivity extends BackCommonActivity {
+public class ScheduleTripListActivity extends MenuCommonActivity {
     private String TAG = "ScheduleTripListActivity";
     private WebServices webServices;
     private RecyclerView scheduleListRecyclerView;
@@ -40,6 +41,7 @@ public class ScheduleTripListActivity extends BackCommonActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setView(R.layout.activity_schedule_list);
+        setTitle("Schedule Trips");
         webServices = new WebServices(ScheduleTripListActivity.this, TAG);
         gson = new Gson();
         scheduleTripLayout = (LinearLayout) findViewById(R.id.scheduleTripLayout);

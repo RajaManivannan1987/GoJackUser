@@ -48,6 +48,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:gravity="center"
+                    android:typeface="monospace"
                     android:src="@drawable/gojack_logo"
                     android:text="Commute"
                     android:textAppearance="?android:textAppearanceLarge"

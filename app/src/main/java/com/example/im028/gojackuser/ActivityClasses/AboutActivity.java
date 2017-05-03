@@ -11,11 +11,12 @@ import com.example.im028.gojackuser.Utility.InterNet.ConnectivityReceiver;
 /**
  * Created by Im033 on 2/15/2017.
  */
-public class AboutActivity extends BackCommonActivity {
+public class AboutActivity extends MenuCommonActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setView(R.layout.activity_about);
+        setTitle("About");
     }
 
     @Override

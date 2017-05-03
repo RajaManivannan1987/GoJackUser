@@ -8,9 +8,10 @@
         android:gravity="center"
         android:orientation="vertical">
         <Button
-            android:layout_width="150dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_35sdp"
             android:text="Logout"
+            android:textSize="@dimen/_12sdp"
             android:gravity="center"
             android:id="@+id/logoutButton"
             android:textAllCaps="false"

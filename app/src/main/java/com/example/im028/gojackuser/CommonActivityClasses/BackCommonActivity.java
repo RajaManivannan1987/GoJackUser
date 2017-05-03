@@ -38,12 +38,18 @@ public class BackCommonActivity extends AppCompatActivity implements Connectivit
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         backActivityFrameLayout = (FrameLayout) findViewById(R.id.backActivityFrameLayout);
         menuImageView = (ImageView) findViewById(R.id.menu);
-        menuImageView.setOnClickListener(new View.OnClickListener() {
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
+        /*menuImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });*/
 
     }
 

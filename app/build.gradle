@@ -37,4 +37,7 @@ dependencies {
     compile 'com.android.support:cardview-v7:23.3.+'
 //    compile files('src/main/res/raw/pgsdk.jar')
     compile files('libs/PGSDK_v1.0.1.jar')
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'com.intuit.sdp:sdp-android:1.0.4'
 }

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/courierScrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/courierScrollView"
     android:background="@color/button_text"
-    android:paddingTop="?android:actionBarSize"
     android:isScrollContainer="true"
+    android:paddingTop="?android:actionBarSize"
     tools:context="com.example.im028.gojackuser.ActivityClasses.CourierActivity">
 
     <LinearLayout
@@ -155,8 +155,8 @@
                     android:layout_height="wrap_content"
                     android:digits="0123456789"
                     android:hint="Phone"
-                    android:maxLength="10"
                     android:inputType="phone"
+                    android:maxLength="10"
                     android:text="" />
             </android.support.design.widget.TextInputLayout>
 
@@ -304,9 +304,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:digits="0123456789"
-                    android:maxLength="10"
                     android:hint="Phone"
                     android:inputType="phone"
+                    android:maxLength="10"
                     android:text="" />
             </android.support.design.widget.TextInputLayout>
 
@@ -399,6 +399,42 @@
                 android:layout_height="35dp" />
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingEnd="15dp"
+            android:paddingStart="15dp"
+            android:paddingTop="5dp">
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:padding="5dp"
+                android:src="@drawable/coupon_code_icon" />
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/courierActivitySpecificCouponEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Have a Coupon?"
+                    android:focusable="false"
+                    android:clickable="false"
+                    android:inputType="text"
+                    android:text="" />
+            </android.support.design.widget.TextInputLayout>
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp" />
+        </LinearLayout>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -482,15 +518,15 @@
                 android:id="@+id/courierActivityTermsCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="I agree to GoJack's" />
+                android:text="I agree to CallJack's" />
 
             <TextView
                 android:id="@+id/courierActivityTermsTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=" Terms"
-                android:visibility="visible"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/colorPrimary"
+                android:visibility="visible" />
 
         </LinearLayout>
 

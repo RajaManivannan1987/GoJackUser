@@ -1,6 +1,7 @@
 package com.example.im028.gojackuser.ActivityClasses;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -64,13 +65,20 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RideActivity extends MenuCommonActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
     private String TAG = "RideActivity";
+    private static String rideId;
+
+    public static Intent getRideId(Activity activity, String rideId1) {
+        rideId = rideId1;
+        return new Intent(activity, RideActivity.class).putExtra(ConstantValues.rideId, rideId1);
+        //   ride or courier
+    }
 
     //This is the handler that will manager to process the broadcast intent
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.d("CallGetData", "BroadcastReceiver");
-            getData();
+            getData(rideId);
         }
     };
 
@@ -94,7 +102,6 @@ public class RideActivity extends MenuCommonActivity implements GoogleApiClient.
     private final Handler handler1 = new Handler();
     private ScheduleThread scheduleThread;
     private Marker pilotMarker, toMarker, fromMarker;
-    private String rideId;
     private boolean isOnTrip = false;
     MarkerOptions onTripMarkerOption = new MarkerOptions();
 
@@ -107,7 +114,6 @@ public class RideActivity extends MenuCommonActivity implements GoogleApiClient.
         setView(R.layout.activity_ride);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         webServices = new WebServices(this, TAG);
-        rideId = getIntent().getExtras().getString(ConstantValues.rideId);
         userName = new Session(RideActivity.this, TAG).getName();
         scheduleThread = new ScheduleThread(new TimerInterface() {
             @Override
@@ -127,7 +133,7 @@ public class RideActivity extends MenuCommonActivity implements GoogleApiClient.
             public void onMapReady(GoogleMap googleMap1) {
                 googleMap = googleMap1;
                 Log.d("CallGetData", "getMapAsync");
-                getData();
+                getData(rideId);
                 if (ActivityCompat.checkSelfPermission(RideActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(RideActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     // TODO: Consider calling
                     //    ActivityCompat#requestPermissions
@@ -242,9 +248,14 @@ public class RideActivity extends MenuCommonActivity implements GoogleApiClient.
     @Override
     protected void onStart() {
         super.onStart();
-        if (googleMap != null)
-            getData();
         registerReceiver(mMessageReceiver, new IntentFilter(ConstantValues.driverStatus));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (googleMap != null)
+            getData(rideId);
     }
 
     //Must unregister onPause()
@@ -260,7 +271,7 @@ public class RideActivity extends MenuCommonActivity implements GoogleApiClient.
         scheduleThread.stop();
     }
 
-    private void getData() {
+    private void getData(final String rideId) {
         webServices.checkStatusNew(rideId, new VolleyResponseListerner() {
             @Override
             public void onResponse(JSONObject response) throws JSONException {
@@ -508,10 +519,6 @@ public class RideActivity extends MenuCommonActivity implements GoogleApiClient.
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
 
     private void stopLocationUpdates() {
         LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);

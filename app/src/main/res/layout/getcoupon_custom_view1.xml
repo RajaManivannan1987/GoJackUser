@@ -18,7 +18,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/customCoupondescriptionTextView1"
+                android:id="@+id/customCouponCodeTextView1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -27,6 +27,16 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="18sp"
                 android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/customCoupondescriptionTextView1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp"
+                android:text="dgszgdh"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/vilidTextView1"

@@ -3,6 +3,7 @@ package com.example.im028.gojackuser.ActivityClasses;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -80,6 +81,15 @@ public class DashboardActivity extends MenuCommonActivity {
     private final int paymentTypeRequestCode = 1;
     private final int scheduleRequestCode = 2;
     private final int couponRequestCode = 3;
+   /* private Handler handler = new Handler();
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            flagTouchPressed = false;
+            getPilotLocation(googleMap.getCameraPosition().target);
+            updateAddress();
+        }
+    };*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -237,13 +247,17 @@ public class DashboardActivity extends MenuCommonActivity {
                         @Override
                         public void onResponse(JSONObject response) throws JSONException {
                             if (!response.getString("status").equalsIgnoreCase("0")) {
+                                couponId = "0";
                                 ConstantFunctions.toast(DashboardActivity.this, response.getString("message"));
                                 Log.d(TAG, scheduleType);
                                 if (scheduleType.equalsIgnoreCase("schedule")) {
                                     startActivity(new Intent(DashboardActivity.this, ScheduleTripListActivity.class));
                                     finish();
                                 } else {
-                                    startActivity(new Intent(DashboardActivity.this, RideActivity.class).putExtra(ConstantValues.rideId, response.getString("rideid")));
+                                    startActivity(RideActivity.getRideId(DashboardActivity.this, response.getString("rideid")));
+                                    // today 7/4/2017
+
+//                                    startActivity(new Intent(DashboardActivity.this, RideActivity.class).putExtra(ConstantValues.rideId, response.getString("rideid")));
                                     finish();
                                 }
                             }
@@ -287,6 +301,7 @@ public class DashboardActivity extends MenuCommonActivity {
         });
 
         //Bottom Integration Ends
+//        handler.postDelayed(runnable, 100);
 
     }
 
@@ -509,4 +524,9 @@ public class DashboardActivity extends MenuCommonActivity {
 //        MyApplication.getInstance().setConnectivityListener(this);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //handler.removeCallbacks(runnable);
+    }
 }

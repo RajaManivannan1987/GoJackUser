@@ -6,6 +6,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -41,7 +42,7 @@ public class CourierActivity extends MenuCommonActivity {
     private EditText deliverToLocationEditText, deliverToAddressEditText, deliverToNameEditText, deliverToPhoneEditText;
     private ImageView deliverToCurrentLocationImageView;
     private TextView deliverToMeTextView;
-    private EditText photoCopyEditText, instructionEditText;
+    private EditText photoCopyEditText, instructionEditText, couponEditText;
     private Spinner paymentBySpinner;
     private ImageView paytmImageView;
     private CheckBox iAgreeCheckBox;
@@ -51,10 +52,11 @@ public class CourierActivity extends MenuCommonActivity {
     private TextView quoteAmountTextView;
     private Button enablePickUpNowButton, disablePickUpNowButton;
     private LatLng pickUpLatLng, deliverLatLng;
-    private final int PICKUPFROM = 1, DELIVERTO = 2;
+    private final int PICKUPFROM = 1, DELIVERTO = 2, couponRequestCode = 3;
     private boolean isFareCalculated = false;
     private CourierRestrictionDialog courierRestrictionDialog;
     private Handler handler = new Handler();
+    public static String couponId = "0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +80,7 @@ public class CourierActivity extends MenuCommonActivity {
 
         photoCopyEditText = (EditText) findViewById(R.id.courierActivityPhotoCopyDocumentEditText);
         instructionEditText = (EditText) findViewById(R.id.courierActivitySpecificInstructionEditText);
+        couponEditText = (EditText) findViewById(R.id.courierActivitySpecificCouponEditText);
 
         paymentBySpinner = (Spinner) findViewById(R.id.courierActivityPaymentModeSpinner);
         paytmImageView = (ImageView) findViewById(R.id.courierActivityPaytmImageView);
@@ -115,6 +118,25 @@ public class CourierActivity extends MenuCommonActivity {
                         });
                     }
                 });
+            }
+        });
+    /*    couponEditText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Intent i = new Intent(CourierActivity.this, CouponActivity.class);
+                i.putExtra(ConstantValues.couponType, "courier");
+                startActivityForResult(i, couponRequestCode);
+                overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
+                return false;
+            }
+        });*/
+        couponEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(CourierActivity.this, CouponActivity.class);
+                i.putExtra(ConstantValues.couponType, "courier");
+                startActivityForResult(i, couponRequestCode);
+                overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
             }
         });
         pickUpFromMeTextView.setOnClickListener(new View.OnClickListener() {
@@ -329,6 +351,13 @@ public class CourierActivity extends MenuCommonActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
+                case couponRequestCode:
+                    if (resultCode == RESULT_OK) {
+                        Log.d(TAG,couponId);
+                        couponId = data.getExtras().getString("couponId");
+                        couponEditText.setText(data.getExtras().getString("couponName"));
+                    }
+                    break;
                 case PICKUPFROM:
                     Bundle bundle = data.getExtras();
                     pickUpFromLocationEditText.setText(bundle.getString(ConstantValues.locationPickerAddress));
@@ -362,11 +391,12 @@ public class CourierActivity extends MenuCommonActivity {
         enablePickUpNowButton.setVisibility(View.GONE);
         disablePickUpNowButton.setVisibility(View.VISIBLE);
     }
-    private void focusScrollView(final EditText editText){
+
+    private void focusScrollView(final EditText editText) {
         courierScrollView.post(new Runnable() {
             @Override
             public void run() {
-           courierScrollView.scrollTo(0,editText.getBottom());
+                courierScrollView.scrollTo(0, editText.getBottom());
             }
         });
     }
@@ -376,14 +406,16 @@ public class CourierActivity extends MenuCommonActivity {
                 deliverToLocationEditText.getText().toString(), getPaymentType(),
                 pickUpFromNameEditText.getText().toString(), pickUpFromPhoneEditText.getText().toString(), pickUpFromAddressEditText.getText().toString(),
                 deliverToNameEditText.getText().toString(), deliverToPhoneEditText.getText().toString(), deliverToAddressEditText.getText().toString(),
-                photoCopyEditText.getText().toString(), instructionEditText.getText().toString(), getPaymentBy(),
+                photoCopyEditText.getText().toString(), instructionEditText.getText().toString(), getPaymentBy(), couponId,
                 new VolleyResponseListerner() {
                     @Override
                     public void onResponse(JSONObject response) throws JSONException {
                         ConstantFunctions.toast(CourierActivity.this, response.getString("message"));
                         if (!response.getString("status").equalsIgnoreCase("0")) {
                             courierRestrictionDialog.dismiss();
-                            startActivity(new Intent(CourierActivity.this, RideActivity.class).putExtra(ConstantValues.rideId, response.getString("rideid")));
+                            startActivity(RideActivity.getRideId(CourierActivity.this, response.getString("rideid")));
+                            // today 7/4/2017
+//                            startActivity(new Intent(CourierActivity.this, RideActivity.class).putExtra(ConstantValues.rideId, response.getString("rideid")));
 //                            startActivity(new Intent(CourierActivity.this, LocationCheckActivity.class).putExtra(ConstantValues.rideType, ConstantValues.rideTypeCourier));
 //                            startActivity(new Intent(CourierActivity.this, LocationCheckActivity.class).putExtra(ConstantValues.rideTypeRide, "courier"));
                             finish();

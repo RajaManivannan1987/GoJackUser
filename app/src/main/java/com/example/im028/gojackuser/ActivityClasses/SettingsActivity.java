@@ -14,12 +14,13 @@ import com.example.im028.gojackuser.Utility.Session;
  * Created by Im033 on 3/15/2017.
  */
 
-public class SettingsActivity extends BackCommonActivity {
+public class SettingsActivity extends MenuCommonActivity {
     private String TAG="SettingsActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setView(R.layout.activity_settings);
+        setTitle("Settings");
         findViewById(R.id.logoutButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

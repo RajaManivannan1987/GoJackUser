@@ -17,6 +17,7 @@ import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -124,7 +125,7 @@ public class ConstantFunctions {
     public boolean isOnline(Context act) {
         ConnectivityManager cm = (ConnectivityManager) act.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if (netInfo != null && netInfo.isConnected()) {
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
             return true;
         } else {
             return false;
@@ -138,6 +139,10 @@ public class ConstantFunctions {
         TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
         textView.setTextColor(Color.WHITE);
         snackbar.show();
+    }
+    public static void hideKeyboard(Context context,View v) {
+        InputMethodManager input = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        input.hideSoftInputFromWindow(v.getWindowToken(), 0);
     }
 
 }

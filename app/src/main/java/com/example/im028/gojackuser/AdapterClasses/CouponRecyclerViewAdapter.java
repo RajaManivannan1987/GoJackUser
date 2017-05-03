@@ -41,9 +41,11 @@ public class CouponRecyclerViewAdapter extends RecyclerView.Adapter<CouponRecycl
 
     @Override
     public void onBindViewHolder(CustomView holder, final int position) {
+        holder.customCouponCodeTextView.setText(data.get(position).getCoupon_code());
         holder.descriptionTextView.setText(data.get(position).getCoupon_description());
         holder.vilidTextView.setText("Valid till: " + data.get(position).getEnd_date());
         holder.radioButton.setTag(position);
+        holder.radioButton.setChecked(data.get(position).isSelected());
 //        holder.itemView.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -63,6 +65,11 @@ public class CouponRecyclerViewAdapter extends RecyclerView.Adapter<CouponRecycl
                 if (checkBox.isChecked()) {
                     selectedPosition = position;
                     itemSelect(data.get(position));
+                    data.get(position).setSelected(checkBox.isChecked());
+                    /*CheckBox cb = (CheckBox) v;
+                    GetCoupon contact = (GetCoupon) cb.getTag();
+                    contact.setSelected(cb.isChecked());
+                    data.get(position).setSelected(cb.isChecked());*/
                 } else {
                     selectedPosition = -1;
                 }
@@ -87,16 +94,20 @@ public class CouponRecyclerViewAdapter extends RecyclerView.Adapter<CouponRecycl
     }
 
     class CustomView extends RecyclerView.ViewHolder {
-        TextView descriptionTextView, vilidTextView;
+        TextView descriptionTextView, vilidTextView, customCouponCodeTextView;
         CheckBox radioButton;
         LinearLayout parentView;
 
         public CustomView(View itemView) {
             super(itemView);
+            customCouponCodeTextView= (TextView) itemView.findViewById(R.id.customCouponCodeTextView1);
             parentView = (LinearLayout) itemView.findViewById(R.id.parentView1);
             radioButton = (CheckBox) itemView.findViewById(R.id.radioButton);
             descriptionTextView = (TextView) itemView.findViewById(R.id.customCoupondescriptionTextView1);
             vilidTextView = (TextView) itemView.findViewById(R.id.vilidTextView1);
         }
+    }
+    public List<GetCoupon> getStudentist() {
+        return data;
     }
 }

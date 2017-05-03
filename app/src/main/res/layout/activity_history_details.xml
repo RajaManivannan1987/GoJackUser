@@ -361,7 +361,7 @@
                 android:id="@+id/historyDetailsActivityTotalAmountTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="76.20"
+                android:text="00.0"
                 android:textSize="18sp" />
         </LinearLayout>
 

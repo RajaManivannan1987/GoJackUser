@@ -89,10 +89,11 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/couponDialogRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/applyCouponButton"
         android:layout_below="@+id/couponDialogValidTextView"
         android:layout_marginTop="15dp"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
     <Button
         android:id="@+id/applyCouponButton"

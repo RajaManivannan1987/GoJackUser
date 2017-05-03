@@ -69,7 +69,9 @@ public class LocationCheckActivity extends AppCompatActivity implements Connecti
                         public void onResponse(JSONObject response) throws JSONException {
                             if (!response.getString("status").equalsIgnoreCase("0") && response.getJSONArray("data").length() > 0) {
                                 if (type.equalsIgnoreCase(ConstantValues.rideTypeRide)) {
-                                    startActivity(new Intent(LocationCheckActivity.this, RideActivity.class).putExtra(ConstantValues.rideId, response.getJSONArray("data").getJSONObject(0).getString("ride_id")));
+                                    // today 7/4/2017
+                                    startActivity(RideActivity.getRideId(LocationCheckActivity.this, response.getJSONArray("data").getJSONObject(0).getString("ride_id")));
+//                                    startActivity(new Intent(LocationCheckActivity.this, RideActivity.class).putExtra(ConstantValues.rideId, response.getJSONArray("data").getJSONObject(0).getString("ride_id")));
                                 } else {
                                     startActivity(new Intent(LocationCheckActivity.this, ListCourierActivity.class));
                                 }

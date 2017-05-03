@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.im028.gojackuser.ActivityClasses.DashboardActivity;
 import com.example.im028.gojackuser.ActivityClasses.RideActivity;
 import com.example.im028.gojackuser.ModelClasses.CourierActiveRide;
 import com.example.im028.gojackuser.R;
@@ -42,7 +43,9 @@ public class ListCourierRecyclerViewAdapter extends RecyclerView.Adapter<ListCou
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activity.startActivity(new Intent(activity, RideActivity.class).putExtra(ConstantValues.rideId, data.get(position).getRideid()));
+                activity.startActivity(RideActivity.getRideId(activity, data.get(position).getRideid()));
+                // today  7/4/2017
+//                activity.startActivity(new Intent(activity, RideActivity.class).putExtra(ConstantValues.rideId, data.get(position).getRideid()));
             }
         });
     }

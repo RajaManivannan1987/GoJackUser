@@ -2,14 +2,19 @@ package com.example.im028.gojackuser.Fragment;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.example.im028.gojackuser.R;
 import com.example.im028.gojackuser.Utility.ConstantClasses.ConstantFunctions;
 import com.example.im028.gojackuser.Utility.InterfaceClasses.VolleyResponseListerner;
@@ -18,6 +23,11 @@ import com.example.im028.gojackuser.Utility.WebServicesClasses.WebServices;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * Created by Im033 on 3/9/2017.
@@ -55,10 +65,13 @@ public class RefralFragment extends Fragment {
         view.findViewById(R.id.emailButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 try {
-                    Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
-                    emailIntent.setData(Uri.parse("mailto:"));
-                    emailIntent.setType("message/rfc822");
+                     Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+                     emailIntent.setData(Uri.parse("mailto:"));
+                     emailIntent.setType("message/rfc822");
+//                    emailIntent.setType("image/jpg");
+//                    emailIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
                     emailIntent.putExtra(Intent.EXTRA_SUBJECT, "CallJack PromoCode");
                     emailIntent.putExtra(Intent.EXTRA_TEXT, userName + " " + contentString + " " + promoCode + " " + contentString1 + appLink);
                     emailIntent.setData(Uri.parse("mailto:"));

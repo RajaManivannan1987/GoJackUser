@@ -10,6 +10,15 @@ public class GetCoupon {
     private String coupon_description;
     private String start_date;
     private String end_date;
+    private boolean isSelected;
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
 
     public String getAvailable_id() {
         return available_id;
@@ -50,6 +59,5 @@ public class GetCoupon {
     public void setEnd_date(String end_date) {
         this.end_date = end_date;
     }
-
 
 }

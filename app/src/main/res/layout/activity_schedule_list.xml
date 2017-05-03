@@ -5,17 +5,17 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:visibility="gone"
         android:id="@+id/scheduleTripLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:gravity="center"
             android:layout_gravity="center"
+            android:gravity="center"
             android:text="No Scheduled Rides" />
     </LinearLayout>
 
@@ -23,5 +23,6 @@
         android:id="@+id/scheduleListRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="?android:actionBarSize"
         android:visibility="gone" />
 </RelativeLayout>
