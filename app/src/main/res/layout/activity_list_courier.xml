@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
-    tools:context="com.example.im028.gojackuser.ActivityClasses.ListCourierActivity">
+    tools:context="com.calljack.im028.calljack.ActivityClasses.ListCourierActivity">
 
     <TextView
         android:layout_width="match_parent"

@@ -7,7 +7,7 @@
     android:background="@color/button_text"
     android:isScrollContainer="true"
     android:paddingTop="?android:actionBarSize"
-    tools:context="com.example.im028.gojackuser.ActivityClasses.CourierActivity">
+    tools:context="com.calljack.im028.calljack.ActivityClasses.CourierActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -465,7 +465,7 @@
 
                 <Spinner
                     android:id="@+id/courierActivityPaymentModeSpinner"
-                    android:layout_width="match_parent"
+                    android:layout_width="130dp"
                     android:layout_height="wrap_content"
                     android:entries="@array/payment_by"
                     android:spinnerMode="dropdown" />
@@ -498,6 +498,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="CASH"
+                    android:textColor="@color/colorPrimaryDark"
                     android:textStyle="bold"
                     android:visibility="gone" />
 
@@ -572,7 +573,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="`"
+                        android:text="Rs "
                         android:textColor="@color/colorPrimary"
                         android:textSize="28sp"
                         android:typeface="serif" />

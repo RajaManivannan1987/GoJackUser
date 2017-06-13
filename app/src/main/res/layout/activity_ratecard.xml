@@ -26,11 +26,12 @@
                 android:textSize="20sp" />
 
             <TextView
+                android:id="@+id/rateCardValueTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:layout_marginTop="2dp"
-                android:text="6"
+                android:text=""
                 android:textColor="@android:color/black"
                 android:textSize="50sp"
                 android:textStyle="bold" />

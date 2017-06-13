@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.im028.gojackuser.ActivityClasses.PaymentMethodActivity">
+    tools:context="com.calljack.im028.calljack.ActivityClasses.PaymentMethodActivity">
 
     <TextView
         android:layout_width="match_parent"

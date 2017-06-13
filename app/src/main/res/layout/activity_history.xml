@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
-    tools:context="com.example.im028.gojackuser.ActivityClasses.HistoryActivity">
+    tools:context="com.calljack.im028.calljack.ActivityClasses.HistoryActivity">
 
     <TextView
         android:id="@+id/historyPageTextView"

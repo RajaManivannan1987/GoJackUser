@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.im028.gojackuser">
+    package="com.calljack.im028.calljack">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -14,16 +14,17 @@
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".ApplicationClass.MyApplication"
+        android:name="com.calljack.im028.calljack.ApplicationClass.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher1"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ActivityClasses.SplashActivity"
+            android:name="com.calljack.im028.calljack.ActivityClasses.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBarAppTheme">
             <intent-filter>
@@ -33,11 +34,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ActivityClasses.LoginActivity"
+            android:name="com.calljack.im028.calljack.ActivityClasses.LoginActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ActivityClasses.DashboardActivity"
+            android:name="com.calljack.im028.calljack.ActivityClasses.DashboardActivity"
             android:screenOrientation="portrait" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -58,11 +59,11 @@
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
 
-                <category android:name="com.example.im028.gojackuser" />
+                <category android:name="com.calljack.im028.calljack" />
             </intent-filter>
         </receiver>
         <receiver
-            android:name="com.example.im028.gojackuser.Utility.ImcomeSmsReceiver"
+            android:name="com.calljack.im028.calljack.Utility.ImcomeSmsReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -71,7 +72,7 @@
         </receiver>
 
         <receiver
-            android:name="com.example.im028.gojackuser.Utility.InterNet.ConnectivityReceiver"
+            android:name="com.calljack.im028.calljack.Utility.InterNet.ConnectivityReceiver"
             android:enabled="true">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
@@ -79,21 +80,21 @@
         </receiver>
 
         <service
-            android:name=".GCMClass.GCMListener"
+            android:name="com.calljack.im028.calljack.GCMClass.GCMListener"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
         </service>
         <service
-            android:name=".GCMClass.MyInstanceIDListenerService"
+            android:name="com.calljack.im028.calljack.GCMClass.MyInstanceIDListenerService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
         </service>
         <service
-            android:name=".GCMClass.RegistrationIntentService"
+            android:name="com.calljack.im028.calljack.GCMClass.RegistrationIntentService"
             android:exported="false" />
 
         <meta-data
@@ -101,115 +102,128 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".MapsActivity"
+            android:name="com.calljack.im028.calljack.MapsActivity"
             android:label="@string/title_activity_maps"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ActivityClasses.CheckLocationActivity"
+            android:name="com.calljack.im028.calljack.ActivityClasses.CheckLocationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBarAppTheme" />
         <activity
-            android:name=".ActivityClasses.LocationCheckActivity"
+            android:name="com.calljack.im028.calljack.ActivityClasses.LocationCheckActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ActivityClasses.ChooseTypeActivity"
+            android:name="com.calljack.im028.calljack.ActivityClasses.ChooseTypeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBarAppTheme" />
         <activity
-            android:name=".ActivityClasses.RideActivity"
+            android:name="com.calljack.im028.calljack.ActivityClasses.RideActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ActivityClasses.RateCardActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:name="com.calljack.im028.calljack.ActivityClasses.RateCardActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBarAppTheme" />
         <activity
-            android:name=".ActivityClasses.CouponActivity"
+            android:name="com.calljack.im028.calljack.ActivityClasses.CouponActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".ActivityClasses.PaymentMethodActivity"
+            android:name="com.calljack.im028.calljack.ActivityClasses.PaymentMethodActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBarAppTheme" />
         <activity
-            android:name=".ActivityClasses.SettingsActivity"
+            android:name="com.calljack.im028.calljack.ActivityClasses.SettingsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBarAppTheme" />
         <activity
-            android:name=".ActivityClasses.ScheduleActivity"
+            android:name="com.calljack.im028.calljack.ActivityClasses.ScheduleActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBarAppTheme" />
         <activity
-            android:name=".ActivityClasses.EditScheduleActivity"
+            android:name="com.calljack.im028.calljack.ActivityClasses.EditScheduleActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBarAppTheme" />
         <activity
-            android:name=".ActivityClasses.RegistrationActivity"
+            android:name="com.calljack.im028.calljack.ActivityClasses.RegistrationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBarAppTheme" />
         <activity
-            android:name=".ActivityClasses.ForgotPassword"
+            android:name="com.calljack.im028.calljack.ActivityClasses.ForgotPassword"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBarAppTheme" />
         <activity
-            android:name=".ActivityClasses.CodeConfirmation"
+            android:name="com.calljack.im028.calljack.ActivityClasses.CodeConfirmation"
             android:configChanges="keyboardHidden|orientation|keyboard"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ActivityClasses.ChangePassword"
+            android:name="com.calljack.im028.calljack.ActivityClasses.ChangePassword"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBarAppTheme" />
         <activity
-            android:name=".ActivityClasses.ReferActivity"
+            android:name="com.calljack.im028.calljack.ActivityClasses.ReferActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBarAppTheme"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".DialogFragment.PilotHereDialogActivity"
+            android:name="com.calljack.im028.calljack.DialogFragment.PilotHereDialogActivity"
             android:screenOrientation="portrait"
             android:theme="@style/DialogActivity" />
         <activity
-            android:name=".DialogFragment.TripCompletedDialogActivity"
+            android:name="com.calljack.im028.calljack.DialogFragment.TripCompletedDialogActivity"
             android:screenOrientation="portrait"
             android:theme="@style/DialogActivity" />
         <activity
-            android:name=".DialogFragment.GenderRequestDialogActivity"
+            android:name="com.calljack.im028.calljack.DialogFragment.GenderRequestDialogActivity"
             android:screenOrientation="portrait"
             android:theme="@style/DialogActivity" />
         <activity
-            android:name=".ActivityClasses.TripDetailsActivity"
+            android:name="com.calljack.im028.calljack.ActivityClasses.TripDetailsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ActivityClasses.OtpActivity"
+            android:name="com.calljack.im028.calljack.ActivityClasses.OtpActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ActivityClasses.HistoryActivity"
+            android:name="com.calljack.im028.calljack.ActivityClasses.HistoryActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ActivityClasses.AboutActivity"
+            android:name="com.calljack.im028.calljack.ActivityClasses.AboutActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ActivityClasses.ScheduleTripListActivity"
+            android:name="com.calljack.im028.calljack.ActivityClasses.ScheduleTripListActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ActivityClasses.HistoryDetailsActivity"
+            android:name="com.calljack.im028.calljack.ActivityClasses.HistoryDetailsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ActivityClasses.CourierActivity"
+            android:name="com.calljack.im028.calljack.ActivityClasses.CourierActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ActivityClasses.PickLocationActivity"
+            android:name="com.calljack.im028.calljack.ActivityClasses.PickLocationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ActivityClasses.ListCourierActivity"
+            android:name="com.calljack.im028.calljack.ActivityClasses.ListCourierActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ActivityClasses.CourierDetailsActivity"
+            android:name="com.calljack.im028.calljack.ActivityClasses.CourierDetailsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ActivityClasses.ProofOfDeliveryActivity"
+            android:name="com.calljack.im028.calljack.ActivityClasses.ProofOfDeliveryActivity"
             android:screenOrientation="portrait"></activity>
+
+        <activity
+            android:name="com.calljack.im028.calljack.ActivityClasses.PaytmLogin"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBarAppTheme" />
+        <activity
+            android:name="com.calljack.im028.calljack.ActivityClasses.PaytmOtpActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBarAppTheme" />
+        <activity
+            android:name="com.calljack.im028.calljack.ActivityClasses.TermsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBarAppTheme" />
         <activity
             android:name="com.paytm.pgsdk.PaytmPGActivity"
             android:configChanges="keyboardHidden|orientation|keyboard"

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.im028.gojackuser.ActivityClasses.PickLocationActivity">
+    tools:context="com.calljack.im028.calljack.ActivityClasses.PickLocationActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
 
     </LinearLayout>
 
-    <com.example.im028.gojackuser.Utility.CustomUI.TouchableWrapper
+    <com.calljack.im028.calljack.Utility.CustomUI.TouchableWrapper
         android:id="@+id/locationPickerActivityTouchableWrapper"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -30,5 +30,5 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-    </com.example.im028.gojackuser.Utility.CustomUI.TouchableWrapper>
+    </com.calljack.im028.calljack.Utility.CustomUI.TouchableWrapper>
 </LinearLayout>

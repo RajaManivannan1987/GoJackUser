@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.im028.gojackuser.ActivityClasses.OtpActivity">
+    tools:context="com.calljack.im028.calljack.ActivityClasses.OtpActivity">
 
     <TextView
         android:layout_width="match_parent"
@@ -50,7 +50,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:text="@string/code_sent_content_3"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

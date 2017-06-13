@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">CallJack</string>
-
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
+      AIzaSyAT6m-uh4_D9zjMAtLcDkmRz18hWPDaKm0
+    </string>
+    <!--<string name="google_app_id">490936590175</string>-->
     <string name="login_forgot_password"><u>Forgot your password?</u></string>
     <string name="open"></string>
     <string name="close"></string>
@@ -33,7 +36,7 @@
     <string name="bin">Enter OTP</string>
     <string name="codesend">Code Sent</string>
     <string name="resend"><u>Resend</u></string>
-    <string name="refer_friends">Gift you friends Rs.100 by inviting them to join you at Call Jack</string>
+    <string name="refer_friends">Gift your friends Rs.100 by inviting them to join you at Call Jack</string>
     <string name="refer_friends1">You got Rs.100 too once they take their first ride.</string>
     <string name="refer_friends2">Share the promo code below</string>
 

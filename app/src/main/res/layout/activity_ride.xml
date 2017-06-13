@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.im028.gojackuser.ActivityClasses.RideActivity">
+    tools:context="com.calljack.im028.calljack.ActivityClasses.RideActivity">
 
-    <com.example.im028.gojackuser.Utility.CustomUI.TouchableWrapper
+    <com.calljack.im028.calljack.Utility.CustomUI.TouchableWrapper
         android:id="@+id/rideActivityTouchableWrapper"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -15,7 +15,7 @@
             class="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </com.example.im028.gojackuser.Utility.CustomUI.TouchableWrapper>
+    </com.calljack.im028.calljack.Utility.CustomUI.TouchableWrapper>
 
     <LinearLayout
         android:layout_width="match_parent"

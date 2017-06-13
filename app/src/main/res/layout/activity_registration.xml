@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.im028.gojackuser.ActivityClasses.RegistrationActivity">
+    tools:context="com.calljack.im028.calljack.ActivityClasses.RegistrationActivity">
 
     <TextView
         android:layout_width="match_parent"
@@ -264,10 +264,11 @@
                     android:id="@+id/registrationActivityAgreeCheckbox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="I agree to GoJack's "
+                    android:text="I agree to CallJack's "
                     android:textSize="16sp" />
 
                 <TextView
+                    android:id="@+id/registerTermsTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Terms"

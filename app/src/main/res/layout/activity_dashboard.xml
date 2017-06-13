@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.im028.gojackuser.ActivityClasses.DashboardActivity">
+    tools:context="com.calljack.im028.calljack.ActivityClasses.DashboardActivity">
 
-    <com.example.im028.gojackuser.Utility.CustomUI.TouchableWrapper
+    <com.calljack.im028.calljack.Utility.CustomUI.TouchableWrapper
         android:id="@+id/dashboardActivityTouchableWrapper"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -16,7 +16,7 @@
             class="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </com.example.im028.gojackuser.Utility.CustomUI.TouchableWrapper>
+    </com.calljack.im028.calljack.Utility.CustomUI.TouchableWrapper>
 
     <ImageView
         android:id="@+id/dashboardActivityMapMarkerImageView"
@@ -258,9 +258,9 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="` "
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
+                            android:background="@drawable/rupee_icon"
                             android:textColor="@color/colorPrimary"
                             android:textSize="18sp"
                             android:typeface="serif" />

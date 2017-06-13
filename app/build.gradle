@@ -3,24 +3,32 @@ apply plugin: 'com.android.application'
 android {
 //    compileSdkVersion 23
 //    buildToolsVersion "23.0.3"
+    signingConfigs {
+        config {
+            keyAlias 'CallJackRider'
+            keyPassword 'calljackrider'
+            storeFile file('C:/Users/Im033/Desktop/Apk_Files/Gojack_apk/User/CallJackRider_keystore/CallJackRider.jks')
+            storePassword 'calljackrider'
+        }
+    }
     compileSdkVersion 24
     buildToolsVersion '25.0.0'
-
     defaultConfig {
-        applicationId "com.example.im028.gojackuser"
+        applicationId "com.im028.jackrider"
+//        applicationId  "com.calljack.im028.calljack"
         minSdkVersion 19
         targetSdkVersion 24
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.0.2"
         multiDexEnabled true
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
-
 }
 
 dependencies {
@@ -30,14 +38,12 @@ dependencies {
     compile 'com.android.support:design:24.2.1'
     compile 'com.mcxiaoke.volley:library:1.0.19'
     compile 'com.google.android.gms:play-services:10.0.1'
-    compile 'com.google.code.gson:gson:2.7'
+
     compile 'de.hdodenhof:circleimageview:2.0.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.android.support:cardview-v7:23.3.+'
 //    compile files('src/main/res/raw/pgsdk.jar')
     compile files('libs/PGSDK_v1.0.1.jar')
-    compile 'com.squareup.retrofit2:retrofit:2.1.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
-    compile 'com.intuit.sdp:sdp-android:1.0.4'
+    compile 'com.google.code.gson:gson:2.7'
 }
