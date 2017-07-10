@@ -26,8 +26,9 @@
                     style="@style/editText"
                     android:drawableLeft="@android:drawable/stat_sys_vp_phone_call"
                     android:drawablePadding="25dp"
-                    android:hint="Mobile no"
-                    android:inputType="text" />
+                    android:hint="Mobile No"
+                    android:inputType="text"
+                    android:text="" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -39,8 +40,9 @@
                     style="@style/editText"
                     android:drawableLeft="@android:drawable/sym_action_email"
                     android:drawablePadding="25dp"
-                    android:hint="Mail id"
-                    android:inputType="text" />
+                    android:hint="Mail ID"
+                    android:inputType="text"
+                    android:text="" />
             </android.support.design.widget.TextInputLayout>
 
             <Button

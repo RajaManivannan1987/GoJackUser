@@ -253,7 +253,7 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_weight=".9"
                         android:gravity="center"
                         android:orientation="horizontal">
 
@@ -261,6 +261,7 @@
                             android:layout_width="10dp"
                             android:layout_height="10dp"
                             android:background="@drawable/rupee_icon"
+                            android:visibility="gone"
                             android:textColor="@color/colorPrimary"
                             android:textSize="18sp"
                             android:typeface="serif" />
@@ -270,7 +271,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:text="cash"
+                            android:text=""
                             android:textColor="@android:color/black"
                             android:textSize="14sp" />
 
@@ -286,7 +287,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
-                        android:layout_weight="1"
+                        android:layout_weight="1.1"
                         android:gravity="center"
                         android:orientation="vertical">
 
@@ -294,14 +295,15 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="2dp"
-                            android:src="@android:drawable/ic_menu_my_calendar" />
+                            android:src="@android:drawable/ic_menu_my_calendar"
+                            android:visibility="gone" />
 
                         <TextView
                             android:id="@+id/dashboardActivityscheduleTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:maxLines="1"
-                            android:text=""
+                            android:text="Ride Now"
                             android:textSize="12sp" />
                     </LinearLayout>
 
@@ -314,7 +316,7 @@
                         android:id="@+id/dashboardActivityCouponLinearLayout"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_weight=".9"
                         android:gravity="center"
                         android:orientation="horizontal">
 
@@ -323,7 +325,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="2dp"
-                            android:src="@drawable/coupon_code_icon" />
+                            android:src="@drawable/coupon_code_icon"
+                            android:visibility="gone" />
 
                         <TextView
                             android:id="@+id/dashboardActivityCouponCodeTextView"

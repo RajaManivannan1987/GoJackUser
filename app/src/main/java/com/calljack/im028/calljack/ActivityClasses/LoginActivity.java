@@ -64,12 +64,18 @@ public class LoginActivity extends AppCompatActivity implements ConnectivityRece
         registerTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                userNameEditText.setText("");
+                passwordEditText.setText("");
+                ConstantFunctions.hideKeyboard(LoginActivity.this, v);
                 startActivity(new Intent(LoginActivity.this, RegistrationActivity.class));
             }
         });
         forgotTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                userNameEditText.setText("");
+                passwordEditText.setText("");
+                ConstantFunctions.hideKeyboard(LoginActivity.this, view);
                 startActivity(new Intent(LoginActivity.this, ForgotPassword.class));
             }
         });
@@ -122,8 +128,10 @@ public class LoginActivity extends AppCompatActivity implements ConnectivityRece
                     if (response.getJSONObject("data").getString("mobileno_verify").equalsIgnoreCase("no")) {
                         startActivity(new Intent(LoginActivity.this, OtpActivity.class).putExtra(ConstantValues.customerId, response.getJSONObject("data").getString("customerid")));
                     } else {
-                        new Session(LoginActivity.this, TAG).createSession(response.getJSONObject("data").getString("customerid"), response.getJSONObject("data").getString("name"), response.getJSONObject("data").getString("token"));
+                        new Session(LoginActivity.this, TAG).createSession(response.getJSONObject("data").getString("customerid"), response.getJSONObject("data").getString("name"), response.getJSONObject("data").getString("token"),response.getJSONObject("data").getString("paytmtoken"));
                         ConstantFunctions.toast(LoginActivity.this, response.getString("message"));
+                        userNameEditText.setText("");
+                        passwordEditText.setText("");
                         startActivity(new Intent(LoginActivity.this, ChooseTypeActivity.class));
                         finish();
                         startService(new Intent(LoginActivity.this, RegistrationIntentService.class));

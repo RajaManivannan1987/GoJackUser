@@ -11,6 +11,25 @@ public class GetCoupon {
     private String start_date;
     private String end_date;
     private boolean isSelected;
+    private String weekend;
+    private String type;
+
+    public String getWeekend() {
+        return weekend;
+    }
+
+    public void setWeekend(String weekend) {
+        this.weekend = weekend;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
 
     public boolean isSelected() {
         return isSelected;

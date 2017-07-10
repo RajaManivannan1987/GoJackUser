@@ -31,7 +31,6 @@ public class RateCardActivity extends MenuCommonActivity {
         rateCardTextView.setTypeface(typeface);
         rateCardminimumTextView.setTypeface(typeface);
         rateCardTextView.setText("Rs");
-
     }
 
     @Override

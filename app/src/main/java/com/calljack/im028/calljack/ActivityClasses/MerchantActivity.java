@@ -25,9 +25,8 @@ import java.util.TreeMap;
 
 import static android.R.attr.key;
 
-/**
- * Created by Im033 on 12/21/2016.
- */
+
+
 
 public class MerchantActivity extends Activity {
 
@@ -58,78 +57,39 @@ public class MerchantActivity extends Activity {
 
     public void onStartTransaction(View view) {
 
-        //
 
-
-
-//         for staging
         PaytmPGService Service = PaytmPGService.getStagingService();
-//         for production
 //        PaytmPGService Service = PaytmPGService.getProductionService();
 
-        Map<String, String> paramMap = new HashMap<String,String>();
-        paramMap.put( "MID" , "CallJa65607497328098");
+        Map<String, String> paramMap = new HashMap<String, String>();
         paramMap.put("REQUEST_TYPE", "ADD_MONEY");
-        paramMap.put( "ORDER_ID" , ((EditText) findViewById(R.id.order_id)).getText().toString());
-        paramMap.put( "CUST_ID" , new Session(MerchantActivity.this,"Paytm").getCustomerId());
-        paramMap.put( "TXN_AMOUNT" , "1");
-        paramMap.put( "CHANNEL_ID" , "WAP");
-        paramMap.put( "INDUSTRY_TYPE_ID" , "Recharge");
-        paramMap.put( "WEBSITE" , "APP_STAGING");
-        paramMap.put( "SSO_TOKEN" , "APP_STAGING");
-//        paramMap.put( "CALLBACK_URL" , "https://www.paytm.com");
-//        paramMap.put( "EMAIL" , "rajamcaarg@gmail.com");
-//        paramMap.put( "MOBILE_NO" , "9865132365");
-        paramMap.put( "CHECKSUMHASH" , "w2QDRMgp1/BNdEnJEAPCIOmNgQvsi+BhpqijfM9KvFfRiPmGSt3Ddzw+oTaGCLneJwxFFq5mqTMwJXdQE2EzK4px2xruDqKZjHupz9yXev4=");
-//        CheckSumServiceHelper checksumHelper = CheckSumServiceHelper.getCheckSumServiceHelper();
-//        String checksum = checksumHelper.genrateCheckSum(ConstantValues.paytmMID, paramMap);
-
-
-        /*Map<String, String> paramMap = new HashMap<String, String>();
         paramMap.put("MID", "CallJa65607497328098");
-        paramMap.put("REQUEST_TYPE", "ADD_MONEY");
-        paramMap.put("ORDER_ID", ((EditText) findViewById(R.id.order_id)).getText().toString());
-        paramMap.put("CUST_ID", new Session(MerchantActivity.this,"Paytm").getCustomerId());
-        paramMap.put("TXN_AMOUNT", "1");
+        paramMap.put("ORDER_ID", "ranjeet190049");
+        paramMap.put("CUST_ID", "cust1900");
+        paramMap.put("INDUSTRY_TYPE_ID", "Retail");
         paramMap.put("CHANNEL_ID", "WAP");
-        paramMap.put("INDUSTRY_TYPE_ID", "Recharge");
+        paramMap.put("TXN_AMOUNT", "1");
         paramMap.put("WEBSITE", "APP_STAGING");
-        paramMap.put("THEME", ((EditText) findViewById(R.id.theme)).getText().toString());
-        paramMap.put("EMAIL", " jacobdavid.mathew@gmail.com");
-        paramMap.put("MOBILE_NO", "7777777777");*/
-        Log.d("MerchantActivity", paramMap.toString());
+        paramMap.put("SSO_TOKEN", "c70d5601-c1a5-4a21-92ea-fb73e708292f");
+        paramMap.put("CALLBACK_URL", "https://pguat.paytm.com/paytmchecksum/paytmCallback.jsp");
+        paramMap.put("CHECKSUMHASH", "23/CuVwBwNFcp75HaO3bIOLSnuWYG8GYbbt0cZ/Cb7eUB8ZRzB24p+zYxNJFgM0sTdH7n63UvvIhz67DCHUb65Jo5CtpNkuUueOGJls1mgw=");
+        //    paramMap.put("EMAIL", "rajamcaarg@gmail.com");
+        //  paramMap.put("MOBILE_NO", "9865132365");
         PaytmOrder Order = new PaytmOrder(paramMap);
 
-        final PaytmMerchant Merchant = new PaytmMerchant(
-               /* "https://pguat.paytm.com/paytmchecksum/paytmCheckSumGenerator.jsp",
-                "https://pguat.paytm.com/paytmchecksum/paytmCheckSumVerify.jsp");*/
-
-             /*   "https://steptest.in/demo/lib/generateChecksum.php",
-                "https://steptest.in/demo/lib/verifyChecksum.php");
-*/
-
-                "http://imaginetventures.me/sample/steptest/generateChecksum.php",
-                "http://imaginetventures.me/sample/steptest/verifyChecksum.php");
-
-        Service.initialize(Order, Merchant, null);
+        Service.initialize(Order, null);
 
         Service.startPaymentTransaction(this, true, true, new PaytmPaymentTransactionCallback() {
-            @Override
-            public void onTransactionSuccess(Bundle inResponse) {
-                Log.d("MerchantActivity", "Payment Transaction is successful " + inResponse);
-                Toast.makeText(getApplicationContext(), "Payment Transaction is successful ", Toast.LENGTH_LONG).show();
-            }
 
             @Override
-            public void onTransactionFailure(String s, Bundle inErrorMessage) {
-                Log.d("MerchantActivity", "Payment Transaction Failed " + inErrorMessage);
-                ConstantFunctions.toast(MerchantActivity.this, "onErrorLoadingWebPage " + s);
+            public void onTransactionResponse(Bundle bundle) {
+
             }
 
             @Override
             public void networkNotAvailable() {
                 ConstantFunctions.toast(MerchantActivity.this, "networkNotAvailable");
-                Log.d("LOG", "Payment networkNotAvailable ");
+                Log.d("MerchantActivity", "Payment networkNotAvailable ");
             }
 
             @Override
@@ -153,7 +113,15 @@ public class MerchantActivity extends Activity {
             public void onBackPressedCancelTransaction() {
                 Log.d("MerchantActivity", "Payment onBackPressedCancelTransaction");
             }
-        });
-    }
 
-}
+            @Override
+            public void onTransactionCancel(String s, Bundle bundle) {
+
+            }
+        });
+
+
+    }}
+
+
+

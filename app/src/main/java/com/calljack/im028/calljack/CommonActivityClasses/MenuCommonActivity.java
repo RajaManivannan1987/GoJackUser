@@ -27,6 +27,7 @@ import com.calljack.im028.calljack.ActivityClasses.AboutActivity;
 import com.calljack.im028.calljack.ActivityClasses.ChooseTypeActivity;
 import com.calljack.im028.calljack.ActivityClasses.DashboardActivity;
 import com.calljack.im028.calljack.ActivityClasses.HistoryActivity;
+import com.calljack.im028.calljack.ActivityClasses.PaymentActivity;
 import com.calljack.im028.calljack.ActivityClasses.PaymentMethodActivity;
 import com.calljack.im028.calljack.ActivityClasses.PaytmLogin;
 import com.calljack.im028.calljack.ActivityClasses.RateCardActivity;
@@ -121,10 +122,7 @@ public class MenuCommonActivity extends AppCompatActivity implements Connectivit
                             startActivity(new Intent(MenuCommonActivity.this, AboutActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
                             break;
                         case "payment method":
-                            /*Intent intent = new Intent(MenuCommonActivity.this, PaymentMethodActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                            intent.putExtra(ConstantValues.paymentType, new ConstantValues().getPayType());
-                            startActivityForResult(intent, paymentTypeRequestCode);*/
-//                            startActivity(new Intent(MenuCommonActivity.this, PaytmLogin.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+                            startActivity(new Intent(MenuCommonActivity.this, PaymentActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
                             break;
                         case "offers and free rides":
                             startActivity(new Intent(MenuCommonActivity.this, ReferActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));

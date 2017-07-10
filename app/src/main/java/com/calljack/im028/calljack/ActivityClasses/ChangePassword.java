@@ -65,7 +65,7 @@ public class ChangePassword extends BackCommonActivity {
                         @Override
                         public void onResponse(JSONObject response) throws JSONException {
                             progressBar.dismiss();
-                            new Session(ChangePassword.this, TAG).createSession(response.getString("customerid"), response.getString("name"), response.getString("token"));
+                            new Session(ChangePassword.this, TAG).createSession(response.getString("customerid"), response.getString("name"), response.getString("token"),response.getString("paytmtoken"));
                             startActivity(new Intent(ChangePassword.this, ChooseTypeActivity.class));
                             finish();
                             startService(new Intent(ChangePassword.this, RegistrationIntentService.class));

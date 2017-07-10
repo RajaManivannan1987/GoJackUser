@@ -56,9 +56,10 @@ public class PaytmLogin extends BackCommonActivity {
         new WebServices(PaytmLogin.this, "Paytm").SendOTP(paytmMobileNodEditText.getText().toString().trim(), paytmMailIdEditText.getText().toString().trim(), new VolleyResponseListerner() {
             @Override
             public void onResponse(JSONObject response) throws JSONException {
-                if (response.getString("status").equalsIgnoreCase("SUCCESS")){
-                    startActivity(new Intent(PaytmLogin.this, PaytmOtpActivity.class).putExtra("paytmstate",response.getString("state")));
-                }else {
+                if (response.getString("status").equalsIgnoreCase("SUCCESS")) {
+                    startActivity(new Intent(PaytmLogin.this, PaytmOtpActivity.class).putExtra("paytmstate", response.getString("state")));
+                    finish();
+                } else {
                     Log.d("Paytm", response.toString());
                 }
 

@@ -19,6 +19,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.calljack.im028.calljack.ApplicationClass.MyApplication;
 import com.calljack.im028.calljack.Utility.InterfaceClasses.VolleyResponseArrayListerner;
 import com.calljack.im028.calljack.Utility.InterfaceClasses.VolleyResponseListerner;
@@ -30,6 +31,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class VolleyClass {
     private Context act;
@@ -119,6 +121,7 @@ public class VolleyClass {
         }
     }
 
+
     public void volleyPostDataJSONArray(final String url, JSONObject jsonObject, final VolleyResponseArrayListerner listener) {
         final ProgressDialog pDialog = new ProgressDialog(act);
         pDialog.setMessage("Loading...");
@@ -176,7 +179,6 @@ public class VolleyClass {
                     DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             MyApplication.getInstance().addRequest(jsonObjReq);
-//            queue.add(jsonObjReq);
         } else {
             Log.d(TAG, "volleyPostDataJSONArray response - No Internet");
             listener.onError(networkErrorMessage, networkErrorMessage);
@@ -184,8 +186,6 @@ public class VolleyClass {
     }
 
     public void volleyPostDataNoProgression(final String url, JSONObject jsonObject, final VolleyResponseListerner listener) {
-
-
         Log.d(TAG, "volleyPostDataNoProgression request url - " + url);
         Log.d(TAG, "volleyPostDataNoProgression request data - " + jsonObject.toString());
         if (isOnline()) {
@@ -232,18 +232,18 @@ public class VolleyClass {
         }
     }
 
-    public void volleyPaytmPostData(final String url, JSONObject jsonObject,final String key, final String header, final VolleyResponseListerner listener) {
-        final ProgressDialog pDialog = new ProgressDialog(act);
+    public void volleyPaytmPostData(final String url, JSONObject jsonObject, final String key, final String header, final VolleyResponseListerner listener) {
+      /*  final ProgressDialog pDialog = new ProgressDialog(act);
         pDialog.setMessage("Loading...");
-        pDialog.setCancelable(false);
+        pDialog.setCancelable(false);*/
         Log.d(TAG, "volleyPostData request url - " + url);
         Log.d(TAG, "volleyPostData request data - " + jsonObject.toString());
         if (isOnline()) {
-            try {
+          /*  try {
                 pDialog.show();
             } catch (Exception e) {
                 Log.d(TAG, e.getMessage());
-            }
+            }*/
             JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                     url, jsonObject,
                     new Response.Listener<JSONObject>() {
@@ -255,20 +255,20 @@ public class VolleyClass {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            try {
+                           /* try {
                                 pDialog.dismiss();
                             } catch (Exception e) {
                                 Log.d(TAG, e.getMessage());
-                            }
+                            }*/
                         }
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    try {
+                    /*try {
                         pDialog.dismiss();
                     } catch (Exception e) {
                         Log.d(TAG, e.getMessage());
-                    }
+                    }*/
                     if (error instanceof TimeoutError) {
                         listener.onError(timeout, timeoutTitle);
                     } else if (error instanceof NoConnectionError) {
@@ -288,17 +288,66 @@ public class VolleyClass {
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     HashMap<String, String> headers = new HashMap<>();
                     headers.put(key, header);
-//                    headers.put("Authorization", "Basic bWVyY2hhbnQtY2FsbGphY2t0ZWNoLXN0YWdpbmc6ZDE2MjQ2ODEtN2M5YS00Y2E1LWE0MDItNWJlNTdlMzc5Y2Jk");
+                    Log.d(key, header);
                     return headers;
                 }
 
-//                @Override
-//                protected Map<String, String> getParams() throws AuthFailureError {
-//                    Map<String, String> params = new HashMap<>();
-//                    params.put("otp", otp);
-//                    params.put("state", state);
-//                    return params;
-//                }
+            };
+            int MY_SOCKET_TIMEOUT_MS = 30000;
+            jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(MY_SOCKET_TIMEOUT_MS,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            MyApplication.getInstance().addRequest(jsonObjReq);
+        } else {
+            Log.d(TAG, "volleyPostData response - No Internet");
+            listener.onError(networkErrorMessage, networkErrorMessage);
+        }
+    }
+
+    public void volleyPaytmGETData(final String url, JSONObject jsonObject, final String key, final String header, final VolleyResponseListerner listener) {
+        Log.d(TAG, "volleyPostData request url - " + url);
+        Log.d(TAG, "volleyPostData request data - " + jsonObject.toString());
+        if (isOnline()) {
+            JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
+                    url, jsonObject,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            Log.d(TAG, "volleyPostData response - " + response.toString());
+                            try {
+                                listener.onResponse(response);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    if (error instanceof TimeoutError) {
+                        listener.onError(timeout, timeoutTitle);
+                    } else if (error instanceof NoConnectionError) {
+                        listener.onError(poorNetwork, poorNetworkTitle);
+                    } else if (error instanceof AuthFailureError) {
+                        listener.onError(authorizationFailed, authorizationFailedTitle);
+                    } else if (error instanceof ServerError) {
+                        listener.onError(serverNotResponding, serverNotRespondingTitle);
+                    } else if (error instanceof NetworkError) {
+                        listener.onError(networkErrorMessage, networkErrorTitle);
+                    } else if (error instanceof ParseError) {
+                        listener.onError(parseError, parseErrorTitle);
+                    }
+                }
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    HashMap<String, String> headers = new HashMap<>();
+                    headers.put(key, header);
+                    Log.d(key, header);
+                    return headers;
+                }
+
+
             };
             int MY_SOCKET_TIMEOUT_MS = 30000;
             jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(MY_SOCKET_TIMEOUT_MS,
@@ -311,6 +360,8 @@ public class VolleyClass {
             listener.onError(networkErrorMessage, networkErrorMessage);
         }
     }
+
+
 
     public boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) act.getSystemService(Context.CONNECTIVITY_SERVICE);

@@ -17,6 +17,7 @@ public class Session {
     private static String customerId = "customerId";
     private static String name = "name";
     private static String token = "token";
+    private static String paytmtoken = "paytmtoken";
     private static final String IS_LOGIN = "IsLoggedIn";
 
 
@@ -27,11 +28,17 @@ public class Session {
         editor = pref.edit();
     }
 
-    public void createSession(String customerId, String name, String token) {
+    public void createSession(String customerId, String name, String token, String paytmtoken) {
         editor.putBoolean(IS_LOGIN, true);
         editor.putString(this.customerId, customerId);
         editor.putString(this.name, name);
         editor.putString(this.token, token);
+        editor.putString(this.paytmtoken, paytmtoken);
+        editor.commit();
+    }
+
+    public void setPaytmtoken(String token) {
+        editor.putString(this.paytmtoken, token);
         editor.commit();
     }
 
@@ -45,6 +52,10 @@ public class Session {
 
     public String getName() {
         return pref.getString(name, "");
+    }
+
+    public String getPaytmtoken() {
+        return pref.getString(paytmtoken, "");
     }
 
     public void logout() {

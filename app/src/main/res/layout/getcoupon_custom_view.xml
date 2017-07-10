@@ -18,25 +18,22 @@
 
             <TextView
                 android:id="@+id/customCouponTextView"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:textStyle="bold"
                 android:paddingLeft="10dp"
                 android:text=""
                 android:textColor="@color/colorAccent"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/vilidTextView"
-                android:layout_width="0dp"
+                android:id="@+id/weekendTextView"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="3dp"
                 android:layout_marginTop="5dp"
-                android:layout_weight="1"
-                android:textColor="@color/red"
                 android:gravity="center_vertical"
                 android:paddingLeft="10dp"
                 android:text=""
@@ -53,6 +50,19 @@
             android:paddingLeft="10dp"
             android:text=""
             android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/vilidTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text=""
+            android:layout_marginBottom="3dp"
+            android:textColor="@color/red"
+            android:textSize="12sp" />
     </LinearLayout>
 
 

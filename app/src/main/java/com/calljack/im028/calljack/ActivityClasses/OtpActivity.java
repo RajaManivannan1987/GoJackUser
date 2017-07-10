@@ -82,7 +82,7 @@ public class OtpActivity extends BackCommonActivity {
                         public void onResponse(JSONObject response) throws JSONException {
                             progressBar.dismiss();
                             if (response.getString("status").equalsIgnoreCase("1")) {
-                                new Session(OtpActivity.this, TAG).createSession(response.getJSONObject("data").getString("customerid"), response.getJSONObject("data").getString("name"), response.getJSONObject("data").getString("token"));
+                                new Session(OtpActivity.this, TAG).createSession(response.getJSONObject("data").getString("customerid"), response.getJSONObject("data").getString("name"), response.getJSONObject("data").getString("token"),response.getJSONObject("data").getString("paytmtoken"));
                                 ConstantFunctions.toast(OtpActivity.this, response.getString("message"));
                                 startActivity(new Intent(OtpActivity.this, ChooseTypeActivity.class));
                                 startService(new Intent(OtpActivity.this, RegistrationIntentService.class));

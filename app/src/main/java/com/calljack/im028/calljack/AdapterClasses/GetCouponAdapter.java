@@ -36,7 +36,9 @@ public class GetCouponAdapter extends RecyclerView.Adapter<GetCouponAdapter.Cust
     @Override
     public void onBindViewHolder(CustomView holder, int position) {
 //        Log.d("GetCouponAdapter",data.get(position).getStartDate());
-
+        if (data.get(position).getType().equalsIgnoreCase("weekend")) {
+            holder.weekendTextView.setText("(weekend only)");
+        }
         holder.customCouponTextView.setText(data.get(position).getCoupon_code());
         holder.descriptionTextView.setText(data.get(position).getCoupon_description());
         holder.vilidTextView.setText("Valid till: " + data.get(position).getEnd_date());
@@ -44,18 +46,19 @@ public class GetCouponAdapter extends RecyclerView.Adapter<GetCouponAdapter.Cust
 
     @Override
     public int getItemCount() {
-        Log.d("GetCouponAdapter",data.size()+"");
+        Log.d("GetCouponAdapter", data.size() + "");
         return data.size();
     }
 
     public class CustomView extends RecyclerView.ViewHolder {
-        TextView customCouponTextView, descriptionTextView, vilidTextView;
+        TextView customCouponTextView, descriptionTextView, vilidTextView, weekendTextView;
 
         public CustomView(View itemView) {
             super(itemView);
             customCouponTextView = (TextView) itemView.findViewById(R.id.customCouponTextView);
             descriptionTextView = (TextView) itemView.findViewById(R.id.customCoupondescriptionTextView);
             vilidTextView = (TextView) itemView.findViewById(R.id.vilidTextView);
+            weekendTextView = (TextView) itemView.findViewById(R.id.weekendTextView);
         }
     }
 }

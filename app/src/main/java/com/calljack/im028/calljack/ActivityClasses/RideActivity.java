@@ -24,6 +24,7 @@ import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.calljack.im028.calljack.CommonActivityClasses.MenuCommonActivity;
 import com.calljack.im028.calljack.DialogFragment.CancelTripDialog;
@@ -58,6 +59,8 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Random;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RideActivity extends MenuCommonActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
@@ -85,9 +88,10 @@ public class RideActivity extends MenuCommonActivity implements GoogleApiClient.
     private TextView toLocationTextView, pickLocationTextView, messageTextView;
     private LinearLayout cancelLinearLayout, toLocationLinearLayout, pickLocationLinearLayout;
     private WebServices webServices;
+    private Session session;
     private JSONObject jsonObject;
     private LatLng pickLatLng, toLatLng;
-    private String pickAddressString = "", toAddressString = "", driverName = "", driverPhoneNo = "", vehicleNo = "", userName = "";
+    private String pickAddressString = "", toAddressString = "", driverName = "", driverPhoneNo = "", vehicleNo = "", userName = "", orderId = "";
 
     private LinearLayout riderDetailsLinearLayout, rideProcessLinearLayout;
     private CircleImageView riderPhotoCircleImageView;
@@ -111,6 +115,7 @@ public class RideActivity extends MenuCommonActivity implements GoogleApiClient.
         setView(R.layout.activity_ride);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         webServices = new WebServices(this, TAG);
+        session = new Session(RideActivity.this, TAG);
         userName = new Session(RideActivity.this, TAG).getName();
         scheduleThread = new ScheduleThread(new TimerInterface() {
             @Override
@@ -367,6 +372,9 @@ public class RideActivity extends MenuCommonActivity implements GoogleApiClient.
                         break;
                     case "4":
                         isOnTrip = false;
+                        if (jsonObject.getString("mode").equalsIgnoreCase("paytm")) {
+                            withDrawAmount(jsonObject.getString("cash"));
+                        }
                         switch (jsonObject.getString("type")) {
                             case "courier":
                                 startActivity(new Intent(RideActivity.this, CourierDetailsActivity.class).putExtra("rideId", rideId));
@@ -384,6 +392,24 @@ public class RideActivity extends MenuCommonActivity implements GoogleApiClient.
             public void onError(String message, String title) {
 //                AlertDialogManager.showAlertDialog(RideActivity.this, title, message, false);
                 ConstantFunctions.showSnakBar(message, toLocationTextView);
+            }
+        });
+    }
+
+    private void withDrawAmount(String amount) {
+        Random r = new Random(System.currentTimeMillis());
+        orderId = "dialjackOrder_Id" + (1 + r.nextInt(2)) * 10000
+                + r.nextInt(100);
+
+        webServices.generateWithDrawChecksum(orderId, session.getCustomerId(), "1", ConstantValues.WITHDRAW_RQUESTTYPE, session.getPaytmtoken(), "9865132365", new VolleyResponseListerner() {
+            @Override
+            public void onResponse(JSONObject response) throws JSONException {
+                ConstantFunctions.toast(RideActivity.this, response.getString("ResponseMessage"));
+            }
+
+            @Override
+            public void onError(String message, String title) {
+
             }
         });
     }

@@ -7,7 +7,6 @@ import java.text.SimpleDateFormat;
  */
 public class ConstantValues {
 
-
     public static String getPayType() {
         return payType;
     }
@@ -16,7 +15,7 @@ public class ConstantValues {
         ConstantValues.payType = payType;
     }
 
-    public static String payType = "case";
+    public static String payType;
 
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 1;
@@ -36,6 +35,8 @@ public class ConstantValues {
     public static String couponType = "couponType";
     public static String rideId = "rideId";
     public static String rideRequestType = "rideRequestType";
+    public static String paytmToken = "paytmToken";
+
 
     public static String rideType = "rideType";
     public static String rideTypeRide = "ride";
@@ -66,9 +67,15 @@ public class ConstantValues {
     public static final String GetUserDetails = StagingOuthUrl + "/user/details";
 
     //Paytm wallet Api
+    public static String ADDMONET_RQUESTTYPE = "ADD_MONEY";
+    public static String WITHDRAW_RQUESTTYPE = "WITHDRAW";
+    public static String ADDMONET_CALLBACKURL = "https://pguat.paytm.com/paytmchecksum/paytmCallback.jsp";
+
     public static String paytmMID = "CallJa65607497328098";
     public static final String walletStagingUrl = "https://pguat.paytm.com/";
     public static final String walletProductionUrl = "https://secure.paytm.in/";
-    public static final String checkBalance = "https://trust-uat.paytm.in/service/checkUserBalance";
-    public static final String addMoney = walletStagingUrl + "oltp-web/processTransaction";
+    public static final String checkBalance = walletProductionUrl + "service/checkUserBalance";
+    public static final String addMoney = walletProductionUrl + "oltp-web/processTransaction";
+    public static final String checksumGenerate = "http://calljacktech.com/generateChecksum.php";
+    public static final String checksumVerify = "http://calljacktech.com/verifyChecksum.php";
 }

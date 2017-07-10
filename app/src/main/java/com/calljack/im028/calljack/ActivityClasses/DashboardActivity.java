@@ -27,6 +27,7 @@ import com.calljack.im028.calljack.Utility.CustomUI.TouchableWrapper;
 import com.calljack.im028.calljack.Utility.InterfaceClasses.PlaceInterface;
 import com.calljack.im028.calljack.Utility.InterfaceClasses.TouchInterface;
 import com.calljack.im028.calljack.Utility.InterfaceClasses.VolleyResponseListerner;
+import com.calljack.im028.calljack.Utility.Session;
 import com.calljack.im028.calljack.Utility.WebServicesClasses.WebServices;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.maps.CameraUpdate;
@@ -42,12 +43,18 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 public class DashboardActivity extends MenuCommonActivity {
     private final static String TAG = "DashboardActivity";
     private WebServices webServices;
+    private Session session;
     private Gson gson = new Gson();
     private static final int PICKLOCATION = 1, TOLOCATION = 2;
     private SupportMapFragment supportMapFragment;
@@ -59,7 +66,7 @@ public class DashboardActivity extends MenuCommonActivity {
     private TextView pickUpLocationTextView, toLocationTextView;
     private LinearLayout pickLinearLayout, toLinearLayout;
     private LatLng pickLatLng, toLatLng;
-    private String pickAddressString = "", toAddressString = "", dateTimeValue = "", fare = "", scheduleType = "";
+    private String pickAddressString = "", toAddressString = "", dateTimeValue = "", dateTimeValue1 = "", fare = "", scheduleType = "";
     private int locationType = PICKLOCATION;
     private SearchLocation searchLocation;
     private Button scheduleButton, ScheduleButton1;
@@ -76,6 +83,9 @@ public class DashboardActivity extends MenuCommonActivity {
     private final int paymentTypeRequestCode = 1;
     private final int scheduleRequestCode = 2;
     private final int couponRequestCode = 3;
+    private static float paytmBalance;
+
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
    /* private Handler handler = new Handler();
     private Runnable runnable = new Runnable() {
         @Override
@@ -92,6 +102,7 @@ public class DashboardActivity extends MenuCommonActivity {
         setView(R.layout.activity_dashboard);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         webServices = new WebServices(this, TAG);
+        session = new Session(this, TAG);
         couponTextView = (TextView) findViewById(R.id.dashboardActivityCouponCodeTextView);
        /* if (getIntent().getExtras() != null) {
             couponTextView.setText(getIntent().getExtras().getString("couponName"));
@@ -208,6 +219,7 @@ public class DashboardActivity extends MenuCommonActivity {
         enabledRequestRideButton = (Button) findViewById(R.id.dashboardActivityEnabledRequestRideButton);
         paymentModeTextView = (TextView) findViewById(R.id.dashboardActivityPaymentModeTextView);
         scheduleDateTimeTextView = (TextView) findViewById(R.id.dashboardActivityscheduleTextView);
+
         couponLinearLayout = (LinearLayout) findViewById(R.id.dashboardActivityCouponLinearLayout);
         couponLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -216,6 +228,7 @@ public class DashboardActivity extends MenuCommonActivity {
                 couponTextView.setHint("Have a coupon?");
                 Intent i = new Intent(DashboardActivity.this, CouponActivity.class);
                 i.putExtra(ConstantValues.couponType, "ride");
+                i.putExtra(ConstantValues.paytmToken, "");
                 startActivityForResult(i, couponRequestCode);
                 overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
                /* CouponDialog couponDialog = new CouponDialog();
@@ -238,36 +251,86 @@ public class DashboardActivity extends MenuCommonActivity {
         enabledRequestRideButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                float distance = new ConstantFunctions().getDistance(pickLatLng, toLatLng);
-                if (distance >= 100 && pickLatLng != null && toLatLng != null) {
-                    webServices.requestRide(pickLatLng, toLatLng, pickAddressString, toAddressString, paymentModeTextView.getText().toString(), couponId, dateTimeValue, fare, new VolleyResponseListerner() {
-                        @Override
-                        public void onResponse(JSONObject response) throws JSONException {
-                            if (!response.getString("status").equalsIgnoreCase("0")) {
-                                couponId = "0";
-                                ConstantFunctions.toast(DashboardActivity.this, response.getString("message"));
-                                Log.d(TAG, scheduleType);
-                                if (scheduleType.equalsIgnoreCase("schedule")) {
-                                    startActivity(new Intent(DashboardActivity.this, ScheduleTripListActivity.class));
-                                    finish();
-                                } else {
-                                    startActivity(RideActivity.getRideId(DashboardActivity.this, response.getString("rideid")));
-                                    // today 7/4/2017
+                Date date1 = null;
+                Date date2;
+                SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+                try {
+                    date1 = format.parse(format.format(new Date()));
+                    if (!dateTimeValue.equalsIgnoreCase("")) {
+                        date2 = format.parse(dateTimeValue);
+                        long diff = date2.getTime() - date1.getTime();
+                        long diffHours = diff / (60 * 60 * 1000);
+                        if (diffHours >= 1) {
+                            float distance = new ConstantFunctions().getDistance(pickLatLng, toLatLng);
+                            if (distance >= 100 && pickLatLng != null && toLatLng != null) {
+                                webServices.requestRide(pickLatLng, toLatLng, pickAddressString, toAddressString, paymentModeTextView.getText().toString(), couponId, dateTimeValue1, fare, new VolleyResponseListerner() {
+                                    @Override
+                                    public void onResponse(JSONObject response) throws JSONException {
+                                        if (!response.getString("status").equalsIgnoreCase("0")) {
+                                            couponId = "0";
+                                            ConstantFunctions.toast(DashboardActivity.this, response.getString("message"));
+                                            Log.d(TAG, scheduleType);
+                                            if (scheduleType.equalsIgnoreCase("schedule")) {
+                                                startActivity(new Intent(DashboardActivity.this, ScheduleTripListActivity.class));
+                                                finish();
+                                            } else {
+                                                startActivity(RideActivity.getRideId(DashboardActivity.this, response.getString("rideid")));
+                                                // today 7/4/2017
 
 //                                    startActivity(new Intent(DashboardActivity.this, RideActivity.class).putExtra(ConstantValues.rideId, response.getString("rideid")));
-                                    finish();
-                                }
-                            }
-                        }
+                                                finish();
+                                            }
+                                        }
+                                    }
 
-                        @Override
-                        public void onError(String message, String title) {
-                            AlertDialogManager.showAlertDialog(DashboardActivity.this, title, message, false);
+                                    @Override
+                                    public void onError(String message, String title) {
+                                        AlertDialogManager.showAlertDialog(DashboardActivity.this, title, message, false);
+                                    }
+                                });
+                            } else {
+                                ConstantFunctions.toast(DashboardActivity.this, "Pickup and Delivery locations can't be same and not null.");
+                            }
+                        } else {
+                            ConstantFunctions.toast(DashboardActivity.this, "Please schedule after one hour from current time");
                         }
-                    });
-                } else {
-                    ConstantFunctions.toast(DashboardActivity.this, "Pickup and Delivery locations can't be same and not null.");
+                    } else {
+                        float distance = new ConstantFunctions().getDistance(pickLatLng, toLatLng);
+                        if (distance >= 100 && pickLatLng != null && toLatLng != null) {
+                            webServices.requestRide(pickLatLng, toLatLng, pickAddressString, toAddressString, paymentModeTextView.getText().toString(), couponId, dateTimeValue1, fare, new VolleyResponseListerner() {
+                                @Override
+                                public void onResponse(JSONObject response) throws JSONException {
+                                    if (!response.getString("status").equalsIgnoreCase("0")) {
+                                        couponId = "0";
+                                        ConstantFunctions.toast(DashboardActivity.this, response.getString("message"));
+                                        Log.d(TAG, scheduleType);
+                                        if (scheduleType.equalsIgnoreCase("schedule")) {
+                                            startActivity(new Intent(DashboardActivity.this, ScheduleTripListActivity.class));
+                                            finish();
+                                        } else {
+                                            startActivity(RideActivity.getRideId(DashboardActivity.this, response.getString("rideid")));
+                                            // today 7/4/2017
+
+//                                    startActivity(new Intent(DashboardActivity.this, RideActivity.class).putExtra(ConstantValues.rideId, response.getString("rideid")));
+                                            finish();
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onError(String message, String title) {
+                                    AlertDialogManager.showAlertDialog(DashboardActivity.this, title, message, false);
+                                }
+                            });
+                        } else {
+                            ConstantFunctions.toast(DashboardActivity.this, "Pickup and Delivery locations can't be same and not null.");
+                        }
+                    }
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
+
             }
         });
         paymentModeTextView.setOnClickListener(new View.OnClickListener() {
@@ -299,7 +362,49 @@ public class DashboardActivity extends MenuCommonActivity {
 
         //Bottom Integration Ends
 //        handler.postDelayed(runnable, 100);
+        if (!session.getPaytmtoken().equalsIgnoreCase("")){
+            checkPaytmUserValidate();
+        }
 
+    }
+
+    private void checkPaytmUserValidate() {
+        new WebServices(DashboardActivity.this, TAG).checkPaytmUserValidate(session.getPaytmtoken(), new VolleyResponseListerner() {
+            @Override
+            public void onResponse(JSONObject response) throws JSONException {
+                if (response.has("status") && (response.has("responseCode")) && (response.has("message"))) {
+                    if (response.getString("status").equalsIgnoreCase("FAILURE") && response.getString("responseCode").equalsIgnoreCase("530")) {
+                        session.setPaytmtoken("");
+                    }
+                } else {
+                    if (!session.getPaytmtoken().equalsIgnoreCase("")) {
+                        checkBalance(session.getPaytmtoken());
+                    }
+                    Log.d(TAG, "Valid Paytm Token");
+                }
+
+
+            }
+
+            @Override
+            public void onError(String message, String title) {
+
+            }
+        });
+    }
+
+    private void checkBalance(final String access_token) {
+        new WebServices(DashboardActivity.this, TAG).checkBalance(access_token, new VolleyResponseListerner() {
+            @Override
+            public void onResponse(JSONObject response) throws JSONException {
+                paytmBalance = Float.parseFloat(response.getJSONObject("response").getString("amount"));
+            }
+
+            @Override
+            public void onError(String message, String title) {
+
+            }
+        });
     }
 
     private void scheduledTrip() {
@@ -498,13 +603,21 @@ public class DashboardActivity extends MenuCommonActivity {
                 break;
             case paymentTypeRequestCode:
                 if (resultCode == RESULT_OK) {
-                    paymentModeTextView.setText(data.getExtras().getString(ConstantValues.paymentType, "cash"));
+//                    if (paytmBalance <= 100) {
+                    if (paytmBalance <= 5) {
+                        ConstantValues.setPayType("cash");
+                        paymentModeTextView.setText(data.getExtras().getString(ConstantValues.paymentType, "cash"));
+                    } else {
+                        ConstantValues.setPayType("paytm");
+                        paymentModeTextView.setText(data.getExtras().getString(ConstantValues.paymentType, "paytm"));
+                    }
                 }
                 break;
             case scheduleRequestCode:
                 if (resultCode == RESULT_OK) {
                     scheduleDateTimeTextView.setText(data.getExtras().getString(ConstantValues.scheduleDateTime, "Now"));
-                    dateTimeValue = data.getExtras().getString(ConstantValues.scheduleDateTime1, "");
+                    dateTimeValue = data.getExtras().getString(ConstantValues.scheduleDateTime, "");
+                    dateTimeValue1 = data.getExtras().getString(ConstantValues.scheduleDateTime1, "");
                     scheduleType = "schedule";
                 }
                 break;

@@ -221,6 +221,14 @@
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBarAppTheme" />
         <activity
+            android:name="com.calljack.im028.calljack.ActivityClasses.PaytmAddMoneyActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBarAppTheme" />
+        <activity
+            android:name="com.calljack.im028.calljack.ActivityClasses.PaymentActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBarAppTheme" />
+        <activity
             android:name="com.calljack.im028.calljack.ActivityClasses.TermsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBarAppTheme" />

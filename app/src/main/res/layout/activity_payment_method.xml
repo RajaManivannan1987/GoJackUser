@@ -12,7 +12,7 @@
         android:background="#F6F6F6"
         android:elevation="3dp"
         android:gravity="center"
-        android:text="Payment Method"
+        android:text="Choose Payment Method"
         android:textColor="@android:color/black" />
 
     <LinearLayout
@@ -25,27 +25,74 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Choose Payment Type:"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/black"
+            android:visibility="gone" />
 
-        <RadioGroup
-            android:id="@+id/paymentActivityRadioGroup"
+        <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <RadioGroup
+                android:id="@+id/paymentActivityRadioGroup"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1">
+
+                <RadioButton
+                    android:id="@+id/paymentActivityCashRadioButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="Cash" />
+
+                <RadioButton
+                    android:id="@+id/paymentActivityPaytmRadioButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/paytm_icon" />
+            </RadioGroup>
+
+            <LinearLayout
+                android:id="@+id/paytmPaymentLayout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="bottom|end"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Wallet balance"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/paymentModePaytmBalanceTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="end"
+                    android:text=""
+                    android:textColor="@color/ColorBlack"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/paymentSelectButton"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp">
+            android:layout_gravity="center"
+            android:layout_marginTop="25dp"
+            android:minHeight="50dp"
+            android:text="Select"
+            android:theme="@style/AppTheme.Button"></Button>
 
-            <RadioButton
-                android:id="@+id/paymentActivityCashRadioButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:text="Cash" />
-
-            <RadioButton
-                android:id="@+id/paymentActivityPaytmRadioButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/paytm_icon" />
-        </RadioGroup>
     </LinearLayout>
 
 </LinearLayout>

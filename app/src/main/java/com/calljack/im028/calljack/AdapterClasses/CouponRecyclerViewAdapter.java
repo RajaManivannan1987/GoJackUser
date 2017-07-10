@@ -42,6 +42,10 @@ public class CouponRecyclerViewAdapter extends RecyclerView.Adapter<CouponRecycl
 
     @Override
     public void onBindViewHolder(CustomView holder, final int position) {
+        if (data.get(position).getType().equalsIgnoreCase("weekend")) {
+            holder.customCouponweekendTextView.setText("(weekend only)");
+            holder.radioButton.setEnabled(false);
+        }
         holder.customCouponCodeTextView.setText(data.get(position).getCoupon_code());
         holder.descriptionTextView.setText(data.get(position).getCoupon_description());
         holder.vilidTextView.setText("Valid till: " + data.get(position).getEnd_date());
@@ -103,7 +107,7 @@ public class CouponRecyclerViewAdapter extends RecyclerView.Adapter<CouponRecycl
     }
 
     class CustomView extends RecyclerView.ViewHolder {
-        TextView descriptionTextView, vilidTextView, customCouponCodeTextView;
+        TextView descriptionTextView, vilidTextView, customCouponCodeTextView, customCouponweekendTextView;
         CheckBox radioButton;
         LinearLayout parentView;
 
@@ -114,6 +118,7 @@ public class CouponRecyclerViewAdapter extends RecyclerView.Adapter<CouponRecycl
             radioButton = (CheckBox) itemView.findViewById(R.id.radioButton);
             descriptionTextView = (TextView) itemView.findViewById(R.id.customCoupondescriptionTextView1);
             vilidTextView = (TextView) itemView.findViewById(R.id.vilidTextView1);
+            customCouponweekendTextView = (TextView) itemView.findViewById(R.id.customCouponweekendTextView);
         }
     }
 

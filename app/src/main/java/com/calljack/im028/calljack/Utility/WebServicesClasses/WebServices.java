@@ -2,17 +2,25 @@ package com.calljack.im028.calljack.Utility.WebServicesClasses;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.EditText;
 
+//import com.calljack.im028.calljack.ActivityClasses.MerchantActivity;
+import com.calljack.im028.calljack.R;
 import com.calljack.im028.calljack.Utility.ConstantClasses.ConstantFunctions;
 import com.calljack.im028.calljack.Utility.ConstantClasses.ConstantValues;
 import com.calljack.im028.calljack.Utility.InterfaceClasses.VolleyResponseArrayListerner;
 import com.calljack.im028.calljack.Utility.InterfaceClasses.VolleyResponseListerner;
 import com.calljack.im028.calljack.Utility.Session;
 import com.google.android.gms.maps.model.LatLng;
+import com.paytm.pgsdk.PaytmMerchant;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by IM028 on 8/2/16.
@@ -391,6 +399,7 @@ public class WebServices {
         }
         setListerner1(listener, url, jsonObject);
     }
+
     public void getRateCard(final VolleyResponseListerner listerner) {
         String url = ConstantValues.SERVER_URL + "getrate";
         JSONObject jsonObject = new JSONObject();
@@ -453,6 +462,19 @@ public class WebServices {
         setListernerWithoutProgressbar(listener, url, jsonObject);
     }
 
+    public void updatePaytmToken(String paytmtoken, final VolleyResponseListerner listener) {
+        String url = ConstantValues.SERVER_URL + "updatepaytmtoken";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("token", session.getToken());
+            jsonObject.put("customerid", session.getCustomerId());
+            jsonObject.put("paytm_token", paytmtoken);
+        } catch (JSONException e) {
+            Log.e(TAG, e.getMessage());
+        }
+        setListerner(listener, url, jsonObject);
+    }
+
     public void genderRequest(String status, String gender, String requestid, final VolleyResponseListerner listerner) {
         String url = ConstantValues.SERVER_URL + "genderrequest";
         JSONObject jsonObject = new JSONObject();
@@ -512,7 +534,96 @@ public class WebServices {
         }
         setListerner1(listener, url, jsonObject);
     }
+//Paytm webservice methods
 
+    public void SendOTP(String mobileNo, String emailId, final VolleyResponseListerner listener) {
+        String url = ConstantValues.SendOTP;
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("email", emailId);
+            jsonObject.put("phone", mobileNo);
+            jsonObject.put("clientId", "merchant-calljacktech-staging");
+            jsonObject.put("scope", "wallet");
+            jsonObject.put("responseType", "token");
+        } catch (JSONException e) {
+            Log.e(TAG, e.getMessage());
+        }
+        setListerner(listener, url, jsonObject);
+    }
+
+    public void verifyPaytmOTP(final String otp, String state, final VolleyResponseListerner listener) {
+        String url = ConstantValues.GetAccessToken;
+        String Authorization = ConstantValues.PaytmAuthorization;
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("otp", otp);
+            jsonObject.put("state", state);
+        } catch (JSONException e) {
+            Log.e(TAG, e.getMessage());
+        }
+        setPaytmListerner(listener, url, "Authorization", Authorization, jsonObject);
+    }
+
+    public void checkBalance(String tokenHeader, final VolleyResponseListerner listener) {
+        String url = "http://trust-uat.paytm.in/wallet-web/checkBalance";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("mid", ConstantValues.paytmMID);
+        } catch (JSONException e) {
+            Log.e(TAG, e.getMessage());
+        }
+        setPaytmListerner(listener, url, "ssotoken", tokenHeader, jsonObject);
+    }
+
+    public void checkPaytmUserValidate(String tokenHeader, final VolleyResponseListerner listener) {
+        String url = ConstantValues.GetUserDetails;
+        setPaytmListerner1(listener, url, "session_token", tokenHeader, new JSONObject());
+    }
+
+
+    public void generateAddmoneyChecksum(String orderId, String custId, String amount, String requestType, String paytmtoken, final VolleyResponseListerner listener) {
+        JSONObject jsonObject = new JSONObject();
+        String url = "http://calljacktech.com/generateChecksum.php";
+        try {
+            jsonObject.put("MID", "CallJa65607497328098");
+            jsonObject.put("ORDER_ID", orderId);
+            jsonObject.put("CUST_ID", custId);
+            jsonObject.put("INDUSTRY_TYPE_ID", "Retail");
+            jsonObject.put("CHANNEL_ID", "WAP");
+            jsonObject.put("TXN_AMOUNT", amount);
+            jsonObject.put("WEBSITE", "APP_STAGING");
+            jsonObject.put("CALLBACK_URL", "https://pguat.paytm.com/paytmchecksum/paytmCallback.jsp");
+            jsonObject.put("REQUEST_TYPE", requestType);
+            jsonObject.put("SSO_TOKEN", paytmtoken);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        setListerner(listener, url, jsonObject);
+    }
+
+    public void generateWithDrawChecksum(String orderId, String custId, String amount, String requestType, String paytmtoken, String deviceId, final VolleyResponseListerner listener) {
+        JSONObject jsonObject = new JSONObject();
+        String url = "http://calljacktech.com/generateWithdrawChecksum.php";
+        try {
+            jsonObject.put("AppIP", "127.0.0.1");
+            jsonObject.put("MID", "CallJa65607497328098");
+            jsonObject.put("OrderId", orderId);
+            jsonObject.put("CustId", custId);
+            jsonObject.put("IndustryType", "Retail");
+            jsonObject.put("Channel", "WEB");
+            jsonObject.put("TxnAmount", amount);
+            jsonObject.put("ReqType", requestType);
+            jsonObject.put("Currency", "INR");
+            jsonObject.put("DeviceId", deviceId);
+            jsonObject.put("SSOToken", paytmtoken);
+            jsonObject.put("PaymentMode", "PPI");
+            jsonObject.put("AuthMode", "USRPWD");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        setListernerWithoutProgressbar(listener, url, jsonObject);
+    }
 
     private void setListerner(final VolleyResponseListerner listerner, String url, JSONObject jsonObject) {
         volleyClass.volleyPostData(url, jsonObject, new VolleyResponseListerner() {
@@ -527,6 +638,7 @@ public class WebServices {
             }
         });
     }
+
 
     private void setListerner1(final VolleyResponseListerner listerner, String url, JSONObject jsonObject) {
         volleyClass.volleyPostData(url, jsonObject, new VolleyResponseListerner() {
@@ -570,44 +682,19 @@ public class WebServices {
             }
         });
     }
-//Paytm webservice methods
 
-    public void SendOTP(String mobileNo, String emailId, final VolleyResponseListerner listener) {
-        String url = ConstantValues.SendOTP;
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("email", emailId);
-            jsonObject.put("phone", mobileNo);
-            jsonObject.put("clientId", "merchant-calljacktech-staging");
-            jsonObject.put("scope", "wallet");
-            jsonObject.put("responseType", "token");
-        } catch (JSONException e) {
-            Log.e(TAG, e.getMessage());
-        }
-        setListerner(listener, url, jsonObject);
+    private void setPaytmListerner1(final VolleyResponseListerner listerner, String url, String key, String header, JSONObject jsonObject) {
+        volleyClass.volleyPaytmGETData(url, jsonObject, key, header, new VolleyResponseListerner() {
+            @Override
+            public void onResponse(JSONObject response) throws JSONException {
+                listerner.onResponse(response);
+            }
+
+            @Override
+            public void onError(String message, String title) {
+                listerner.onError(message, title);
+            }
+        });
     }
 
-    public void verifyPaytmOTP(final String otp, String state, final VolleyResponseListerner listener) {
-        String url = ConstantValues.GetAccessToken;
-        String Authorization = ConstantValues.PaytmAuthorization;
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("otp", otp);
-            jsonObject.put("state", state);
-        } catch (JSONException e) {
-            Log.e(TAG, e.getMessage());
-        }
-        setPaytmListerner(listener, url, "Authorization", Authorization, jsonObject);
-    }
-
-    public void checkBalance(String tokenHeader, final VolleyResponseListerner listener) {
-        String url = ConstantValues.checkBalance;
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("mid", ConstantValues.paytmMID);
-        } catch (JSONException e) {
-            Log.e(TAG, e.getMessage());
-        }
-        setPaytmListerner(listener, url, "ssotoken", tokenHeader, jsonObject);
-    }
 }

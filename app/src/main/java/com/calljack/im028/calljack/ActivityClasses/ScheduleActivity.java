@@ -38,12 +38,18 @@ public class ScheduleActivity extends BackCommonActivity {
         dateTimeSetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String strdateTime = datePicker.getDayOfMonth() + "-" + (datePicker.getMonth() + 1) + "-" + datePicker.getYear() + " " + timePicker.getCurrentHour() + ":" + timePicker.getCurrentMinute();
+                String minits = null, strdateTime;
+                if (timePicker.getCurrentMinute() < 10) {
+                    minits = "0" + timePicker.getCurrentMinute();
+                    strdateTime = datePicker.getDayOfMonth() + "-" + (datePicker.getMonth() + 1) + "-" + datePicker.getYear() + " " + timePicker.getCurrentHour() + ":" + minits;
+                } else {
+                    strdateTime = datePicker.getDayOfMonth() + "-" + (datePicker.getMonth() + 1) + "-" + datePicker.getYear() + " " + timePicker.getCurrentHour() + ":" + timePicker.getCurrentMinute();
+
+                }
 
                 SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm");
                 Date date1 = null;
                 Date date2 = null;
-
                 try {
                     date1 = format.parse(format.format(new Date()));
                     date2 = format.parse(strdateTime);
@@ -54,8 +60,8 @@ public class ScheduleActivity extends BackCommonActivity {
 
                     if (diffHours >= 1) {
                         String strdateTime1 = datePicker.getYear() + "-" + (datePicker.getMonth() + 1) + "-" + datePicker.getDayOfMonth() + " " + timePicker.getCurrentHour() + ":" + timePicker.getCurrentMinute();
-                        setResult(RESULT_OK, getIntent().putExtra(ConstantValues.scheduleDateTime, strdateTime));
-                        setResult(RESULT_OK, getIntent().putExtra(ConstantValues.scheduleDateTime1, strdateTime1));
+                        setResult(RESULT_OK, getIntent().putExtra(ConstantValues.scheduleDateTime, strdateTime).putExtra(ConstantValues.scheduleDateTime1, strdateTime1).putExtra(ConstantValues.scheduleDateTime, strdateTime));
+//                        setResult(RESULT_OK, getIntent().putExtra(ConstantValues.scheduleDateTime1, strdateTime));
                         finish();
                     } else {
                         ConstantFunctions.toast(ScheduleActivity.this, "Please select after one hour from current time");
